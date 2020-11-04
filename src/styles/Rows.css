@@ -1,0 +1,68 @@
+.row{
+    margin-left: 20px;
+}
+#category-title{
+    text-align: left;
+    padding-left: 10px;
+}
+.row-posters{
+    display: flex;
+    padding: 10px 10px 10px 10px;
+    overflow-y: hidden;
+    overflow-x: scroll;
+    /* For no scrollbar in firefox */
+    -ms-overflow-style: none;
+    scroll-behavior: auto;
+    scrollbar-width: none;
+}
+/* Hide the scrollbar but keep the functionality. */
+.row-posters::-webkit-scrollbar{
+    display: none;
+}
+.poster-box{
+    position: relative;
+    width: 200px;
+}
+.poster-box:hover .info-box{
+    display: block;
+}
+.row-poster{
+    position: relative;
+    cursor: pointer;
+    /*object-fit: contain; /* maintains aspect ratio */
+    /*width: 100%;*/
+    height: 100px; 
+    transition: transform 450ms;
+    margin-right: 10px;
+  }
+.row-poster-large{
+      position: relative;
+      height: 250px;
+  }
+  /*
+  .row-poster-large:hover{
+    transform: scale(1.09);
+  }*/
+.info-box{
+    display: none;
+      position: absolute;
+      top:0;
+      width: 100%;
+      height: 100%;
+      background-image: linear-gradient(
+          180deg,
+          black,
+          black,
+          transparent,
+          transparent
+      ); 
+      text-align: center;   
+      padding: 10px;
+  }
+  .playStop-btn{
+    cursor: pointer;
+    
+  }
+  .playStop-btn:hover{
+    transform: scale3d(1.1, 1.1, 1.3);
+  }
