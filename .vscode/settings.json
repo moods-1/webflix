@@ -1,8 +1,0 @@
-{
-    "eslint.format.enable": true,
-    "eslint.alwaysShowStatus": true,
-    "eslint.codeAction.showDocumentation": {
-
-        "enable": true
-    }
-}
