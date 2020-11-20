@@ -1,41 +1,34 @@
 import React from 'react';
+import {browseData} from '../browseData';
 
-function Browse() {
+function Browse({setShowBrowse}) {
+       
     return (
         <div id="browse-menu">
-                    <div id="browse-left-box">
-                        <ul>
-                            <li>Home</li>
-                            <li>My List</li>
-                            <li>Originals</li>
-                            <li>New Arrivals</li>
-                            <li>Audio & Subtitles</li>
-                            <li>Ways to Watch</li>
-                        </ul>
-                    </div>
-                    <div id="browse-right-box">
-                        <ul>
-                            <li>TV</li>
-                            <li>Action</li>
-                            <li>Award-Winning</li>
-                            <li>Comedies</li>
-                            <li>Crime Films</li>
-                        </ul>
-                        <ul>
-                            <li>Documentaries</li>
-                            <li>Dramas</li>
-                            <li>Horror</li>
-                            <li>Independent</li>
-                            <li>Kids & family</li>
-                        </ul>
-                        <ul>
-                            <li>International</li>
-                            <li>Music & Musicals</li>
-                            <li>Romance</li>
-                            <li>Sci-Fi</li>
-                            <li>Sports</li>
-                        </ul>
-                    </div>
+            <div id="browse-left-box">
+                <ul id="browse-ul-main">
+                    {browseData.ulMain.map(link=>(
+                       <li  key={link} onClick={()=> setShowBrowse(false)}>{link}</li> 
+                    ))}
+                </ul>
+            </div>
+            <div id="browse-right-box">
+                <ul id="browse-ul-left">
+                    {browseData.ulLeft.map(link=>(
+                        <li  key={link} onClick={()=> setShowBrowse(false)}>{link}</li> 
+                        ))}
+                </ul>
+                <ul id="browse-ul-center">
+                    {browseData.ulCenter.map(link=>(
+                        <li  key={link} onClick={()=> setShowBrowse(false)}>{link}</li> 
+                        ))}
+                </ul>
+                <ul id="browse-ul-right">
+                    {browseData.ulRight.map(link=>(
+                        <li  key={link} onClick={()=> setShowBrowse(false)}>{link}</li> 
+                        ))}
+                </ul>
+            </div>
         </div>  
     )
 }

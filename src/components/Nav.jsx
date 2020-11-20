@@ -1,4 +1,6 @@
 import React, {useState,useEffect} from 'react';
+import PersonIcon from '@material-ui/icons/Person';
+import SearchIcon from '@material-ui/icons/Search';
 import Browse from '../components/Browse';
 import '../styles/Nav.css';
 
@@ -8,12 +10,20 @@ function Nav() {
     const [show, setShow] = useState(false);
     const [showBrowse, setShowBrowse] = useState(false);
     const [burgerMenu, setBurgerMenu] = useState(false);
+    
     useEffect(()=>{
         window.addEventListener("scroll",()=> {
             setShow(window.scrollY > 25? true:false);
             setBurgerMenu(false); 
         })
-        return ()=> window.removeEventListener("scroll")
+        return ()=> window.removeEventListener("scroll",()=> true)
+    },[]);
+    
+    useEffect(()=>{
+        window.addEventListener("resize",()=> {            
+            window.innerWidth > 510 && setBurgerMenu(false)
+        })
+        return ()=> window.removeEventListener("resize",()=> true)
     },[]);
     
     const browseToggle = e =>{
@@ -24,6 +34,10 @@ function Nav() {
     const handleBurger = e =>{
         setBurgerMenu(!burgerMenu);
         setShowBrowse(false);
+    }
+    const handleBurgerBrowse = e =>{
+        setShowBrowse(!showBrowse);
+        setBurgerMenu(!burgerMenu);
     }
 
     return (
@@ -43,14 +57,15 @@ function Nav() {
                         onClick={browseToggle}
                     />
                 </div> 
-                {showBrowse && <Browse />}
+                {showBrowse && <Browse  setShowBrowse={setShowBrowse}/>}
             </div>
             <div id="nav-right-box">
                 <div id="search-container">                    
-                    <img 
-                        src="/images/searcher.png" 
-                        alt="search logo"
-                        id="magnifier"
+                    <SearchIcon 
+                        style={{ 
+                            marginRight: "5px",
+                            cursor: "pointer" 
+                        }}
                     />
                     <input 
                         type="text" 
@@ -64,12 +79,13 @@ function Nav() {
                         src='/images/bell.png'
                         alt='bell'
                     />
-                    <img 
-                        className="avatar"
-                        src='/images/avatar.png'
-                        alt='avatar'
+                    <PersonIcon 
+                        style={{
+                            fontSize: 30,
+                            color: "red",
+                            cursor: "pointer"
+                        }}
                     />
-                    <p>Jimmy User</p>
                 </div>    
             </div> 
             <img 
@@ -81,7 +97,7 @@ function Nav() {
             {burgerMenu && (
                 <div id="burger-menu-box">
                     <ul>
-                        <li onClick={handleBurger}>Browse</li>
+                        <li onClick={handleBurgerBrowse}>Browse</li>
                         <li onClick={handleBurger}>Search</li>
                         <li onClick={handleBurger}>Notifications</li>
                         <li onClick={handleBurger}>Logout</li>

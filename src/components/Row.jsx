@@ -1,6 +1,3 @@
-// rfce => created the functional component
-// with the file title as the function name
-
 import React, {useState, useEffect} from 'react';
 import instance from '../axios';
 import YouTube from 'react-youtube';
@@ -41,6 +38,7 @@ const Row = ({title, fetchURL, isLargeRow})=> {
             movieTrailer(movie.name || movie.title || movie?.original_name || "", date)
             .then(url =>{
                 const urlParams = new URLSearchParams(new URL(url).search);
+                console.log(urlParams);
                 setTrailerUrl(urlParams.get("v"));
             })
             .catch( err=>{
