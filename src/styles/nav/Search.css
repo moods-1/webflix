@@ -1,0 +1,15 @@
+.filter-box {
+  position: relative;
+  background: rgba(0, 0, 0, 0.7);
+  font-size: 14px;
+  width: 340px;
+  height: auto;
+  margin-top: -22px;
+  right: 2px;
+  padding: 10px 20px;
+}
+.filter-box li {
+  font-size: 14px;
+  list-style-type: none;
+  margin-bottom: 5px;
+}

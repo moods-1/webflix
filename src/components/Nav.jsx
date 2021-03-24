@@ -1,21 +1,12 @@
 import React, { useState, useEffect } from "react";
 import PersonIcon from "@material-ui/icons/Person";
-import SearchIcon from "@material-ui/icons/Search";
 import Browse from "../components/Browse";
-import "../styles/Nav.css";
+import Input from "../components/Input";
+import "../styles/nav/Nav.css";
 
 function Nav() {
-  const [show, setShow] = useState(false);
   const [showBrowse, setShowBrowse] = useState(false);
   const [burgerMenu, setBurgerMenu] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener("scroll", () => {
-      setShow(window.scrollY > 25 ? true : false);
-      setBurgerMenu(false);
-    });
-    return () => window.removeEventListener("scroll", () => true);
-  }, []);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -28,32 +19,20 @@ function Nav() {
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
   };
-  const handleBurgerBrowse = (e) => {
-    setShowBrowse(!showBrowse);
-    setBurgerMenu(!burgerMenu);
-  };
 
   return (
-    <div className={`nav ${show && "nav-black"}`}>
+    <div className={`nav`}>
       <div id="logo-browse-box">
         <img
           className="nav-logo"
           src="/images/webflix.png"
           alt="webflix-logo"
         />
-        <h4 onClick={()=> setShowBrowse(!showBrowse)}>Browse</h4>
+        <h4 onClick={() => setShowBrowse(!showBrowse)}>Browse</h4>
         {showBrowse && <Browse setShowBrowse={setShowBrowse} />}
       </div>
       <div id="nav-right-box">
-        <div id="search-container">
-          <SearchIcon
-            style={{
-              marginRight: "5px",
-              cursor: "pointer",
-            }}
-          />
-          <input type="text" id="search-box" placeholder="Search" />
-        </div>
+        <Input />
         <div id="user-box">
           <img className="bell" src="/images/bell.png" alt="bell" />
           <PersonIcon
@@ -72,9 +51,8 @@ function Nav() {
         onClick={handleBurger}
       />
       {burgerMenu && (
-        <div id="burger-menu-box">
+        <div id="burger-menu-box" onMouseLeave={handleBurger}>
           <ul>
-            <li onClick={handleBurgerBrowse}>Browse</li>
             <li onClick={handleBurger}>Search</li>
             <li onClick={handleBurger}>Notifications</li>
             <li onClick={handleBurger}>Logout</li>
