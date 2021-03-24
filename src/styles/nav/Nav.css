@@ -1,0 +1,257 @@
+.d-none {
+  display: none;
+}
+.nav {
+  position: fixed;
+  width: 100%;
+  min-width: 320px;
+  background: black;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 3;
+  padding: 15px;
+  height: 60px;
+}
+.nav-black {
+  width: 100%;
+  background-image: linear-gradient(
+    180deg,
+    black,
+    black,
+    black,
+    rgba(0, 0, 0, 0.61),
+    transparent
+  );
+  transition-timing-function: ease-in;
+  transition: all 1s;
+}
+#logo-browse-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 230px;
+}
+#logo-browse-box h4 {
+  color: red;
+  cursor: pointer;
+}
+.nav-logo {
+  cursor: pointer;
+  object-fit: contain;
+  width: 100px;
+}
+#browse-menu {
+  position: absolute;
+  display: flex;
+  width: 600px;
+  height: auto;
+  top: 35px;
+  left: 155px;
+  border: none;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 10px;
+  animation: smoothBrowse 0.2s linear;
+}
+@keyframes smoothBrowse {
+  from {
+    height: 50%;
+  }
+}
+#browse-left-box {
+  height: 100%;
+  width: 120px;
+  margin-right: 10px;
+}
+#browse-right-box {
+  display: flex;
+  border-left: gray solid 1px;
+  font-weight: 400;
+  padding-left: 10px;
+}
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin-right: 10px;
+  animation: smoothUL 2s ease;
+}
+@keyframes smoothUL {
+  from {
+    opacity: 0;
+  }
+}
+#browse-menu ul {
+  width: 135px;
+}
+#browse-menu li {
+  margin-bottom: 7px;
+}
+li:hover {
+  cursor: pointer;
+  font-weight: 600;
+}
+#browse-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 75px;
+}
+#red-arrow {
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  animation: 0.3s forwards;
+}
+#nav-right-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 260px;
+  height: 35px;
+  background: none;
+}
+#search-container {
+  display: flex;
+  align-items: center;
+  width: 150px;
+  height: 35px;
+  background: none;
+}
+#search-box {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  outline-style: none;
+  width: 160px;
+  font-size: 14px;
+  padding: 5px;
+  border: none;
+}
+#search-box::placeholder {
+  color: gray;
+}
+#search-box::-moz-placeholder {
+  color: gray;
+}
+#user-box {
+  display: flex;
+  width: 70px;
+  height: 35px;
+  justify-content: space-between;
+}
+.bell {
+  width: 20px;
+  height: 20px;
+  margin-top: 7px;
+  cursor: pointer;
+}
+.bell:hover {
+  animation: bellShake 0.5s;
+}
+#burger {
+  display: none;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+}
+#burger-menu-box {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  width: 120px;
+  height: auto;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  text-align: center;
+  padding-top: 10px;
+}
+#burger-menu-box ul {
+  margin: 0;
+}
+#burger-menu-box li {
+  margin-bottom: 15px;
+}
+.filter-box {
+  position: absolute;
+  top: 80px;
+}
+@-webkit-keyframes bellShake {
+  0% {
+    transform: translateX(-1px);
+  }
+  25% {
+    transform: translateX(1px);
+  }
+  50% {
+    transform: translateX(-1px);
+  }
+  75% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(-1px);
+  }
+}
+@keyframes bellShake {
+  0% {
+    transform: translateX(-1px);
+  }
+  25% {
+    transform: translateX(1px);
+  }
+  50% {
+    transform: translateX(-1px);
+  }
+  75% {
+    transform: translateX(1px);
+  }
+  100% {
+    transform: translateX(-1px);
+  }
+}
+.avatar {
+  object-fit: contain;
+  width: 30px;
+}
+@media (max-width: 767px) {
+  #nav-right-box {
+    width: auto;
+  }
+  #browse-menu {
+    top: 35px;
+    width: 460px;
+    height: auto;
+  }
+  #browse-right-box {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 650px) {
+  #browse-menu {
+    width: 300px;
+  }
+}
+@media (max-width: 580px) {
+  #search-container {
+    display: none;
+  }
+}
+@media (max-width: 510px) {
+  #nav-right-box,
+  #browse-arrow {
+    display: none;
+  }
+  #browse-menu {
+    left: 20%;
+  }
+  #burger {
+    display: block;
+  }
+}
+@media (max-width: 360px) {
+  #browse-menu {
+    left: 5%;
+  }
+}
