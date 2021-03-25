@@ -1,12 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
-//import {requests} from '../requests';
 import instance from "../axios";
 import { requests } from "../requests";
 import "../styles/nav/Search.css";
 
-function Input() {
+function Input({
+  showSearchList,
+  setShowSearchList,
+  setShowNotifications,
+  setShowBrowse,
+  setShowProfileMenu,
+}) {
   const inputRef = useRef();
-  const [showSearchList, setShowSearchList] = useState(false);
+
   const [movies, setMovies] = useState([]);
   const [fil, setFil] = useState("");
 
@@ -19,6 +24,9 @@ function Input() {
       setShowSearchList(false);
     } else {
       setFil(e.target.value.toLowerCase());
+      setShowNotifications(false); 
+      setShowBrowse(false);
+      setShowProfileMenu(false);
       setShowSearchList(true);
     }
   };
