@@ -12,8 +12,10 @@ import "../../styles/nav/Nav.css";
 const StyledBadge = withStyles((theme) => ({
   badge: {
     fontSize: 12,
-    top: 5,
-    right: 2,
+    top: 8,
+    right: 0,
+    width: 0,
+    height: 12,
     background: "red"
   },
 }))(Badge);
@@ -68,13 +70,11 @@ function Nav() {
           setShowNotifications={setShowNotifications}
           setShowBrowse={setShowBrowse}
           setShowProfileMenu={setShowProfileMenu}
-
         />
         <div id="user-box">
-          <StyledBadge badgeContent={notificationsArr.length} >
+          <StyledBadge badgeContent={notificationsArr.length} max={99} >
             <NotificationsIcon className="bell" onClick={handleNotifications} />
           </StyledBadge>
-
           <PersonIcon
             onClick={handleProfile}
             style={{

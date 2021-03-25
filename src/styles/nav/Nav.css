@@ -87,6 +87,7 @@ ul {
 }
 #browse-menu li {
   margin-bottom: 7px;
+  font-size: 14px;
 }
 li:hover {
   cursor: pointer;
