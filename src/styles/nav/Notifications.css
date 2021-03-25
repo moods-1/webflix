@@ -1,0 +1,13 @@
+.notifications {
+  position: absolute;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 20px;
+  top: 60px;
+  right: 0;
+}
+.note {
+  width: 280px;
+  height: auto;
+  margin-bottom: 10px;
+  font-size: 13px;
+}
