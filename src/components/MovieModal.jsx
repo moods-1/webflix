@@ -157,6 +157,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
         <TrailerModal
           showTrailerModal={showTrailerModal}
           setShowTrailerModal={setShowTrailerModal}
+          setTrailerUrl={setTrailerUrl}
           trailerUrl={trailerUrl}
         />
       )}

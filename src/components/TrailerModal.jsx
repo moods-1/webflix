@@ -30,7 +30,7 @@ const useStyles = makeStyles({
   },
 });
 
-function TrailerModal({ showTrailerModal, setShowTrailerModal, trailerUrl }) {
+function TrailerModal({ showTrailerModal, setShowTrailerModal, setTrailerUrl, trailerUrl }) {
   const { closeBtn, mainDiv, trailerDiv } = useStyles();
 
   const opts = {
@@ -42,6 +42,7 @@ function TrailerModal({ showTrailerModal, setShowTrailerModal, trailerUrl }) {
 
   const handleClose = () => {
     setShowTrailerModal(false);
+    setTrailerUrl("");
   };
 
   return (
