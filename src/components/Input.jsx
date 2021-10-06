@@ -73,7 +73,9 @@ function Input({
     <>
       <div id={mobile ? "mobile-search" : "search-container"}>
         <ul
-          className={`sList ${hideMobileSearch ? "hide" : ""}`}
+          className={`sList ${
+            hideMobileSearch && window.innerWidth < 520 ? "hide" : ""
+          }`}
           onMouseLeave={handleLeave}
         >
           <li id="searchListInput">
