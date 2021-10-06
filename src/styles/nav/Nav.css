@@ -222,8 +222,9 @@ li:hover {
   position: absolute;
   display: flex;
   justify-content: center;
-  padding: 0px;
+  padding: 0px 20px;
   text-align: center;
+  left: 0;
   top: 60px;
   width: 100%;
   background: rgba(0, 0, 0, 0.9);
