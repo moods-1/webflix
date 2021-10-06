@@ -29,9 +29,14 @@ function Input({
     }
     getMovie();
   }, [fil]);
+  
+  useEffect(()=>{
+    setHideMobileSearch((prevHideMobileSearch)=>{
+      if(prevHideMobileSearch === false) return true
+    })
+  },[setHideMobileSearch])
 
   if (window.innerWidth > 520) {
-    //setBurgerMenu(false);
     setMobile(false);
   } else {
     setMobile(true);
