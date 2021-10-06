@@ -220,8 +220,8 @@ li:hover {
 }
 #mobile-search {
   position: absolute;
-  padding-right: 20px;
-  text-align: right;
+  padding: 0 20px;
+  text-align: center;
   top: 60px;
   width: 100%;
   background: rgba(0, 0, 0, 0.9);
