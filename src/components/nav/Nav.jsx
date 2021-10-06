@@ -16,20 +16,28 @@ const StyledBadge = withStyles((theme) => ({
     right: 0,
     width: 0,
     height: 12,
-    background: "red"
+    background: "red",
   },
 }))(Badge);
 
 function Nav() {
   const [showBrowse, setShowBrowse] = useState(false);
   const [burgerMenu, setBurgerMenu] = useState(false);
+  const [mobile, setMobile] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showSearchList, setShowSearchList] = useState(false);
+  const [hideMobileSearch, setHideMobileSearch] = useState(false);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      window.innerWidth > 510 && setBurgerMenu(false);
+      if (window.innerWidth > 520) {
+        setBurgerMenu(false);
+        setMobile(false);
+        setHideMobileSearch(false)
+      }else{
+        setMobile(true)
+        setHideMobileSearch(true)
+      }
     });
     return () => window.removeEventListener("resize", () => true);
   }, []);
@@ -39,17 +47,22 @@ function Nav() {
     setShowBrowse(false);
   };
 
+  const handleBurgerSearch = () => {
+    setBurgerMenu(!burgerMenu);
+    setShowBrowse(false);
+    setHideMobileSearch(!hideMobileSearch)
+  };
+
   const handleProfile = (e) => {
     setShowProfileMenu(!showProfileMenu);
     setShowBrowse(false);
     setShowNotifications(false);
-    setShowSearchList(false);
   };
+
   const handleNotifications = (e) => {
     setShowNotifications(!showNotifications);
     setShowBrowse(false);
     setShowProfileMenu(false);
-    setShowSearchList(false);
   };
 
   return (
@@ -65,14 +78,16 @@ function Nav() {
       </div>
       <div id="nav-right-box">
         <Input
-          showSearchList={showSearchList}
-          setShowSearchList={setShowSearchList}
           setShowNotifications={setShowNotifications}
           setShowBrowse={setShowBrowse}
           setShowProfileMenu={setShowProfileMenu}
+          hideMobileSearch={hideMobileSearch}
+          setHideMobileSearch={setHideMobileSearch}
+          mobile={mobile}
+          setMobile={setMobile}
         />
         <div id="user-box">
-          <StyledBadge badgeContent={notificationsArr.length} max={99} >
+          <StyledBadge badgeContent={notificationsArr.length} max={99}>
             <NotificationsIcon className="bell" onClick={handleNotifications} />
           </StyledBadge>
           <PersonIcon
@@ -94,7 +109,7 @@ function Nav() {
       {burgerMenu && (
         <div id="burger-menu-box" onMouseLeave={handleBurger}>
           <ul>
-            <li onClick={handleBurger}>Search</li>
+            <li onClick={handleBurgerSearch}>Search</li>
             <li onClick={handleBurger}>Notifications</li>
             <li onClick={handleBurger}>Logout</li>
           </ul>

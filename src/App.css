@@ -8,6 +8,7 @@
   width: 100%;
   min-height: 100vh;
   color: white;
+  overflow-x: auto;
 }
 #desktop-box{
   display: none;

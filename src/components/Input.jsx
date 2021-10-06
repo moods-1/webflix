@@ -1,71 +1,118 @@
 import React, { useState, useEffect, useRef } from "react";
 import instance from "../axios";
 import { requests } from "../requests";
+import MovieModal from "./MovieModal";
 import "../styles/nav/Search.css";
 
 function Input({
-  showSearchList,
-  setShowSearchList,
   setShowNotifications,
   setShowBrowse,
   setShowProfileMenu,
+  hideMobileSearch,
+  setHideMobileSearch,
+  mobile,
+  setMobile,
 }) {
   const inputRef = useRef();
-
   const [movies, setMovies] = useState([]);
   const [fil, setFil] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState({});
 
-  const movieFilter = (movies, fil) =>
-    movies.filter((movie) => movie.title.toLowerCase().includes(fil));
+  useEffect(() => {
+    async function getMovie() {
+      let response = await instance.get(requests.searchMovies + `${fil}`);
+      if (response.data?.results) {
+        let data = response.data.results;
+        setMovies(data);
+      }
+    }
+    getMovie();
+  }, [fil]);
+
+  if (window.innerWidth > 520) {
+    //setBurgerMenu(false);
+    setMobile(false);
+  } else {
+    setMobile(true);
+  }
 
   const handleInput = (e) => {
     const value = e.target.value.toLowerCase();
-    if (value === "") {
-      setShowSearchList(false);
+    if (!value) {
+      setMovies([]);
     } else {
       setFil(e.target.value.toLowerCase());
-      setShowNotifications(false); 
+      setShowNotifications(false);
       setShowBrowse(false);
       setShowProfileMenu(false);
-      setShowSearchList(true);
     }
   };
+
   const handleLeave = () => {
-    setShowSearchList(false);
+    inputRef.current.value = "";
+    setMovies([]);
+    //setFil("");
+  };
+
+  const handleSubjectClick = (id) => {
+    setCurrentTitle(movies.find((x) => x.id === id));
+    setShowModal(true);
+    setMovies([]);
+    setHideMobileSearch(true);
     inputRef.current.value = "";
   };
-
-  useEffect(() => {
-    const url = requests.fetchAnimatedMovies;
-    async function fetchData() {
-      const request = await instance.get(url);
-      setMovies(request.data.results);
-      return request;
-    }
-    fetchData();
-  }, []);
+  const handleSearchCloseBtn = () => {
+    setFil("");
+    inputRef.current.value = "";
+    setMovies([]);
+    setHideMobileSearch(true);
+  };
 
   return (
-    <div className="search-main">
-      <div id="search-container">
-        <input
-          type="text"
-          id="search-box"
-          ref={inputRef}
-          placeholder="Search content"
-          onChange={handleInput}
-        />
-      </div>
-      {showSearchList && (
-        <div className="filter-box" onMouseLeave={handleLeave}>
-          {movieFilter(movies, fil).map((movie, index) => (
-            <li key={index} onClick={() => setShowSearchList(false)}>
-              {movie.title}
+    <>
+      <div id={mobile ? "mobile-search" : "search-container"}>
+        <ul
+          className={`sList ${hideMobileSearch ? "hide" : ""}`}
+          onMouseLeave={handleLeave}
+        >
+          <li id="searchListInput">
+            <input
+              autoComplete="off"
+              type="text"
+              id="search-box"
+              ref={inputRef}
+              placeholder="Search content"
+              onChange={handleInput}
+            />
+            {!hideMobileSearch && window.innerWidth < 520 && (
+              <p
+                className="searchCloseBtn"
+                onClick={() => handleSearchCloseBtn()}
+              >
+                x
+              </p>
+            )}
+          </li>
+          {movies.map(({ original_title, id }) => (
+            <li
+              className="searchListItem"
+              key={id}
+              onClick={() => handleSubjectClick(id)}
+            >
+              {original_title}
             </li>
           ))}
-        </div>
+        </ul>
+      </div>
+      {Object.keys(currentTitle).length > 0 && (
+        <MovieModal
+          showModal={showModal}
+          setShowModal={setShowModal}
+          currentTitle={currentTitle}
+        />
       )}
-    </div>
+    </>
   );
 }
 export default Input;
