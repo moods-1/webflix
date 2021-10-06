@@ -53,7 +53,7 @@ const useStyles = makeStyles({
     height: "60%",
     margin: "20px auto 40px",
     "@media (max-width:400px)": {
-      marginBottom: 0 
+      marginBottom: 0,
     },
   },
   modalPlay: {
@@ -70,8 +70,8 @@ const useStyles = makeStyles({
     },
   },
   overviewDetails: {
-      height: 100,
-      overflowY: "auto",
+    height: 100,
+    overflowY: "auto",
   },
 });
 
@@ -79,8 +79,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
   const [showTrailerModal, setShowTrailerModal] = useState(false);
   const [trailerUrl, setTrailerUrl] = useState("");
   const { closeBtn, mainDiv, poster, modalPlay, overviewDetails } = useStyles();
-  const { overview, release_date, poster_path, vote_average } =
-    currentTitle;
+  const { overview, release_date, poster_path, vote_average } = currentTitle;
 
   const getYear = (movie) => {
     let releaseAirDate;
@@ -110,6 +109,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 
   const handleClose = () => {
     setShowModal(false);
+    setTrailerUrl("");
   };
 
   return (
@@ -126,7 +126,11 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
           <div
             className={poster}
             style={{
-              background: `url(${img_base_url + poster_path}) no-repeat`,
+              background: `url(${
+                poster_path
+                  ? img_base_url + poster_path
+                  : "/images/noPoster.jpg"
+              }) no-repeat`,
               backgroundSize: "contain",
               backgroundPosition: "center",
             }}
@@ -136,7 +140,9 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
             )}
           </div>
           <div>
-            <p className={overview.length > 250? overviewDetails:""}>{overview}</p>
+            <p className={overview.length > 250 ? overviewDetails : ""}>
+              {overview}
+            </p>
             <p>
               <span>Release date: </span>
               {moment(release_date).format("DD-MMM-YY")}
