@@ -21,7 +21,7 @@ const useStyles = makeStyles({
     transform: "translate(-50%, -50%)",
     width: "600px",
     minWidth: 300,
-    height: "50%",
+    minHeight: "50%",
     borderRadius: 5,
     boxShadow: "2px 2px 7px lightgray",
     "@media (max-width:640px)": {
