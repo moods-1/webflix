@@ -223,6 +223,7 @@ li:hover {
   display: flex;
   justify-content: center;
   text-align: center;
+  font-size: 18px;
   left: 0;
   top: 60px;
   width: 100%;
