@@ -3,6 +3,11 @@ import { Modal, makeStyles } from "@material-ui/core";
 import YouTube from "react-youtube";
 
 const useStyles = makeStyles({
+  modal:{
+    minHeight: "50vh",
+    color: "#000", 
+    padding: 20 ,
+  },
   closeBtn: {
     cursor: "pointer",
     position: "absolute",
@@ -12,7 +17,7 @@ const useStyles = makeStyles({
     color: "#FFF",
   },
   mainDiv: {
-    padding: "20px 40px 0",
+    padding: "40px 40px",
     background: "#000",
     color: "#FFF",
     position: "absolute",
@@ -21,17 +26,30 @@ const useStyles = makeStyles({
     transform: "translate(-50%, -50%)",
     width: "600px",
     minWidth: 300,
-    minHeight: "50%",
+    minHeight: "60%",
     borderRadius: 5,
     boxShadow: "2px 2px 7px lightgray",
     "@media (max-width:640px)": {
-        width: "95%",
-      },
+      width: "95%",
+    },
+  },
+  trailerDiv: {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: "95%",
+    padding: 40,
   },
 });
 
-function TrailerModal({ showTrailerModal, setShowTrailerModal, setTrailerUrl, trailerUrl }) {
-  const { closeBtn, mainDiv, trailerDiv } = useStyles();
+function TrailerModal({
+  showTrailerModal,
+  setShowTrailerModal,
+  setTrailerUrl,
+  trailerUrl,
+}) {
+  const { modal, closeBtn, mainDiv, trailerDiv } = useStyles();
 
   const opts = {
     width: "100%",
@@ -46,20 +64,21 @@ function TrailerModal({ showTrailerModal, setShowTrailerModal, setTrailerUrl, tr
   };
 
   return (
-      <Modal
-        open={showTrailerModal}
-        onClose={handleClose}
-        style={{ color: "#000", padding: 20 }}
-      >
-        <div className={mainDiv}>
-          <p className={closeBtn} onClick={handleClose}>
-            X
-          </p>
-          <div className={trailerDiv}>
-            <YouTube videoId={trailerUrl} opts={opts} />
-          </div>
+    <Modal
+      open={showTrailerModal}
+      onClose={handleClose}
+      className={modal}
+      style={{}}
+    >
+      <div className={mainDiv}>
+        <p className={closeBtn} onClick={handleClose}>
+          X
+        </p>
+        <div className={trailerDiv}>
+          <YouTube videoId={trailerUrl} opts={opts} />
         </div>
-      </Modal>
+      </div>
+    </Modal>
   );
 }
 
