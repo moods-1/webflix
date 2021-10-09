@@ -30,7 +30,7 @@ function Nav() {
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 520) {
+      if (window.innerWidth > 540) {
         setBurgerMenu(false);
         setMobile(false);
         setHideMobileSearch(false)
@@ -42,7 +42,7 @@ function Nav() {
     return () => window.removeEventListener("resize", () => true);
   }, []);
 
-  const handleBurger = (e) => {
+  const handleBurger = () => {
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
   };
@@ -53,18 +53,23 @@ function Nav() {
     setHideMobileSearch(!hideMobileSearch)
   };
 
-  const handleProfile = (e) => {
+  const handleProfile = () => {
     setShowProfileMenu(!showProfileMenu);
     setShowBrowse(false);
     setShowNotifications(false);
   };
 
-  const handleNotifications = (e) => {
+  const handleNotifications = () => {
     setShowNotifications(!showNotifications);
     setShowBrowse(false);
     setShowProfileMenu(false);
   };
 
+  const handleBrowse = () => {
+    setShowBrowse(!showBrowse)
+    setBurgerMenu(false)
+    setHideMobileSearch(true);
+  }
   return (
     <div className={`nav`}>
       <div id="logo-browse-box">
@@ -73,8 +78,8 @@ function Nav() {
           src="/images/webflix.png"
           alt="webflix-logo"
         />
-        <h4 onClick={() => setShowBrowse(!showBrowse)}>Browse</h4>
-        {showBrowse && <Browse setShowBrowse={setShowBrowse} />}
+        <h4 onClick={handleBrowse}>Browse</h4>
+        {showBrowse && <Browse setShowBrowse={setShowBrowse} setBurgerMenu={setBurgerMenu} />}
       </div>
       <div id="nav-right-box">
         <Input

@@ -15,13 +15,13 @@ function Banner() {
   const [mobile, setMobile] = useState(true);
 
   useEffect(() => {
-    const mobilizer = () => setMobile(window.innerWidth < 500);
+    const mobilizer = () => setMobile(window.innerWidth < 540);
     mobilizer();
   }, []);
 
   useEffect(() => {
     window.addEventListener("resize", () =>
-      setMobile(window.innerWidth < 500)
+      setMobile(window.innerWidth < 540)
     );
     return () => window.removeEventListener("resize", () => {});
   }, []);
@@ -89,9 +89,9 @@ function Banner() {
           <h1 className="banner-title">
             {movie?.title || movie?.name || movie?.original_name}
           </h1>
-          <h1 className="banner-description">
+          <p className="banner-description">
             {truncate(movie?.overview, 150)}
-          </h1>
+          </p>
           {trailerUrl && (
             <Play
               className="banner-button"

@@ -29,12 +29,12 @@ function Input({
     }
     getMovie();
   }, [fil]);
-  
-  useEffect(()=>{
-    setHideMobileSearch((prevHideMobileSearch)=>{
-      if(prevHideMobileSearch === false) return true
-    })
-  },[setHideMobileSearch])
+
+  useEffect(() => {
+    setHideMobileSearch((prevHideMobileSearch) => {
+      if (prevHideMobileSearch === false) return true;
+    });
+  }, [setHideMobileSearch]);
 
   if (window.innerWidth > 520) {
     setMobile(false);
@@ -79,7 +79,7 @@ function Input({
       <div id={mobile ? "mobile-search" : "search-container"}>
         <ul
           className={`sList ${
-            hideMobileSearch && window.innerWidth < 520 ? "hide" : ""
+            hideMobileSearch && window.innerWidth < 540 ? "hide" : ""
           }`}
           onMouseLeave={handleLeave}
         >
@@ -92,24 +92,26 @@ function Input({
               placeholder="Search content"
               onChange={handleInput}
             />
-            {!hideMobileSearch && window.innerWidth < 520 && (
+            {!hideMobileSearch && window.innerWidth < 540 && (
               <p
                 className="searchCloseBtn"
                 onClick={() => handleSearchCloseBtn()}
               >
-                x
+                <span>X</span>
               </p>
             )}
           </li>
-          {movies.map(({ original_title, id }) => (
-            <li
-              className="searchListItem"
-              key={id}
-              onClick={() => handleSubjectClick(id)}
-            >
-              {original_title}
-            </li>
-          ))}
+          <div className="inputListDiv">
+            {movies.map(({ original_title, id }) => (
+              <li
+                className="searchListItem"
+                key={id}
+                onClick={() => handleSubjectClick(id)}
+              >
+                {original_title}
+              </li>
+            ))}
+          </div>
         </ul>
       </div>
       {Object.keys(currentTitle).length > 0 && (

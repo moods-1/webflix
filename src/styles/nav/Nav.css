@@ -75,7 +75,6 @@
 ul {
   list-style: none;
   padding-left: 0;
-  /* margin-right: 10px; */
   animation: smoothUL 2s ease;
 }
 @keyframes smoothUL {
@@ -110,7 +109,7 @@ li:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 260px;
+  width: 400px;
   height: 35px;
   background: none;
 }
@@ -121,7 +120,6 @@ li:hover {
   width: 180px;
   height: 25px;
   padding: 0;
-  font-size: 20px;
 }
 #searchListInput {
   position: relative;
@@ -134,7 +132,7 @@ li:hover {
   place-items: center;
   padding-left: 1px;
   padding-bottom: 5px;
-  width: 25px;
+  width: 40px;
   height: 100%;
   top: 0;
   right: 7px;
@@ -144,7 +142,7 @@ li:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   outline-style: none;
-  width: 180px;
+  width: 300px;
   padding: 2px 5px;
   border: none;
 }
@@ -152,7 +150,7 @@ li:hover {
   width: 100%;
   padding: 0;
   margin: 0;
-  font-size: 18px;
+  font-size: 16px;
   overflow-x: visible;
 }
 .sList li {
@@ -166,8 +164,8 @@ li:hover {
   padding-top: 10px;
 }
 .searchListItem {
-  width: 300px;
-  margin-left: -40px;
+  width: 460px;
+  /* margin-left: -40px; */
 }
 #search-box::placeholder {
   color: gray;
@@ -177,7 +175,7 @@ li:hover {
 }
 #user-box {
   display: flex;
-  width: 70px;
+  width: 80px;
   height: 35px;
   justify-content: space-between;
 }
@@ -200,7 +198,7 @@ li:hover {
   position: absolute;
   top: 60px;
   right: 0;
-  width: 120px;
+  width: 160px;
   height: auto;
   background: rgb(0, 0, 0);
   color: white;
@@ -214,6 +212,7 @@ li:hover {
 }
 #burger-menu-box li {
   margin-bottom: 15px;
+  font-size: 20px;
 }
 .filter-box {
   position: absolute;
@@ -282,19 +281,58 @@ li:hover {
     flex-wrap: wrap;
   }
 }
-@media (max-width: 650px) {
+@media (max-width: 670px) {
   #browse-menu {
-    width: 300px;
+    width: 100vw;
+    height: 680px;
+    left: 0;
+    overflow-y: auto;
+  }
+  #nav-right-box {
+    width: 340px;
+  }
+  #search-box {
+    width: 260px;
+  }
+  #user-box {
+    width: 70px;
   }
 }
-@media (max-width: 520px) {
+@media (max-width: 600px) {
+  #nav-right-box {
+    width: 280px;
+  }
+  #search-box {
+    width: 200px;
+  }
+}
+@media (max-width: 540px) {
   #user-box,
   #browse-arrow,
   #search-container {
     display: none;
   }
-  #browse-menu {
-    left: 20%;
+  #browse-left-box {
+    width: 170px;
+  }
+  #browse-left-box ul {
+    width: 100%;
+    padding-left: 15px;
+  }
+  #browse-right-box {
+    display: block;
+    height: 100%;
+    width: 200px;
+    padding-left: 0;
+    margin: 0;
+  }
+  #browse-right-box ul {
+    width: 100%;
+    padding-left: 20px;
+    margin-bottom: 0;
+  }
+  #browse-menu li {
+    font-size: 20px;
   }
   #burger {
     display: block;
@@ -304,16 +342,37 @@ li:hover {
   }
   #search-box {
     width: 95%;
+    height: 50px;
     text-align: center;
+    font-size: 20px;
+  }
+  .searchCloseBtn {
+    font-size: 20px;
+  }
+  .searchCloseBtn span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
   }
   .searchListItem {
     width: 100%;
     margin-left: 0;
     text-align: center;
+    font-size: 20px;
+    padding-bottom: 10px;
   }
 }
 @media (max-width: 360px) {
-  #browse-menu {
+  /* #browse-menu {
     left: 5%;
+  } */
+}
+@media (max-height: 520px) {
+  .inputListDiv {
+    height: 400px;
+    width: 290px;
+    overflow-y: auto;
   }
 }

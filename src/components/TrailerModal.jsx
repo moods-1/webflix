@@ -3,43 +3,52 @@ import { Modal, makeStyles } from "@material-ui/core";
 import YouTube from "react-youtube";
 
 const useStyles = makeStyles({
-  modal:{
-    minHeight: "50vh",
-    color: "#000", 
-    padding: 20 ,
-  },
   closeBtn: {
     cursor: "pointer",
     position: "absolute",
     top: 15,
-    right: 10,
+    right: 15,
     width: 20,
     color: "#FFF",
+    fontSize: 20,
+    zIndex: 100,
+  },
+  modal: {
+    boxShadow: "0px 0px 7px red",
   },
   mainDiv: {
-    padding: "40px 40px",
+    padding: "60px 40px 40px",
     background: "#000",
     color: "#FFF",
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
+    display: "grid",
+    placeItems: "center",
     width: "600px",
     minWidth: 300,
-    minHeight: "60%",
+    minHeight: "50vh",
     borderRadius: 5,
-    boxShadow: "2px 2px 7px lightgray",
-    "@media (max-width:640px)": {
-      width: "95%",
+    boxShadow: "0px 0px 7px red",
+    "@media (max-width:800px)": {
+      width: "90%",
+    },
+    "@media (max-height:600px)": {
+      height: "97%",
+      width: "97%",
     },
   },
-  trailerDiv: {
+  player: {
     position: "absolute",
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: "95%",
-    padding: 40,
+    width: "100%",
+    "@media (max-height:600px)": {
+      height: "80%",
+      width: "80%",
+    },
   },
 });
 
@@ -49,10 +58,8 @@ function TrailerModal({
   setTrailerUrl,
   trailerUrl,
 }) {
-  const { modal, closeBtn, mainDiv, trailerDiv } = useStyles();
-
+  const { closeBtn, mainDiv, player, modal } = useStyles();
   const opts = {
-    width: "100%",
     playerVars: {
       autoplay: 1,
     },
@@ -60,23 +67,15 @@ function TrailerModal({
 
   const handleClose = () => {
     setShowTrailerModal(false);
-    setTrailerUrl("");
   };
 
   return (
-    <Modal
-      open={showTrailerModal}
-      onClose={handleClose}
-      className={modal}
-      style={{}}
-    >
+    <Modal open={showTrailerModal} onClose={handleClose} className={modal}>
       <div className={mainDiv}>
         <p className={closeBtn} onClick={handleClose}>
           X
         </p>
-        <div className={trailerDiv}>
-          <YouTube videoId={trailerUrl} opts={opts} />
-        </div>
+        <YouTube videoId={trailerUrl} opts={opts} className={player} />
       </div>
     </Modal>
   );

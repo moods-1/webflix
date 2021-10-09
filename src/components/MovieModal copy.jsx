@@ -107,22 +107,24 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
     else releaseAirDate = Number(movie.first_air_date.substr(0, 4));
     return releaseAirDate;
   };
-
+  
+  const getTrailer = () => {
+    
+  }
+  console.log("In movie modal")
   useEffect(() => {
-      let movie = currentTitle;
-      movieRef.current = poster_path;
-      let date = getYear(movie);
-      movieTrailer(
-        movie.name || movie.title || movie?.original_name || "",
-        date
-      )
-        .then((url) => {
-          const urlParams = new URLSearchParams(new URL(url).search);
-          setTrailerUrl(urlParams.get("v"));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+    let movie = currentTitle;
+    movieRef.current = poster_path;
+    let date = getYear(movie);
+    console.log({ movie });
+    movieTrailer(movie.name || movie.title || movie?.original_name || "", date)
+      .then((url) => {
+        const urlParams = new URLSearchParams(new URL(url).search);
+        setTrailerUrl(urlParams.get("v"));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, [currentTitle, poster_path]);
 
   const handleTrailer = () => {
@@ -132,7 +134,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 
   const handleClose = () => {
     setShowModal(false);
-    if (!movieRef.current?.value === currentTitle.poster_path) {
+    if (!movieRef.current.value === currentTitle.poster_path) {
       setTrailerUrl("");
     }
   };
