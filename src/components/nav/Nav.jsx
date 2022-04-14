@@ -7,7 +7,7 @@ import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
 import Browse from "../Browse";
 import Input from "../Input";
-import "../../styles/nav/Nav.css";
+import "../../styles/nav/Nav.scss";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -26,31 +26,36 @@ function Nav() {
   const [mobile, setMobile] = useState(false);
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [hideMobileSearch, setHideMobileSearch] = useState(false);
+  const [hideMobileSearch, setHideMobileSearch] = useState(true);
+  const [hideInput, setHideInput] = useState(false);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 540) {
+      if (window.innerWidth > 640) {
         setBurgerMenu(false);
         setMobile(false);
-        setHideMobileSearch(false)
-      }else{
-        setMobile(true)
-        setHideMobileSearch(true)
+        setHideMobileSearch(false);
+        setHideInput(false);
+      } else {
+        setMobile(true);
+        setHideMobileSearch(true);
+        setHideInput(true);
       }
     });
     return () => window.removeEventListener("resize", () => true);
   }, []);
-
+  
   const handleBurger = () => {
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
+    setShowNotifications(false);
   };
 
   const handleBurgerSearch = () => {
+    setHideInput(!hideInput);
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
-    setHideMobileSearch(!hideMobileSearch)
+    setHideMobileSearch(!hideMobileSearch);
   };
 
   const handleProfile = () => {
@@ -63,13 +68,15 @@ function Nav() {
     setShowNotifications(!showNotifications);
     setShowBrowse(false);
     setShowProfileMenu(false);
+    setBurgerMenu(false);
+    setHideInput(true);
   };
 
   const handleBrowse = () => {
-    setShowBrowse(!showBrowse)
-    setBurgerMenu(false)
+    setShowBrowse(!showBrowse);
+    setBurgerMenu(false);
     setHideMobileSearch(true);
-  }
+  };
   return (
     <div className={`nav`}>
       <div id="logo-browse-box">
@@ -79,18 +86,23 @@ function Nav() {
           alt="webflix-logo"
         />
         <h4 onClick={handleBrowse}>Browse</h4>
-        {showBrowse && <Browse setShowBrowse={setShowBrowse} setBurgerMenu={setBurgerMenu} />}
+        {showBrowse && (
+          <Browse setShowBrowse={setShowBrowse} setBurgerMenu={setBurgerMenu} />
+        )}
       </div>
       <div id="nav-right-box">
-        <Input
-          setShowNotifications={setShowNotifications}
-          setShowBrowse={setShowBrowse}
-          setShowProfileMenu={setShowProfileMenu}
-          hideMobileSearch={hideMobileSearch}
-          setHideMobileSearch={setHideMobileSearch}
-          mobile={mobile}
-          setMobile={setMobile}
-        />
+        {!hideInput && (
+          <Input
+            setShowNotifications={setShowNotifications}
+            setShowBrowse={setShowBrowse}
+            setShowProfileMenu={setShowProfileMenu}
+            hideMobileSearch={hideMobileSearch}
+            setHideMobileSearch={setHideMobileSearch}
+            mobile={mobile}
+            setMobile={setMobile}
+          />
+        )}
+
         <div id="user-box">
           <StyledBadge badgeContent={notificationsArr.length} max={99}>
             <NotificationsIcon className="bell" onClick={handleNotifications} />
@@ -115,7 +127,7 @@ function Nav() {
         <div id="burger-menu-box" onMouseLeave={handleBurger}>
           <ul>
             <li onClick={handleBurgerSearch}>Search</li>
-            <li onClick={handleBurger}>Notifications</li>
+            <li onClick={handleNotifications}>Notifications</li>
             <li onClick={handleBurger}>Logout</li>
           </ul>
         </div>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import instance from "../axios";
-import { requests } from "../requests";
+import instance from "../helpers/axios";
+import { requests } from "../helpers/requests";
 import movieTrailer from "movie-trailer";
 import TrailerModal from "./TrailerModal";
 import Play from "@material-ui/icons/PlayCircleOutline";
@@ -13,16 +13,14 @@ function Banner() {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [showTrailerModal, setShowTrailerModal] = useState(false);
   const [mobile, setMobile] = useState(true);
+  const [backgroundPath, setBackgroundPath] = useState("")
 
   useEffect(() => {
-    const mobilizer = () => setMobile(window.innerWidth < 540);
-    mobilizer();
+    setMobile(window.innerWidth < 640);
   }, []);
 
   useEffect(() => {
-    window.addEventListener("resize", () =>
-      setMobile(window.innerWidth < 540)
-    );
+    window.addEventListener("resize", () => setMobile(window.innerWidth < 640));
     return () => window.removeEventListener("resize", () => {});
   }, []);
 
@@ -52,28 +50,36 @@ function Banner() {
 
   useEffect(() => {
     let date = getYear(movie);
-    movieTrailer(
-      movie?.name || movie?.original_name || movie?.title || "",
-      date
-    )
-      .then((url) => {
-        const urlParams = new URLSearchParams(new URL(url).search);
-        setTrailerUrl(urlParams.get("v"));
-      })
-      .catch((err) => console.log(err));
+    if (date) {
+      movieTrailer(
+        movie?.name || movie?.original_name || movie?.title || "",
+        date
+      )
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+        })
+        .catch((err) => console.log(err));
+    }
   }, [movie]);
 
+  useEffect(()=>{
+    let path="";
+    if(movie?.poster_path && mobile){
+      path = img_base_url + "/" + movie?.poster_path
+    }else if(movie?.backdrop_path && !mobile){
+      path = img_base_url + "/" + movie?.backdrop_path
+    }
+    setBackgroundPath(path)
+  },[mobile, movie?.backdrop_path, movie?.poster_path])
+  
   return (
     <div className="banner-container">
       <header
         className="banner"
         style={{
           backgroundSize: "contain",
-          backgroundImage: `url(${
-            !mobile
-              ? img_base_url + "/" + movie?.backdrop_path
-              : img_base_url + "/" + movie?.poster_path
-          })`,
+          backgroundImage: `url(${backgroundPath})`,
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
         }}
@@ -89,9 +95,7 @@ function Banner() {
           <h1 className="banner-title">
             {movie?.title || movie?.name || movie?.original_name}
           </h1>
-          <p className="banner-description">
-            {truncate(movie?.overview, 150)}
-          </p>
+          <p className="banner-description">{truncate(movie?.overview, 150)}</p>
           {trailerUrl && (
             <Play
               className="banner-button"

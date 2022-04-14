@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import instance from "../axios";
+import instance from "../helpers/axios";
 import { Button } from "@material-ui/core";
 import BeatLoader from "react-spinners/BeatLoader";
 import MovieModal from "./MovieModal";

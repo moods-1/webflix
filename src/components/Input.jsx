@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import instance from "../axios";
-import { requests } from "../requests";
+import instance from "../helpers/axios";
+import { requests } from "../helpers/requests";
 import MovieModal from "./MovieModal";
 import "../styles/nav/Search.css";
 
@@ -20,31 +20,20 @@ function Input({
   const [currentTitle, setCurrentTitle] = useState({});
 
   useEffect(() => {
-    async function getMovie() {
+    const getMovie = async () => {
       let response = await instance.get(requests.searchMovies + `${fil}`);
       if (response.data?.results) {
         let data = response.data.results;
         setMovies(data);
       }
-    }
-    getMovie();
+    };
+    fil && getMovie();
   }, [fil]);
-
-  useEffect(() => {
-    setHideMobileSearch((prevHideMobileSearch) => {
-      if (prevHideMobileSearch === false) return true;
-    });
-  }, [setHideMobileSearch]);
-
-  if (window.innerWidth > 520) {
-    setMobile(false);
-  } else {
-    setMobile(true);
-  }
 
   const handleInput = (e) => {
     const value = e.target.value.toLowerCase();
     if (!value) {
+      setFil("")
       setMovies([]);
     } else {
       setFil(e.target.value.toLowerCase());
@@ -57,7 +46,7 @@ function Input({
   const handleLeave = () => {
     inputRef.current.value = "";
     setMovies([]);
-    //setFil("");
+    setFil("");
   };
 
   const handleSubjectClick = (id) => {
@@ -67,52 +56,31 @@ function Input({
     setHideMobileSearch(true);
     inputRef.current.value = "";
   };
-  const handleSearchCloseBtn = () => {
-    setFil("");
-    inputRef.current.value = "";
-    setMovies([]);
-    setHideMobileSearch(true);
-  };
 
   return (
     <>
       <div id={mobile ? "mobile-search" : "search-container"}>
-        <ul
-          className={`sList ${
-            hideMobileSearch && window.innerWidth < 540 ? "hide" : ""
-          }`}
-          onMouseLeave={handleLeave}
-        >
-          <li id="searchListInput">
-            <input
-              autoComplete="off"
-              type="text"
-              id="search-box"
-              ref={inputRef}
-              placeholder="Search content"
-              onChange={handleInput}
-            />
-            {!hideMobileSearch && window.innerWidth < 540 && (
-              <p
-                className="searchCloseBtn"
-                onClick={() => handleSearchCloseBtn()}
-              >
-                <span>X</span>
-              </p>
-            )}
-          </li>
-          <div className="inputListDiv">
-            {movies.map(({ original_title, id }) => (
+        <div className="input-div">
+          <input
+            autoComplete="off"
+            type="text"
+            id="search-box"
+            ref={inputRef}
+            placeholder="Search content"
+            onChange={handleInput}
+          />
+          <ul className="search-list" onMouseLeave={handleLeave}>
+            {movies.map(({ original_title, release_date, id }) => (
               <li
-                className="searchListItem"
                 key={id}
                 onClick={() => handleSubjectClick(id)}
               >
-                {original_title}
+                {original_title}&nbsp;
+                {release_date ? `(${release_date.substring(0, 4)})` : ""}
               </li>
             ))}
-          </div>
-        </ul>
+          </ul>
+        </div>
       </div>
       {Object.keys(currentTitle).length > 0 && (
         <MovieModal

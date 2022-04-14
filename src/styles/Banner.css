@@ -60,7 +60,7 @@
     margin-top: 10px;
     font-size: 15px;
   }
-@media (max-width: 500px) {
+@media (max-width: 640px) {
   .banner-container{
     padding-top: 120px;
   }
