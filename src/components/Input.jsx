@@ -8,10 +8,8 @@ function Input({
   setShowNotifications,
   setShowBrowse,
   setShowProfileMenu,
-  hideMobileSearch,
   setHideMobileSearch,
   mobile,
-  setMobile,
 }) {
   const inputRef = useRef();
   const [movies, setMovies] = useState([]);

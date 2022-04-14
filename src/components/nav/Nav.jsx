@@ -27,7 +27,11 @@ function Nav() {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [hideMobileSearch, setHideMobileSearch] = useState(true);
-  const [hideInput, setHideInput] = useState(false);
+  const [hideInput, setHideInput] = useState(true);
+
+  useEffect(() => {
+    setMobile(window.innerWidth < 640);
+  }, []);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -96,10 +100,8 @@ function Nav() {
             setShowNotifications={setShowNotifications}
             setShowBrowse={setShowBrowse}
             setShowProfileMenu={setShowProfileMenu}
-            hideMobileSearch={hideMobileSearch}
             setHideMobileSearch={setHideMobileSearch}
             mobile={mobile}
-            setMobile={setMobile}
           />
         )}
 
