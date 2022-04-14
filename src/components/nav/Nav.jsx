@@ -31,6 +31,7 @@ function Nav() {
 
   useEffect(() => {
     setMobile(window.innerWidth < 640);
+    setHideInput(window.innerWidth < 640);
   }, []);
 
   useEffect(() => {

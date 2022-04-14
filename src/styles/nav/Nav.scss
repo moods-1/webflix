@@ -17,7 +17,7 @@
 .nav {
   position: fixed;
   width: 100%;
-  min-width: 320px;
+  min-width: 300px;
   background: black;
   top: 0;
   @include flex-mutable($content: space-between, $items: flex-start);

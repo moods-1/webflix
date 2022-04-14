@@ -6,7 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background: black;
-  min-width: 320px;
+  min-width: 300px;
 }
 body.modal-open {
   width: 100% !important;
