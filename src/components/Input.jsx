@@ -77,12 +77,15 @@ function Search({
             )}
           </div>
           <ul className="search-list">
-            {movies.map(({ original_title, release_date, id }) => (
-              <li key={id} onClick={() => handleSubjectClick(id)}>
-                {original_title}&nbsp;
-                {release_date ? `(${release_date.substring(0, 4)})` : ""}
-              </li>
-            ))}
+            {movies.map(
+              ({ original_title, release_date, id }) =>
+                release_date && (
+                  <li key={id} onClick={() => handleSubjectClick(id)}>
+                    {original_title}&nbsp;
+                    {release_date ? `(${release_date.substring(0, 4)})` : ""}
+                  </li>
+                )
+            )}
           </ul>
         </div>
       </div>

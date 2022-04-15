@@ -104,29 +104,29 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
     let releaseAirDate;
     if (movie.release_date)
       releaseAirDate = Number(movie.release_date.substring(0, 4));
-    else if(movie.first_air_date){
+    else if (movie.first_air_date) {
       releaseAirDate = Number(movie.first_air_date.substring(0, 4));
-    } 
+    }
     return releaseAirDate;
   };
 
   useEffect(() => {
-      let movie = currentTitle;
-      movieRef.current = poster_path;
-      let date = getYear(movie);
-      if(date){
-        movieTrailer(
-          movie.name || movie.title || movie?.original_name || "",
-          date
-        )
-          .then((url) => {
-            const urlParams = new URLSearchParams(new URL(url).search);
-            setTrailerUrl(urlParams.get("v"));
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }   
+    let movie = currentTitle;
+    movieRef.current = poster_path;
+    let date = getYear(movie);
+    if (date) {
+      movieTrailer(
+        movie.name || movie.title || movie?.original_name || "",
+        date
+      )
+        .then((url) => {
+          const urlParams = new URLSearchParams(new URL(url).search);
+          setTrailerUrl(urlParams.get("v"));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [currentTitle, poster_path]);
 
   const handleTrailer = () => {
@@ -140,6 +140,19 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
       setTrailerUrl("");
     }
   };
+
+  const releaseDate = release_date
+    ? moment(release_date).format("DD-MMM-YY")
+    : "N/A";
+
+  const noPosterTitle = () => {
+    const { original_title, title, release_date } = currentTitle;
+    let movieTitle = original_title ? original_title : title;
+    let releaseDate = release_date.substring(0, 4);
+    return `${movieTitle} (${releaseDate})`;
+  };
+
+  const noDetailsMessage = "Sorry, there is no description for this title.";
 
   return (
     <>
@@ -172,12 +185,19 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
             )}
           </div>
           <div style={{ marginTop: 20 }}>
+            {!poster_path && (
+              <div>
+                <p>
+                  Title: <span>{noPosterTitle()}</span>
+                </p>
+              </div>
+            )}
             <p className={overview.length > 250 ? overviewDetails : ""}>
-              {overview}
+              {overview || noDetailsMessage}
             </p>
             <p>
               <span>Release date: </span>
-              {moment(release_date).format("DD-MMM-YY")}
+              {releaseDate}
               <br />
               <span>Rating: </span>
               {vote_average} / 10
