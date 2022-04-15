@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.21.1",
     "bootstrap": "^5.1.1",
+    "jquery": "^3.6.0",
     "moment-timezone": "^0.5.33",
     "movie-trailer": "^2.0.6",
     "react": "^16.14.0",

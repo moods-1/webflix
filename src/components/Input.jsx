@@ -42,9 +42,7 @@ function Input({
   };
 
   const handleLeave = () => {
-    inputRef.current.value = "";
     setMovies([]);
-    setFil("");
   };
 
   const handleSubjectClick = (id) => {

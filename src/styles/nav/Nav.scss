@@ -103,6 +103,7 @@ ul {
 li:hover {
   cursor: pointer;
   font-weight: 600;
+  color: red;
 }
 #browse-arrow {
   display: flex;
@@ -202,11 +203,21 @@ li:hover {
   transform: translateX(-50%);
   top: 60px;
   width: 100%;
-  .input-div{
+  animation: grow 1s ease 0ms forwards;
+  .input-div {
     width: 100%;
-    input{
+    input {
       width: 100%;
     }
+  }
+}
+.grow {
+  animation: grow 1s ease 0ms forwards;
+}
+@keyframes grow {
+  from {
+    width: 0px;
+    transform: scale(2, 0);
   }
 }
 .hide {
@@ -261,7 +272,7 @@ li:hover {
     display: flex;
     flex-wrap: wrap;
   }
-  #nav-right-box{
+  #nav-right-box {
     width: auto;
   }
 }
@@ -285,7 +296,7 @@ li:hover {
   #search-container {
     display: none;
   }
-  #mobile-search{
+  #mobile-search {
     display: block;
   }
   #browse-left-box {

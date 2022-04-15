@@ -49,7 +49,7 @@ function Nav() {
     });
     return () => window.removeEventListener("resize", () => true);
   }, []);
-  
+
   const handleBurger = () => {
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
@@ -74,7 +74,7 @@ function Nav() {
     setShowBrowse(false);
     setShowProfileMenu(false);
     setBurgerMenu(false);
-    setHideInput(true);
+    setHideInput(mobile);
   };
 
   const handleBrowse = () => {
@@ -82,6 +82,7 @@ function Nav() {
     setBurgerMenu(false);
     setHideMobileSearch(true);
   };
+
   return (
     <div className={`nav`}>
       <div id="logo-browse-box">
