@@ -88,6 +88,7 @@ const useStyles = makeStyles({
   },
   overviewDetails: {
     height: 120,
+    paddingRight: 7,
     overflowY: "auto",
   },
 });
