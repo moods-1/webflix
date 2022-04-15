@@ -53,7 +53,6 @@ const Row = ({ title, fetchURL, isLargeRow }) => {
                   )}
                 </p>
               )}
-
               <Button
                 variant="contained"
                 onClick={() => handleClick(movie)}

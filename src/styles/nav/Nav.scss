@@ -93,6 +93,12 @@ ul {
     opacity: 0;
   }
 }
+@-webkit-keyframes smoothUL {
+  from {
+    opacity: 0;
+  }
+}
+
 #browse-menu ul {
   width: 135px;
 }
@@ -210,22 +216,11 @@ li:hover {
       width: 100%;
     }
   }
-  button {
-    opacity: 0;
-    right: 10px;
-    animation: delayShow 1s ease 500ms forwards;
-  }
-}
-@keyframes delayShow {
-  to {
-    opacity: 1;
-  }
-}
-@keyframes grow {
-  from {
-    width: 0px;
-    transform: scale(0);
-  }
+  // button {
+  //   opacity: 0;
+  //   right: 10px;
+  //   animation: delayShow 1s ease 500ms forwards;
+  // }
 }
 .hide {
   display: none;
@@ -342,6 +337,11 @@ li:hover {
   display: flex;
   flex-direction: column;
   width: 300px;
+  button {
+    opacity: 0;
+    right: 10px;
+    animation: delayShow 1s ease 500ms forwards;
+  }
 }
 
 .search-list {
@@ -369,5 +369,28 @@ li:hover {
   p {
     margin-top: -4px;
     margin-left: -1px;
+  }
+}
+@keyframes delayShow {
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes delayShow {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes grow {
+  from {
+    width: 0px;
+    transform: scale(0);
+  }
+}
+@-webkit-keyframes grow {
+  from {
+    width: 0px;
+    transform: scale(0);
   }
 }

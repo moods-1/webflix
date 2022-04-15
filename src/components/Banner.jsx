@@ -5,6 +5,7 @@ import movieTrailer from "movie-trailer";
 import TrailerModal from "./TrailerModal";
 import Play from "@material-ui/icons/PlayCircleOutline";
 import "../styles/Banner.css";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const img_base_url = "https://image.tmdb.org/t/p/original";
 
@@ -13,7 +14,7 @@ function Banner() {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [showTrailerModal, setShowTrailerModal] = useState(false);
   const [mobile, setMobile] = useState(true);
-  const [backgroundPath, setBackgroundPath] = useState("")
+  const [backgroundPath, setBackgroundPath] = useState("");
 
   useEffect(() => {
     setMobile(window.innerWidth < 640);
@@ -63,16 +64,16 @@ function Banner() {
     }
   }, [movie]);
 
-  useEffect(()=>{
-    let path="";
-    if(movie?.poster_path && mobile){
-      path = img_base_url + "/" + movie?.poster_path
-    }else if(movie?.backdrop_path && !mobile){
-      path = img_base_url + "/" + movie?.backdrop_path
+  useEffect(() => {
+    let path = "";
+    if (movie?.poster_path && mobile) {
+      path = img_base_url + "/" + movie?.poster_path;
+    } else if (movie?.backdrop_path && !mobile) {
+      path = img_base_url + "/" + movie?.backdrop_path;
     }
-    setBackgroundPath(path)
-  },[mobile, movie?.backdrop_path, movie?.poster_path])
-  
+    setBackgroundPath(path);
+  }, [mobile, movie?.backdrop_path, movie?.poster_path]);
+
   return (
     <div className="banner-container">
       <header
@@ -84,6 +85,11 @@ function Banner() {
           backgroundPosition: "center",
         }}
       >
+        {!backgroundPath && (
+          <div style={{width: "100%", height: "100%", display: "flex", justifyContent:"center", alignItems:"center" }}>
+            <BeatLoader color={"red"} />
+          </div>
+        )}
         {trailerUrl && showTrailerModal && (
           <TrailerModal
             showTrailerModal={showTrailerModal}
