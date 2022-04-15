@@ -17,7 +17,7 @@ code {
     monospace;
 }
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
   border-radius: 15px;
   cursor: pointer;
 }
@@ -29,9 +29,9 @@ code {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(255, 0, 0);
+  background-color: rgba(255, 0, 0, 0.2);
   border-radius: 15px;
-  border: 2px solid rgb(162, 76, 76);
+  border: 1px solid rgb(203, 5, 5);
   cursor: pointer;
 }
 
