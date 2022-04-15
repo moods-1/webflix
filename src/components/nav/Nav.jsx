@@ -57,7 +57,7 @@ function Nav() {
   };
 
   const handleBurgerSearch = () => {
-    setHideInput(!hideInput);
+    setHideInput(false);
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
     setHideMobileSearch(!hideMobileSearch);
