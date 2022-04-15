@@ -16,8 +16,21 @@
   scrollbar-width: none;
 }
 /* Hide the scrollbar but keep the functionality. */
-.row-posters::-webkit-scrollbar {
+/* .row-posters::-webkit-scrollbar {
   display: none;
+} */
+.row-posters::-webkit-scrollbar{
+  height: 4px;
+}
+.row-posters::-webkit-scrollbar-thumb{
+  border-color: transparent;
+  background: transparent;
+}
+.row-posters::-webkit-scrollbar-thumb:hover{
+  background: red;
+}
+.row-posters::-webkit-scrollbar-track{
+  background: #000;
 }
 .poster-box {
   position: relative;
