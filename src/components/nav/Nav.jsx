@@ -57,7 +57,7 @@ function Nav() {
   };
 
   const handleBurgerSearch = () => {
-    setHideInput(false);
+    setHideInput(!hideInput);
     setBurgerMenu(!burgerMenu);
     setShowBrowse(false);
     setHideMobileSearch(!hideMobileSearch);
@@ -104,6 +104,7 @@ function Nav() {
             setShowProfileMenu={setShowProfileMenu}
             setHideMobileSearch={setHideMobileSearch}
             mobile={mobile}
+            setHideInput={setHideInput}
           />
         )}
 
@@ -130,7 +131,7 @@ function Nav() {
       {burgerMenu && (
         <div id="burger-menu-box" onMouseLeave={handleBurger}>
           <ul>
-            <li onClick={handleBurgerSearch}>Search</li>
+            <li onClick={handleBurgerSearch}>{!hideInput && "Close"} Search</li>
             <li onClick={handleNotifications}>Notifications</li>
             <li onClick={handleBurger}>Logout</li>
           </ul>

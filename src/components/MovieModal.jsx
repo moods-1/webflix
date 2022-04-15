@@ -103,8 +103,10 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
   const getYear = (movie) => {
     let releaseAirDate;
     if (movie.release_date)
-      releaseAirDate = Number(movie.release_date.substr(0, 4));
-    else releaseAirDate = Number(movie.first_air_date.substr(0, 4));
+      releaseAirDate = Number(movie.release_date.substring(0, 4));
+    else if(movie.first_air_date){
+      releaseAirDate = Number(movie.first_air_date.substring(0, 4));
+    } 
     return releaseAirDate;
   };
 
@@ -112,17 +114,19 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
       let movie = currentTitle;
       movieRef.current = poster_path;
       let date = getYear(movie);
-      movieTrailer(
-        movie.name || movie.title || movie?.original_name || "",
-        date
-      )
-        .then((url) => {
-          const urlParams = new URLSearchParams(new URL(url).search);
-          setTrailerUrl(urlParams.get("v"));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if(date){
+        movieTrailer(
+          movie.name || movie.title || movie?.original_name || "",
+          date
+        )
+          .then((url) => {
+            const urlParams = new URLSearchParams(new URL(url).search);
+            setTrailerUrl(urlParams.get("v"));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }   
   }, [currentTitle, poster_path]);
 
   const handleTrailer = () => {

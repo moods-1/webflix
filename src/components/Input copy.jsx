@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import instance from "../helpers/axios";
 import { requests } from "../helpers/requests";
 import MovieModal from "./MovieModal";
+// import {DeleteOutline} from "@material-ui/icons"
 import "../styles/nav/Search.css";
 
-function Search({
+function Input({
   setShowNotifications,
   setShowBrowse,
   setShowProfileMenu,
@@ -51,32 +52,21 @@ function Search({
     setShowModal(true);
     setMovies([]);
   };
-  const handleSearchClear = () => {
-    inputRef.current.value = "";
-    setMovies([]);
-  };
 
   return (
     <>
       <div id={mobile ? "mobile-search" : "search-container"}>
         <div className="input-div" onMouseLeave={handleLeave}>
-          <div className="input-group">
-            <input
-              autoComplete="off"
-              autoFocus
-              type="text"
-              id="search-box"
-              ref={inputRef}
-              placeholder="Search content"
-              onChange={handleInput}
-            />
-            {inputRef.current?.value && (
-              <button className="search-clear-icon" onClick={handleSearchClear}>
-                <p>x</p>
-              </button>
-            )}
-          </div>
-          <ul className="search-list">
+          <input
+            autoComplete="off"
+            autoFocus
+            type="text"
+            id="search-box"
+            ref={inputRef}
+            placeholder="Search content"
+            onChange={handleInput}
+          />
+          <ul className="search-list" >
             {movies.map(({ original_title, release_date, id }) => (
               <li key={id} onClick={() => handleSubjectClick(id)}>
                 {original_title}&nbsp;
@@ -96,4 +86,4 @@ function Search({
     </>
   );
 }
-export default Search;
+export default Input;
