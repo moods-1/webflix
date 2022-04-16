@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import instance from "../helpers/axios";
+import instance from "../../helpers/axios";
 import { Button } from "@material-ui/core";
 import BeatLoader from "react-spinners/BeatLoader";
-import MovieModal from "./MovieModal";
-import "../styles/Rows.css";
+import MovieModal from "../Modals/MovieModal/MovieModal";
+import "./Row.css";
 
 const img_base_url = "https://image.tmdb.org/t/p/original";
 

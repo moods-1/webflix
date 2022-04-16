@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core";
 import Play from "@material-ui/icons/PlayCircleOutline";
 import moment from "moment-timezone";
 import movieTrailer from "movie-trailer";
-import TrailerModal from "./TrailerModal";
+import TrailerModal from "../TrailerModal/TrailerModal";
 
 const img_base_url = "https://image.tmdb.org/t/p/original";
 const useStyles = makeStyles({

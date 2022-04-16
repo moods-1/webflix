@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Notifications from "./Notifications";
-import { notificationsArr } from "./notificationData";
+import Notifications from "./Notifications/Notifications";
+import { notificationsArr } from "../../helpers/notificationData";
 import PersonIcon from "@material-ui/icons/Person";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import Badge from "@material-ui/core/Badge";
 import { withStyles } from "@material-ui/core";
-import Browse from "../Browse";
-import Input from "../Input";
-import "../../styles/nav/Nav.scss";
+import Browse from "../Browse/Browse";
+import Input from "./Search/Search";
+import "./Nav.scss";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {

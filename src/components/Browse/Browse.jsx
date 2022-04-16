@@ -1,5 +1,5 @@
 import React from "react";
-import { browseData } from "../helpers/browseData";
+import { browseData } from "../../helpers/browseData";
 
 function Browse({ setShowBrowse }) {
   return (

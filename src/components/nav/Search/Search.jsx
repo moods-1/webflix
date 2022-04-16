@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
-import instance from "../helpers/axios";
-import { requests } from "../helpers/requests";
-import MovieModal from "./MovieModal";
-import "../styles/nav/Search.css";
+import instance from "../../../helpers/axios";
+import { requests } from "../../../helpers/requests";
+import MovieModal from "../../Modals/MovieModal/MovieModal";
+import "./Search.css";
 
 function Search({
   setShowNotifications,

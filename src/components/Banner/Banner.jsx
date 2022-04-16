@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import instance from "../helpers/axios";
-import { requests } from "../helpers/requests";
+import instance from "../../helpers/axios";
+import { requests } from "../../helpers/requests";
 import movieTrailer from "movie-trailer";
-import TrailerModal from "./TrailerModal";
+import TrailerModal from "../Modals/TrailerModal/TrailerModal";
 import Play from "@material-ui/icons/PlayCircleOutline";
-import "../styles/Banner.css";
+import "./Banner.css";
 import BeatLoader from "react-spinners/BeatLoader";
 
 const img_base_url = "https://image.tmdb.org/t/p/original";
@@ -111,7 +111,7 @@ function Banner() {
           )}
         </div>
       </header>
-      <p className="trailer-message">Some titles may not have a trailer.</p>
+      <p className="trailer-message">*Some titles may not have a trailer.</p>
     </div>
   );
 }

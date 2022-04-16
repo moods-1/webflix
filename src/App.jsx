@@ -1,8 +1,8 @@
 import React from "react";
-import Row from "./components/Row";
+import Row from "./components/Row/Row";
 import { requests } from "./helpers/requests";
-import Banner from "./components/Banner";
-import Nav from "./components/nav/Nav";
+import Banner from "./components/Banner/Banner";
+import Nav from "./components/Nav/Nav";
 import "./App.css";
 
 function App() {
