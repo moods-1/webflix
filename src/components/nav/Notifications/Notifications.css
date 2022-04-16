@@ -11,3 +11,6 @@
   margin-bottom: 10px;
   font-size: 13px;
 }
+.delete-icon{
+  cursor: pointer;
+}

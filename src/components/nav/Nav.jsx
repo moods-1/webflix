@@ -28,6 +28,7 @@ function Nav() {
   const [showNotifications, setShowNotifications] = useState(false);
   const [hideMobileSearch, setHideMobileSearch] = useState(true);
   const [hideInput, setHideInput] = useState(true);
+  const [notifications, setNotifications] = useState(notificationsArr);
 
   useEffect(() => {
     setMobile(window.innerWidth < 640);
@@ -109,7 +110,7 @@ function Nav() {
         )}
 
         <div id="user-box">
-          <StyledBadge badgeContent={notificationsArr.length} max={99}>
+          <StyledBadge badgeContent={notifications.length} max={99}>
             <NotificationsIcon className="bell" onClick={handleNotifications} />
           </StyledBadge>
           <PersonIcon
@@ -144,9 +145,10 @@ function Nav() {
           </ul>
         </div>
       )}
-      {showNotifications && (
+      {showNotifications && notifications.length > 0 && (
         <Notifications
-          notificationsArr={notificationsArr}
+          notifications={notifications}
+          setNotifications={setNotifications}
           setShowNotifications={setShowNotifications}
         />
       )}
