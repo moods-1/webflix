@@ -17,27 +17,42 @@ const StyledBadge = withStyles((theme) => ({
 		width: 0,
 		height: 'auto',
 		background: 'red',
-		padding: '1px 0px 1px',
+    padding: '1px 0px 1px',
 	},
 }))(Badge);
 
 function Nav() {
 	const [showBrowse, setShowBrowse] = useState(false);
 	const [burgerMenu, setBurgerMenu] = useState(false);
+	// const [mobile, setMobile] = useState(false);
 	const [showProfileMenu, setShowProfileMenu] = useState(false);
 	const [showNotifications, setShowNotifications] = useState(false);
 	const [hideMobileSearch, setHideMobileSearch] = useState(true);
 	const [hideInput, setHideInput] = useState(true);
 	const [notifications, setNotifications] = useState(NOTIFICATIONS);
 	const mobile = useMediaQuery('(max-width:640px)');
+	
 
 	useEffect(() => {
-		setHideInput(mobile);
-		setHideMobileSearch(mobile);
-		if (!mobile) {
-			setBurgerMenu(mobile);
-		}
-	}, [mobile]);
+		setMobile(window.innerWidth < 640);
+		setHideInput(window.innerWidth < 640);
+	}, []);
+
+	useEffect(() => {
+		window.addEventListener('resize', () => {
+			if (window.innerWidth > 640) {
+				setBurgerMenu(false);
+				setMobile(false);
+				setHideMobileSearch(false);
+				setHideInput(false);
+			} else {
+				setMobile(true);
+				setHideMobileSearch(true);
+				setHideInput(true);
+			}
+		});
+		return () => window.removeEventListener('resize', () => true);
+	}, []);
 
 	const handleBurger = () => {
 		setBurgerMenu(!burgerMenu);

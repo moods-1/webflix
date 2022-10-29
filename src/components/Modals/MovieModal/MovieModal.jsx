@@ -24,7 +24,8 @@ const useStyles = makeStyles({
     width: 480,
     minWidth: 280,
     height: "90vh",
-    padding: "50px 50px",
+    padding: 50,
+    marginTop: 30,
     background: "#000",
     borderRadius: 5,
     boxShadow: "0px 0px 7px red",
@@ -32,7 +33,8 @@ const useStyles = makeStyles({
       fontSize: 14,
     },
     "@media (max-width:500px)": {
-      width: "90%",
+      width: "100%",
+      padding: "45px 15px 15px",
     },
     "@media (max-height:500px)": {
       overflowY: "auto",

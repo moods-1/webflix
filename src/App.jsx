@@ -1,6 +1,6 @@
 import React from "react";
 import Row from "./components/Row/Row";
-import { requests } from "./helpers/requests";
+import { REQUESTS } from "./helpers/constants";
 import Banner from "./components/Banner/Banner";
 import Nav from "./components/Nav/Nav";
 import "./App.css";
@@ -15,24 +15,24 @@ function App() {
       <Banner mobile />
       <Row
         title="Animated Movies"
-        fetchURL={requests.fetchAnimatedMovies}
+        fetchURL={REQUESTS.fetchAnimatedMovies}
         isLargeRow
         mobile
       />
       <Row
         mobile
         title="NETFLIX Originals"
-        fetchURL={requests.fetchNetflixOriginals}
+        fetchURL={REQUESTS.fetchNetflixOriginals}
       />
-      <Row mobile title="Trending Now" fetchURL={requests.fetchTrending} />
-      <Row mobile title="Top Rated" fetchURL={requests.fetchTopRated} />
-      <Row mobile title="Action Movies" fetchURL={requests.fetchActionMovies} />
-      <Row mobile title="Sci-Fi Movies" fetchURL={requests.fetchSciFiMovies} />
-      <Row mobile title="Comedy Movies" fetchURL={requests.fetchComedyMovies} />
+      <Row mobile title="Trending Now" fetchURL={REQUESTS.fetchTrending} />
+      <Row mobile title="Top Rated" fetchURL={REQUESTS.fetchTopRated} />
+      <Row mobile title="Action Movies" fetchURL={REQUESTS.fetchActionMovies} />
+      <Row mobile title="Sci-Fi Movies" fetchURL={REQUESTS.fetchSciFiMovies} />
+      <Row mobile title="Comedy Movies" fetchURL={REQUESTS.fetchComedyMovies} />
       <Row
         mobile
         title="Romance Movies"
-        fetchURL={requests.fetchRomanceMovies}
+        fetchURL={REQUESTS.fetchRomanceMovies}
       />
     </div>
   );

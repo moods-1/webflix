@@ -5,12 +5,20 @@
   top: 60px;
   right: 0;
 }
-.note {
-  width: 280px;
+.notification {
+  display: flex;
+  max-width: 280px;
   height: auto;
   margin-bottom: 10px;
   font-size: 13px;
 }
+.note-box{
+  display: flex;
+}
+.note {
+  padding-left: 10px;
+}
 .delete-icon{
   cursor: pointer;
+  margin-right: 2px;
 }

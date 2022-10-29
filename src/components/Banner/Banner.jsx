@@ -1,119 +1,149 @@
-import React, { useState, useEffect } from "react";
-import instance from "../../helpers/axios";
-import { requests } from "../../helpers/requests";
-import movieTrailer from "movie-trailer";
-import TrailerModal from "../Modals/TrailerModal/TrailerModal";
-import Play from "@material-ui/icons/PlayCircleOutline";
-import "./Banner.css";
-import BeatLoader from "react-spinners/BeatLoader";
-
-const img_base_url = "https://image.tmdb.org/t/p/original";
+import React, { useState, useEffect } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
+import { useMediaQuery } from '@material-ui/core';
+import Play from '@material-ui/icons/PlayCircleOutline';
+import { BANNER_MOVIES } from '../../helpers/constants';
+import TrailerModal from '../Modals/TrailerModal/TrailerModal';
+import './Banner.css';
+import {
+	Movie0,
+	Movie1,
+	Movie2,
+	Movie3,
+	Movie4,
+	Movie5,
+	Movie0Mobile,
+	Movie1Mobile,
+	Movie2Mobile,
+	Movie3Mobile,
+	Movie4Mobile,
+	Movie5Mobile,
+} from '../../images/banner';
 
 function Banner() {
-  const [movie, setMovie] = useState([]);
-  const [trailerUrl, setTrailerUrl] = useState("");
-  const [showTrailerModal, setShowTrailerModal] = useState(false);
-  const [mobile, setMobile] = useState(true);
-  const [backgroundPath, setBackgroundPath] = useState("");
+	const [movie, setMovie] = useState(null);
+	const [movies, setMovies] = useState([]);
+	const [showTrailerModal, setShowTrailerModal] = useState(false);
+	const [selectedId, setSelectedId] = useState(0);
+	const [autoTimer, setAutoTimer] = useState(true);
+	const mobile = useMediaQuery('(max-width:640px)');
+	const largeMobile = useMediaQuery('(max-width:1024px)');
 
-  useEffect(() => {
-    setMobile(window.innerWidth < 640);
-  }, []);
+	const truncate = (str, n) =>
+		str?.length > n ? str.substr(0, n - 1) + '...' : str;
 
-  useEffect(() => {
-    window.addEventListener("resize", () => setMobile(window.innerWidth < 640));
-    return () => window.removeEventListener("resize", () => {});
-  }, []);
+	useEffect(() => {
+		const bannerBackdropImages = [
+			Movie0,
+			Movie1,
+			Movie2,
+			Movie3,
+			Movie4,
+			Movie5,
+		];
 
-  useEffect(() => {
-    async function fetchData() {
-      const request = await instance.get(requests.fetchSciFiMovies);
-      let currentTitle =
-        request.data.results[
-          Math.floor(Math.random() * request.data.results.length)
-        ];
-      setMovie(currentTitle);
-      return request;
-    }
-    fetchData();
-  }, []);
+		const bannerPosterImages = [
+			Movie0Mobile,
+			Movie1Mobile,
+			Movie2Mobile,
+			Movie3Mobile,
+			Movie4Mobile,
+			Movie5Mobile,
+		];
 
-  const truncate = (str, n) =>
-    str?.length > n ? str.substr(0, n - 1) + "..." : str;
+		const localMovies = BANNER_MOVIES;
 
-  const getYear = (movie) => {
-    let releaseAirDate;
-    if (movie.release_date)
-      releaseAirDate = Number(movie?.release_date?.substr(0, 4));
-    else releaseAirDate = Number(movie?.first_air_date?.substr(0, 4));
-    return releaseAirDate;
-  };
+		localMovies.forEach((film, index) => {
+			film.backdrop = bannerBackdropImages[index];
+			film.poster = bannerPosterImages[index];
+		});
+		setMovies(localMovies);
+	}, []);
 
-  useEffect(() => {
-    let date = getYear(movie);
-    if (date) {
-      movieTrailer(
-        movie?.name || movie?.original_name || movie?.title || "",
-        date
-      )
-        .then((url) => {
-          const urlParams = new URLSearchParams(new URL(url).search);
-          setTrailerUrl(urlParams.get("v"));
-        })
-        .catch((err) => console.log(err));
-    }
-  }, [movie]);
+	useEffect(() => {
+		if (autoTimer) {
+			let bannerTimer = setInterval(() => {
+				if (selectedId === movies.length - 1) {
+					setSelectedId(0);
+				} else {
+					setSelectedId(selectedId + 1);
+				}
+			}, 4000);
+			return () => clearInterval(bannerTimer);
+		}
+	}, [movies, selectedId, autoTimer]);
 
-  useEffect(() => {
-    let path = "";
-    if (movie?.poster_path && mobile) {
-      path = img_base_url + "/" + movie?.poster_path;
-    } else if (movie?.backdrop_path && !mobile) {
-      path = img_base_url + "/" + movie?.backdrop_path;
-    }
-    setBackgroundPath(path);
-  }, [mobile, movie?.backdrop_path, movie?.poster_path]);
+	useEffect(() => {
+		if (movies.length) {
+			setMovie(movies[selectedId]);
+		}
+	}, [movies, selectedId]);
 
-  return (
-    <div className="banner-container">
-      <header
-        className="banner"
-        style={{
-          backgroundSize: "contain",
-          backgroundImage: `url(${backgroundPath})`,
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-        }}
-      >
-        {!backgroundPath && (
-          <div className="banner-loader" >
-            <BeatLoader color={"red"} />
-          </div>
-        )}
-        {trailerUrl && showTrailerModal && (
-          <TrailerModal
-            showTrailerModal={showTrailerModal}
-            setShowTrailerModal={setShowTrailerModal}
-            trailerUrl={trailerUrl}
-          />
-        )}
-        <div className="banner-contents">
-          <h1 className="banner-title">
-            {movie?.title || movie?.name || movie?.original_name}
-          </h1>
-          <p className="banner-description">{truncate(movie?.overview, 150)}</p>
-          {trailerUrl && (
-            <Play
-              className="banner-button"
-              fontSize="large"
-              onClick={() => setShowTrailerModal(true)}
-            />
-          )}
-        </div>
-      </header>
-      <p className="trailer-message">*Some titles may not have a trailer.</p>
-    </div>
-  );
+	return (
+		<div className='banner-container'>
+			<header
+				className='banner'
+				onMouseOver={() => setAutoTimer(false)}
+				onMouseLeave={() => setAutoTimer(true)}
+			>
+				{movie ? (
+					<>
+						<div
+							className='banner-large-image-box'
+							style={{
+								width: largeMobile ? '100%' : '50%',
+								backgroundSize: `${mobile ? 'contain' : 'cover'}`,
+								backgroundImage: `url(${
+									mobile ? movie.poster : movie.backdrop
+								})`,
+								backgroundRepeat: 'no-repeat',
+								backgroundPosition: 'top, center',
+							}}
+						/>
+						<div style={{ position: 'absolute', zIndex: 1}}>
+							{showTrailerModal && (
+								<TrailerModal
+									showTrailerModal={showTrailerModal}
+									setShowTrailerModal={setShowTrailerModal}
+									trailerUrl={movie.trailer}
+								/>
+							)}
+							<div className='banner-contents'>
+								<h1 className='banner-title'>{movie.title}</h1>
+								<p className='banner-description'>
+									{truncate(movie.overview, 150)}
+								</p>
+								{movie.trailer && (
+									<Play
+										className='banner-button'
+										fontSize='large'
+										onClick={() => setShowTrailerModal(true)}
+									/>
+								)}
+							</div>
+						</div>
+					</>
+				) : (
+					<div className='banner-loader'>
+						<BeatLoader color={'red'} />
+					</div>
+				)}
+			</header>
+			<div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+				{movies.map((_, index) => (
+					<div
+						key={`baner${index}`}
+						onClick={() => setSelectedId(index)}
+						className='banner-interval-button'
+						style={{
+							background: selectedId === index ? 'red' : '',
+						}}
+					/>
+				))}
+			</div>
+			<p className='trailer-message'>*Some titles may not have a trailer.</p>
+		</div>
+	);
 }
 
 export default Banner;
