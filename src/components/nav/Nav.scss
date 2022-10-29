@@ -18,7 +18,7 @@
 	position: fixed;
 	width: 100%;
 	min-width: 300px;
-	background: black;
+	background: linear-gradient(rgb(10, 10, 10),rgba(10, 10, 10, 0.9));
 	top: 0;
 	@include flex-mutable($content: space-between, $items: flex-start);
 	z-index: 3;
@@ -216,11 +216,6 @@ li:hover {
 			width: 100%;
 		}
 	}
-	// button {
-	//   opacity: 0;
-	//   right: 10px;
-	//   animation: delayShow 1s ease 500ms forwards;
-	// }
 }
 .hide {
 	display: none;
@@ -350,13 +345,12 @@ li:hover {
 	padding: 0px 10px;
 	margin: 0;
 	background: rgba(0, 0, 0, 0.9);
-  li {
-    margin: 5px 0px;
-  }
+	li {
+		margin: 5px 0px;
+	}
 }
 .input-group {
 	position: relative;
-	// @include flex-mutable($content: space-between, $direction: row);
 }
 .search-clear-icon {
 	background: #f00;

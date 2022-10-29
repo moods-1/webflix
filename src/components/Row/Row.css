@@ -12,7 +12,7 @@
   overflow-y: hidden;
   overflow-x: scroll;
   /* For no scrollbar in firefox */
-  -ms-overflow-style: none;
+  /* -ms-overflow-style: none; */
   scroll-behavior: auto;
   scrollbar-width: none;
 }
