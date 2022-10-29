@@ -100,7 +100,7 @@ function Banner() {
 								backgroundPosition: 'top, center',
 							}}
 						/>
-						<div style={{ position: 'absolute', zIndex: 1}}>
+						<div style={{ position: 'absolute', zIndex: 1 }}>
 							{showTrailerModal && (
 								<TrailerModal
 									showTrailerModal={showTrailerModal}
@@ -129,15 +129,14 @@ function Banner() {
 					</div>
 				)}
 			</header>
-			<div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+			<div className='banner-interval-buttons-box'>
 				{movies.map((_, index) => (
 					<div
 						key={`baner${index}`}
 						onClick={() => setSelectedId(index)}
-						className='banner-interval-button'
-						style={{
-							background: selectedId === index ? 'red' : '',
-						}}
+						className={`banner-interval-button ${
+							selectedId === index ? 'banner-interval-button-active' : ''
+						}`}
 					/>
 				))}
 			</div>

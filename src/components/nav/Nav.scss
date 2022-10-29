@@ -18,7 +18,7 @@
 	position: fixed;
 	width: 100%;
 	min-width: 300px;
-	background: linear-gradient(rgb(10, 10, 10),rgba(10, 10, 10, 0.9));
+	background: linear-gradient(rgb(10, 10, 10), rgba(10, 10, 10, 0.9));
 	top: 0;
 	@include flex-mutable($content: space-between, $items: flex-start);
 	z-index: 3;
@@ -108,7 +108,6 @@ ul {
 }
 li:hover {
 	cursor: pointer;
-	font-weight: 600;
 	color: red;
 }
 #browse-arrow {
@@ -139,18 +138,20 @@ li:hover {
 	height: 25px;
 	padding: 0;
 }
-#search-box {
+#search-input {
 	background: rgba(255, 255, 255, 0.1);
+	font-size: 14px;
 	color: #fff;
 	outline-style: none;
 	width: 300px;
-	padding: 2px 5px;
+	padding: 4px 15px;
 	border: none;
+	border-radius: 6px;
 }
-#search-box::placeholder {
+#search-input::placeholder {
 	color: gray;
 }
-#search-box::-moz-placeholder {
+#search-input::-moz-placeholder {
 	color: gray;
 }
 #user-box {
@@ -192,7 +193,7 @@ li:hover {
 }
 #burger-menu-box li {
 	margin-bottom: 15px;
-	font-size: 16px;
+	font-size: 14px;
 }
 .filter-box {
 	position: absolute;
@@ -321,7 +322,7 @@ li:hover {
 		top: 20px;
 		right: 20px;
 	}
-	#search-box {
+	#search-input {
 		width: 95%;
 		height: 50px;
 		text-align: center;
@@ -332,6 +333,7 @@ li:hover {
 	display: flex;
 	flex-direction: column;
 	width: 300px;
+	height: auto;
 	button {
 		opacity: 0;
 		right: 10px;
@@ -346,7 +348,14 @@ li:hover {
 	margin: 0;
 	background: rgba(0, 0, 0, 0.9);
 	li {
-		margin: 5px 0px;
+		font-size: 14px;
+		margin: 5px;
+	}
+	li:first-child {
+		margin-top: 10px;
+	}
+	li:last-child {
+		margin-bottom: 15px;
 	}
 }
 .input-group {
@@ -364,7 +373,7 @@ li:hover {
 	top: 50%;
 	transform: translateY(-50%);
 	p {
-		margin-top: -4px;
+		margin-top: -5px;
 		margin-left: -1px;
 	}
 }

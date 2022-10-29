@@ -65,7 +65,7 @@ function Search({
 							autoComplete='off'
 							autoFocus
 							type='text'
-							id='search-box'
+							id='search-input'
 							ref={inputRef}
 							placeholder='Search content'
 							onChange={handleInput}

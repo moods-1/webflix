@@ -10,7 +10,6 @@
 	height: 450px;
 	color: white;
 	position: relative;
-	
 }
 .banner-loader {
 	width: 100%;
@@ -59,7 +58,6 @@
 	left: 0;
 	background: linear-gradient(to right, rgb(10, 10, 10), transparent);
 }
-
 .banner-description {
 	width: 45rem;
 	line-height: 1.3;
@@ -90,19 +88,41 @@
 	transform: scale(1.25);
 	box-shadow: 0px 0px 3px red;
 }
+.banner-interval-buttons-box {
+	width: 200px;
+	display: flex;
+	justify-content: center;
+	margin: 30px auto 20px;
+	overflow: hidden;
+}
 .banner-interval-button {
-	width: 10px;
-	height: 10px;
-	margin-right: 10px;
-	border-radius: 50%;
-	border: 1px solid red;
+	width: 35px;
+	height: 4px;
+	margin-right: 2px;
 	cursor: pointer;
+	background: rgba(255, 255, 255, 0.2);
+	position: relative;
+}
+.banner-interval-button-active::before {
+	content: '';
+	left: -100%;
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	opacity: 0;
+	background: #FFF;
+	animation: intervalSlide 250ms linear forwards;
+}
+@keyframes intervalSlide {
+	to {
+		left: 0%;
+		opacity: 1;
+	}
 }
 .trailer-message {
 	text-align: center;
-	color: red;
-	margin-top: 10px;
-	font-size: 14px;
+	margin-top: 20px;
+	font-size: 13px;
 }
 @media (max-width: 640px) {
 	.banner-container {
