@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { makeStyles } from "@material-ui/core";
 import Play from "@material-ui/icons/PlayCircleOutline";
-import moment from "moment-timezone";
+import { timeFormatter } from "../../../helpers/helperFunctions";
 import movieTrailer from "movie-trailer";
 import TrailerModal from "../TrailerModal/TrailerModal";
 
@@ -145,7 +145,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
   };
 
   const releaseDate = release_date
-    ? moment(release_date).format("DD-MMM-YY")
+    ? timeFormatter(release_date,"DD-MMM-YYYY")
     : "N/A";
 
   const noPosterTitle = () => {

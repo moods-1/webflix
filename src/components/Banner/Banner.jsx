@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery, Button } from '@material-ui/core';
 import Play from '@material-ui/icons/PlayCircleOutline';
 import { BANNER_MOVIES } from '../../helpers/constants';
 import TrailerModal from '../Modals/TrailerModal/TrailerModal';
+import MovieModal from '../Modals/MovieModal/MovieModal';
+import { timeFormatter, textTruncater } from '../../helpers/helperFunctions';
 import './Banner.css';
 import {
 	Movie0,
@@ -26,11 +28,21 @@ function Banner() {
 	const [showTrailerModal, setShowTrailerModal] = useState(false);
 	const [selectedId, setSelectedId] = useState(0);
 	const [autoTimer, setAutoTimer] = useState(true);
+	const [descriptionBody, setDescriptionBody] = useState('');
+	const [showModal, setShowModal] = useState(false);
+	const [showMobileDetailsButton, setShowMobileDetailsButton] = useState(false);
 	const mobile = useMediaQuery('(max-width:640px)');
 	const largeMobile = useMediaQuery('(max-width:1024px)');
 
-	const truncate = (str, n) =>
-		str?.length > n ? str.substr(0, n - 1) + '...' : str;
+	const handleBannerHover = () => {
+		setAutoTimer(false);
+		setShowMobileDetailsButton(true);
+	};
+
+	const handleBannerLeave = () => {
+		setAutoTimer(true);
+		setShowMobileDetailsButton(false);
+	};
 
 	useEffect(() => {
 		const bannerBackdropImages = [
@@ -76,15 +88,37 @@ function Banner() {
 	useEffect(() => {
 		if (movies.length) {
 			setMovie(movies[selectedId]);
+			setDescriptionBody(textTruncater(movies[selectedId].overview, 150));
 		}
 	}, [movies, selectedId]);
+
+	const handleDescription = (chop) => {
+		if (chop) {
+			setDescriptionBody(textTruncater(movie.overview, 150));
+		} else {
+			setDescriptionBody(
+				<>
+					<p>{movie.overview}</p>
+					<p className='mb-1'>
+						Release date:{' '}
+						{movie.release_date
+							? `${timeFormatter(movie.release_date, 'DD-MMM-YYYY')}`
+							: 'N/A'}
+					</p>
+					<p className='mb-0'>
+						Rating: {movie.vote_average ? `${movie.vote_average}/10` : 'N/A'}
+					</p>
+				</>
+			);
+		}
+	};
 
 	return (
 		<div className='banner-container'>
 			<header
 				className='banner'
-				onMouseOver={() => setAutoTimer(false)}
-				onMouseLeave={() => setAutoTimer(true)}
+				onMouseOver={handleBannerHover}
+				onMouseLeave={handleBannerLeave}
 			>
 				{movie ? (
 					<>
@@ -110,9 +144,13 @@ function Banner() {
 							)}
 							<div className='banner-contents'>
 								<h1 className='banner-title'>{movie.title}</h1>
-								<p className='banner-description'>
-									{truncate(movie.overview, 150)}
-								</p>
+								<div
+									className='banner-description'
+									onMouseOver={() => handleDescription(false)}
+									onMouseLeave={(e) => handleDescription(true)}
+								>
+									{descriptionBody}
+								</div>
 								{movie.trailer && (
 									<Play
 										className='banner-button'
@@ -120,7 +158,31 @@ function Banner() {
 										onClick={() => setShowTrailerModal(true)}
 									/>
 								)}
+								{mobile && showMobileDetailsButton && (
+									<Button
+										variant='contained'
+										onClick={() => setShowModal(true)}
+										style={{
+											position: 'absolute',
+											top: '100%',
+											left: '50%',
+											transform: 'translate(-50%, 90%)',
+											color: '#FFF',
+											background: 'rgba(0,0,0,0.7)',
+											fontSize: 10,
+										}}
+									>
+										Details
+									</Button>
+								)}
 							</div>
+							{showModal && (
+								<MovieModal
+									showModal={showModal}
+									setShowModal={setShowModal}
+									currentTitle={movie}
+								/>
+							)}
 						</div>
 					</>
 				) : (
