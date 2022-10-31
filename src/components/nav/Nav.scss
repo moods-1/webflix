@@ -181,15 +181,18 @@ li:hover {
 	right: 0;
 	width: 160px;
 	height: auto;
-	background: rgb(0, 0, 0);
+	background: rgb(10, 10, 10);
 	color: white;
 	font-size: 13px;
 	text-align: center;
 	padding-top: 10px;
+	border-left: 1px solid rgb(80,10,10);
+	border-bottom: 1px solid rgb(80,10,10);
 }
 #burger-menu-box ul {
 	margin: 0;
 	padding-left: 0;
+	
 }
 #burger-menu-box li {
 	margin-bottom: 15px;
