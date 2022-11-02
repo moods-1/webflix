@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Notifications from './Notifications/Notifications';
-import { NOTIFICATIONS } from '../../helpers/constants';
-import PersonIcon from '@material-ui/icons/Person';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import Badge from '@material-ui/core/Badge';
-import { withStyles, useMediaQuery } from '@material-ui/core';
+import UserNotifications from './Notifications/UserNotifications';
+import { USER_NOTIFICATIONS } from '../../helpers/constants';
+import {Person, Notifications } from '@material-ui/icons';
+import { Badge, withStyles, useMediaQuery } from '@material-ui/core';
 import Browse from '../Browse/Browse';
 import Input from './Search/Search';
 import './Nav.scss';
@@ -28,7 +26,7 @@ function Nav() {
 	const [showNotifications, setShowNotifications] = useState(false);
 	const [hideMobileSearch, setHideMobileSearch] = useState(true);
 	const [hideInput, setHideInput] = useState(true);
-	const [notifications, setNotifications] = useState(NOTIFICATIONS);
+	const [notificationsList, setNotificationsList] = useState(USER_NOTIFICATIONS);
 	const mobile = useMediaQuery('(max-width:640px)');
 
 	useEffect(() => {
@@ -98,10 +96,10 @@ function Nav() {
 				)}
 
 				<div id='user-box'>
-					<StyledBadge badgeContent={notifications.length} max={99}>
-						<NotificationsIcon className='bell' onClick={handleNotifications} />
+					<StyledBadge badgeContent={notificationsList.length} max={99}>
+						<Notifications className='bell' onClick={handleNotifications} />
 					</StyledBadge>
-					<PersonIcon
+					<Person
 						onClick={handleProfile}
 						style={{
 							fontSize: 30,
@@ -133,10 +131,10 @@ function Nav() {
 					</ul>
 				</div>
 			)}
-			{showNotifications && notifications.length >= 1 && (
-				<Notifications
-					notifications={notifications}
-					setNotifications={setNotifications}
+			{showNotifications && notificationsList.length >= 1 && (
+				<UserNotifications
+					notifications={notificationsList}
+					setNotifications={setNotificationsList}
 					setShowNotifications={setShowNotifications}
 				/>
 			)}

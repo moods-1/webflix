@@ -19,7 +19,7 @@ export const REQUESTS = {
 	searchMovies: `/search/movie?api_key=${API_KEY}&language=en-US&page=1&include_adult=false&query=`,
 };
 
-export const NOTIFICATIONS = [
+export const USER_NOTIFICATIONS = [
 	{
 		id: 1,
 		message:

@@ -138,8 +138,8 @@ li:hover {
 	height: 25px;
 	padding: 0;
 }
-#search-input {
-	background: rgba(255, 255, 255, 0.1);
+.search-input {
+	background: rgb(25, 25, 25);
 	font-size: 14px;
 	color: #fff;
 	outline-style: none;
@@ -186,13 +186,12 @@ li:hover {
 	font-size: 13px;
 	text-align: center;
 	padding-top: 10px;
-	border-left: 1px solid rgb(80,10,10);
-	border-bottom: 1px solid rgb(80,10,10);
+	border-left: 1px solid rgb(80, 10, 10);
+	border-bottom: 1px solid rgb(80, 10, 10);
 }
 #burger-menu-box ul {
 	margin: 0;
 	padding-left: 0;
-	
 }
 #burger-menu-box li {
 	margin-bottom: 15px;
@@ -364,21 +363,16 @@ li:hover {
 .input-group {
 	position: relative;
 }
-.search-clear-icon {
-	background: #f00;
-	color: #fff;
-	width: 20px;
-	height: 20px;
-	border: none;
-	border-radius: 50% !important;
+.search-icon {
+	background-color: rgb(35, 35, 35);
+	width: 30px;
+	height: 100%;
 	position: absolute;
-	right: 5px;
-	top: 50%;
-	transform: translateY(-50%);
-	p {
-		margin-top: -5px;
-		margin-left: -1px;
-	}
+	display: grid;
+	place-items: center;
+	right: 0px;
+	top: 0px;
+	border-radius: 0px 6px 6px 0px;
 }
 @keyframes delayShow {
 	to {

@@ -132,6 +132,11 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
     }
   }, [currentTitle, poster_path]);
 
+  useEffect(()=>{
+    window.addEventListener("resize",()=> setShowModal(false))
+    return ()=> window.removeEventListener("resize",()=>{})
+  },[setShowModal])
+
   const handleTrailer = () => {
     setShowModal(false);
     setShowTrailerModal(true);

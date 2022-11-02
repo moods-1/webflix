@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Search, DeleteForeverOutlined } from '@material-ui/icons';
 import instance from '../../../helpers/axios';
 import { REQUESTS } from '../../../helpers/constants';
 import MovieModal from '../../Modals/MovieModal/MovieModal';
 import './Search.css';
 
-function Search({
+function SearchInput({
 	setShowNotifications,
 	setShowBrowse,
 	setShowProfileMenu,
@@ -63,22 +64,27 @@ function Search({
 					<div className='input-group'>
 						<input
 							autoComplete='off'
-							autoFocus
 							type='text'
-							id='search-input'
+							className='search-input'
 							ref={inputRef}
 							placeholder='Search content'
 							onChange={handleInput}
 						/>
-						{inputRef.current?.value && (
-							<button className='search-clear-icon' onClick={handleSearchClear}>
-								<p>x</p>
-							</button>
-						)}
+						<div className='search-icon'>
+							{inputRef.current?.value ? (
+								<DeleteForeverOutlined
+									onClick={handleSearchClear}
+									fontSize='small'
+									color=''
+									role='button'
+									style={{ color: 'red' }}
+								/>
+							) : (
+								<Search />
+							)}
+						</div>
 					</div>
-					<ul
-						className='search-list'
-					>
+					<ul className='search-list'>
 						{movies.map(
 							({ original_title, release_date, id }) =>
 								release_date && (
@@ -101,4 +107,4 @@ function Search({
 		</>
 	);
 }
-export default Search;
+export default SearchInput;

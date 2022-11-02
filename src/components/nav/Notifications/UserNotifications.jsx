@@ -1,5 +1,5 @@
 import React from 'react';
-import './Notifications.css';
+import './UserNotifications.css';
 import { DeleteForeverOutlined } from '@material-ui/icons';
 
 function Notifications({
