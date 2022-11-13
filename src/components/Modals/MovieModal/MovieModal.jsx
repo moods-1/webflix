@@ -48,6 +48,7 @@ const useStyles = makeStyles({
     width: 20,
     color: "#FFF",
     zIndex: 100,
+    fontSize: 16,
   },
   poster: {
     padding: 10,
@@ -98,8 +99,7 @@ const useStyles = makeStyles({
 function MovieModal({ showModal, setShowModal, currentTitle }) {
   const [showTrailerModal, setShowTrailerModal] = useState(false);
   const [trailerUrl, setTrailerUrl] = useState("");
-  const { backdrop, modal, closeBtn, poster, modalPlay, overviewDetails } =
-    useStyles();
+  const classes= useStyles();
   const { overview, release_date, poster_path, vote_average } = currentTitle;
   const movieRef = useRef();
 
@@ -165,19 +165,18 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
   return (
     <>
       <div
-        className={backdrop}
+        className={classes.backdrop}
         onClick={handleClose}
         style={{ display: `${showModal ? "" : "none"}` }}
       >
-        <div className={modal}>
+        <div className={classes.modal}>
           <p
-            className={closeBtn}
-            style={{ fontSize: 18 }}
+            className={classes.closeBtn}
             onClick={handleClose}
           >
             X
           </p>
-          <div className={poster}>
+          <div className={classes.poster}>
             <img
               src={
                 poster_path
@@ -189,7 +188,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
               width="80%"
             />
             {trailerUrl && (
-              <Play className={modalPlay} onClick={() => handleTrailer()} />
+              <Play className={classes.modalPlay} onClick={() => handleTrailer()} />
             )}
           </div>
           <div style={{ marginTop: 20 }}>
@@ -200,7 +199,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
                 </p>
               </div>
             )}
-            <p className={overview.length > 250 ? overviewDetails : ""}>
+            <p className={overview.length > 250 ? classes.overviewDetails : ""}>
               {overview || noDetailsMessage}
             </p>
             <p>
