@@ -30,7 +30,7 @@ const useStyles = makeStyles({
 		width: '600px',
 		minWidth: 300,
 		minHeight: '50vh',
-		borderRadius: 5,
+		borderRadius: 8,
 		boxShadow: '0px 0px 7px red',
 		'@media (max-width:800px)': {
 			width: '90%',
@@ -51,8 +51,7 @@ const useStyles = makeStyles({
 
 function TrailerModal({
 	showTrailerModal,
-	setShowTrailerModal,
-	setTrailerUrl,
+	close,
 	trailerUrl,
 }) {
 	const classes = useStyles();
@@ -62,18 +61,14 @@ function TrailerModal({
 		},
 	};
 
-	const handleClose = () => {
-		setShowTrailerModal(false);
-	};
-
 	return (
 		<Modal
 			open={showTrailerModal}
-			onClose={handleClose}
+			onClose={close}
 			className={classes.modal}
 		>
 			<div className={classes.mainDiv}>
-				<p className={classes.closeBtn} onClick={handleClose}>
+				<p className={classes.closeBtn} onClick={close}>
 					X
 				</p>
 

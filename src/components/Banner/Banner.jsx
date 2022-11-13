@@ -138,7 +138,10 @@ function Banner() {
 							{showTrailerModal && (
 								<TrailerModal
 									showTrailerModal={showTrailerModal}
-									setShowTrailerModal={setShowTrailerModal}
+									close={() => {
+										setAutoTimer(true);
+										setShowTrailerModal(false);
+									}}
 									trailerUrl={movie.trailer}
 								/>
 							)}
@@ -155,7 +158,10 @@ function Banner() {
 									<Play
 										className='banner-button'
 										fontSize='large'
-										onClick={() => setShowTrailerModal(true)}
+										onClick={() => {
+											setAutoTimer(false);
+											setShowTrailerModal(true);
+										}}
 									/>
 								)}
 								{mobile && showMobileDetailsButton && (
