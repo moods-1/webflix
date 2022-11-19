@@ -9,9 +9,7 @@ function SearchInput({
 	setShowNotifications,
 	setShowBrowse,
 	setShowProfileMenu,
-	setHideMobileSearch,
 	mobile,
-	setHideInput,
 }) {
 	const inputRef = useRef();
 	const [movies, setMovies] = useState([]);
@@ -43,15 +41,12 @@ function SearchInput({
 		}
 	};
 
-	const handleLeave = () => {
-		setMovies([]);
-	};
-
 	const handleSubjectClick = (id) => {
 		setCurrentTitle(movies.find((x) => x.id === id));
 		setShowModal(true);
 		setMovies([]);
 	};
+
 	const handleSearchClear = () => {
 		inputRef.current.value = '';
 		setMovies([]);
@@ -60,7 +55,7 @@ function SearchInput({
 	return (
 		<>
 			<div id={mobile ? 'mobile-search' : 'search-container'}>
-				<div className='input-div' onMouseLeave={handleLeave}>
+				<div className='input-div' onMouseLeave={handleSearchClear}>
 					<div className='input-group'>
 						<input
 							autoComplete='off'
@@ -88,7 +83,13 @@ function SearchInput({
 						{movies.map(
 							({ original_title, release_date, id }) =>
 								release_date && (
-									<li key={id} onClick={() => handleSubjectClick(id)}>
+									<li
+										key={id}
+										onClick={() => {
+											handleSubjectClick(id);
+											handleSearchClear();
+										}}
+									>
 										{original_title}&nbsp;
 										{release_date ? `(${release_date.substring(0, 4)})` : ''}
 									</li>
