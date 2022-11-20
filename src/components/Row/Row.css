@@ -1,82 +1,81 @@
 .row {
- padding-left: 10px;
+	padding-left: 10px;
 }
-#category-title {
-  text-align: left;
-  padding-left: 35px;
+.category-title {
+	text-align: left;
+	padding-left: 35px;
 }
 .row-posters {
-  display: flex;
-  gap: 0px 10px;
-  padding: 10px 10px 10px 0px;
-  overflow-y: hidden;
-  overflow-x: scroll;
-  /* For no scrollbar in firefox */
-  /* -ms-overflow-style: none; */
-  scroll-behavior: auto;
-  scrollbar-width: none;
+	display: flex;
+	gap: 0px 10px;
+	padding: 10px 10px 10px 0px;
+	overflow-y: hidden;
+	overflow-x: scroll;
+	/* For no scrollbar in firefox */
+	/* -ms-overflow-style: none; */
+	scroll-behavior: auto;
+	scrollbar-width: none;
 }
 /* Hide the scrollbar but keep the functionality. */
 /* .row-posters::-webkit-scrollbar {
   display: none;
 } */
-.row-posters::-webkit-scrollbar{
-  height: 4px;
+.row-posters::-webkit-scrollbar {
+	height: 4px;
 }
-.row-posters::-webkit-scrollbar-thumb{
-  border-color: transparent;
-  background: transparent;
+.row-posters::-webkit-scrollbar-thumb {
+	border-color: transparent;
+	background: transparent;
 }
-.row-posters::-webkit-scrollbar-thumb:hover{
-  background: red;
+.row-posters::-webkit-scrollbar-thumb:hover {
+	background: red;
 }
-.row-posters::-webkit-scrollbar-track{
-  background: #000;
+.row-posters::-webkit-scrollbar-track {
+	background: #000;
 }
 .poster-box {
-  position: relative;
+	position: relative;
+	width: 180px;
 }
-.poster-box:hover{
-  transition: all 600ms ease;
-  transform: translateY(-3px);
-  box-shadow: 0px 0px 5px red;
+.poster-box:hover {
+	transition: all 600ms ease;
+	transform: translateY(-3px);
+	box-shadow: 0px 0px 5px red;
 }
 .poster-box:hover .info-box {
-  display: block;
+	display: block;
 }
 .row-poster {
-  position: relative;
-  cursor: pointer;
-  /*object-fit: contain; /* maintains aspect ratio */
+	position: relative;
+	cursor: pointer;
+	/*object-fit: contain; /* maintains aspect ratio */
+	transition: transform 450ms;
   width: 180px;
-  height: 100px;
-  transition: transform 450ms;
 }
 .row-poster-large {
-  position: relative;
-  height: 250px;
+	position: relative;
   width: 180px;
 }
 .info-box {
-  display: none;
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  font-size: 14px;
-  line-height: 16px;
-  padding: 10px;
+	display: none;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	font-size: 14px;
+	line-height: 16px;
+	padding: 10px;
 }
 .playStop-btn {
-  cursor: pointer;
+	cursor: pointer;
 }
 .small-info-box {
-  background-image: linear-gradient(
-    180deg,
-    black,
-    black,
-    transparent,
-    transparent
-  );
+	background-image: linear-gradient(
+		180deg,
+		black,
+		black,
+		transparent,
+		transparent
+	);
 }

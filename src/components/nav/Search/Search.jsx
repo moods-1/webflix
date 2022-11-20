@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, DeleteForeverOutlined } from '@material-ui/icons';
-import instance from '../../../helpers/axios';
+import instance from '../../../helpers/constants';
 import { REQUESTS } from '../../../helpers/constants';
 import MovieModal from '../../Modals/MovieModal/MovieModal';
 import './Search.css';

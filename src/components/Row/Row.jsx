@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import instance from '../../helpers/axios';
+import instance from '../../helpers/constants';
 import { Button } from '@material-ui/core';
 import BeatLoader from 'react-spinners/BeatLoader';
 import MovieModal from '../Modals/MovieModal/MovieModal';
 import './Row.css';
 
-const img_base_url = 'https://image.tmdb.org/t/p/original';
+const img_base_url = 'https://image.tmdb.org/t/p/';
 
-const Row = ({ title, fetchURL, isLargeRow }) => {
+const Row = ({ title, fetchURL, isLargeRow, mobile }) => {
 	const [movies, setMovies] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [currentTitle, setCurrentTitle] = useState({});
@@ -15,11 +15,16 @@ const Row = ({ title, fetchURL, isLargeRow }) => {
 	useEffect(() => {
 		async function fetchData() {
 			const request = await instance.get(fetchURL);
-			setMovies(request.data.results.slice(0, 9));
+			const films = request.data.results.slice(0, 9);
+			const backdropSize = mobile? 'w300':'w780';
+			films.forEach((film) => {
+				film.imageSrc = isLargeRow ? `w185/${film.poster_path}` : `${backdropSize}/${film.backdrop_path}`;
+			});
+			setMovies([...films]);
 			return request;
 		}
 		fetchData();
-	}, [fetchURL]);
+	}, [fetchURL, isLargeRow, mobile]);
 
 	const handleClick = (movie) => {
 		setCurrentTitle(movie);
@@ -31,18 +36,16 @@ const Row = ({ title, fetchURL, isLargeRow }) => {
 
 	return (
 		<div className='row'>
-			<h3 id='category-title'>{title}</h3>
+			<h3 className='category-title'>{title}</h3>
 			<div className='row-posters'>
 				{movies.length < 7 && <BeatLoader color={'red'} />}
 				{movies.map((movie) => (
 					<div className='poster-box' key={movie.id}>
 						<img
+							width='180px'
 							className={`row-poster ${isLargeRow ? 'row-poster-large' : ''}`}
-							src={
-								img_base_url +
-								(isLargeRow ? movie.poster_path : movie.backdrop_path)
-							}
-							alt={movie.name}
+							src={img_base_url + movie.imageSrc}
+							alt={movie.title || movie.original_name}
 						/>
 						<div className={`info-box ${!isLargeRow ? 'small-info-box' : ''}`}>
 							{!isLargeRow && (

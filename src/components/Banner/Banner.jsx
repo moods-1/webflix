@@ -1,31 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useMediaQuery, Button } from '@material-ui/core';
+import movieTrailer from 'movie-trailer';
 import Play from '@material-ui/icons/PlayCircleOutline';
-import { BANNER_MOVIES } from '../../helpers/constants';
+import instance from '../../helpers/constants';
+import { REQUESTS } from '../../helpers/constants';
 import TrailerModal from '../Modals/TrailerModal/TrailerModal';
 import MovieModal from '../Modals/MovieModal/MovieModal';
 import { timeFormatter, textTruncater } from '../../helpers/helperFunctions';
 import './Banner.css';
-import {
-	Movie0,
-	Movie1,
-	Movie2,
-	Movie3,
-	Movie4,
-	Movie5,
-	Movie0Mobile,
-	Movie1Mobile,
-	Movie2Mobile,
-	Movie3Mobile,
-	Movie4Mobile,
-	Movie5Mobile,
-} from '../../images/banner';
+
+const img_base_url = 'https://image.tmdb.org/t/p/';
 
 function Banner() {
 	const [movie, setMovie] = useState(null);
 	const [movies, setMovies] = useState([]);
 	const [showTrailerModal, setShowTrailerModal] = useState(false);
+	const [trailerUrl, setTrailerUrl] = useState('');
 	const [selectedId, setSelectedId] = useState(0);
 	const [autoTimer, setAutoTimer] = useState(true);
 	const [descriptionBody, setDescriptionBody] = useState('');
@@ -44,33 +35,46 @@ function Banner() {
 		setShowMobileDetailsButton(false);
 	};
 
+	const getYear = (movie) => {
+		let releaseAirDate;
+		if (movie.release_date)
+			releaseAirDate = Number(movie?.release_date?.substr(0, 4));
+		else releaseAirDate = Number(movie?.first_air_date?.substr(0, 4));
+		return releaseAirDate;
+	};
+
 	useEffect(() => {
-		const bannerBackdropImages = [
-			Movie0,
-			Movie1,
-			Movie2,
-			Movie3,
-			Movie4,
-			Movie5,
-		];
+		if (movie) {
+			let date = getYear(movie);
+			if (date) {
+				movieTrailer(
+					movie?.name || movie?.original_name || movie?.title || '',
+					date
+				)
+					.then((url) => {
+						const urlParams = new URLSearchParams(new URL(url).search);
+						setTrailerUrl(urlParams.get('v'));
+					})
+					.catch((err) => console.log(err));
+			}
+		}
+	}, [movie]);
 
-		const bannerPosterImages = [
-			Movie0Mobile,
-			Movie1Mobile,
-			Movie2Mobile,
-			Movie3Mobile,
-			Movie4Mobile,
-			Movie5Mobile,
-		];
-
-		const localMovies = BANNER_MOVIES;
-
-		localMovies.forEach((film, index) => {
-			film.backdrop = bannerBackdropImages[index];
-			film.poster = bannerPosterImages[index];
-		});
-		setMovies(localMovies);
-	}, []);
+	useEffect(() => {
+		async function fetchData() {
+			const request = await instance.get(REQUESTS.fetchSciFiMovies);
+			const films = request.data.results.slice(0, 6);
+			const backdropSize = mobile ? 'w300' : 'w780';
+			films.forEach((film) => {
+				film.imageSrc = mobile
+					? img_base_url + `w342/${film.poster_path}`
+					: img_base_url + `${backdropSize}/${film.backdrop_path}`;
+			});
+			setMovies([...films]);
+			return request;
+		}
+		fetchData();
+	}, [mobile]);
 
 	useEffect(() => {
 		if (autoTimer) {
@@ -127,9 +131,7 @@ function Banner() {
 							style={{
 								width: largeMobile ? '100%' : '50%',
 								backgroundSize: `${mobile ? 'contain' : 'cover'}`,
-								backgroundImage: `url(${
-									mobile ? movie.poster : movie.backdrop
-								})`,
+								backgroundImage: `url(${movie.imageSrc})`,
 								backgroundRepeat: 'no-repeat',
 								backgroundPosition: 'top, center',
 							}}
@@ -142,7 +144,7 @@ function Banner() {
 										setAutoTimer(true);
 										setShowTrailerModal(false);
 									}}
-									trailerUrl={movie.trailer}
+									trailerUrl={trailerUrl}
 								/>
 							)}
 							<div className='banner-contents'>
@@ -154,7 +156,7 @@ function Banner() {
 								>
 									{descriptionBody}
 								</div>
-								{movie.trailer && (
+								{trailerUrl && (
 									<Play
 										className='banner-button'
 										fontSize='large'
