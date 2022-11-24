@@ -8,6 +8,8 @@ import { REQUESTS } from '../../helpers/constants';
 import TrailerModal from '../Modals/TrailerModal/TrailerModal';
 import MovieModal from '../Modals/MovieModal/MovieModal';
 import { timeFormatter, textTruncater } from '../../helpers/helperFunctions';
+import DefaultBackdrop from '../../images/default-backdrop.jpg';
+import DefaultPoster from '../../images/default-poster.jpg';
 import './Banner.css';
 
 const img_base_url = 'https://image.tmdb.org/t/p/';
@@ -66,9 +68,12 @@ function Banner() {
 			const films = request.data.results.slice(0, 6);
 			const backdropSize = mobile ? 'w300' : 'w780';
 			films.forEach((film) => {
-				film.imageSrc = mobile
-					? img_base_url + `w342/${film.poster_path}`
-					: img_base_url + `${backdropSize}/${film.backdrop_path}`;
+				if (mobile && film.poster_path) {
+					film.imageSrc = img_base_url + `w342/${film.poster_path}`;
+				} else if (!mobile && film.backdrop_path) {
+					film.imageSrc =
+						img_base_url + `${backdropSize}/${film.backdrop_path}`;
+				} else film.imageSrc = mobile? DefaultPoster:DefaultBackdrop;
 			});
 			setMovies([...films]);
 			return request;

@@ -4,6 +4,7 @@ import { Button } from '@material-ui/core';
 import BeatLoader from 'react-spinners/BeatLoader';
 import MovieModal from '../Modals/MovieModal/MovieModal';
 import DefaultBackdrop from '../../images/default-backdrop.jpg';
+import DefaultPoster from '../../images/default-poster.jpg';
 import './Row.css';
 
 const img_base_url = 'https://image.tmdb.org/t/p/';
@@ -19,13 +20,12 @@ const Row = ({ title, fetchURL, isLargeRow, mobile }) => {
 			const films = request.data.results.slice(0, 9);
 			const backdropSize = mobile ? 'w300' : 'w780';
 			films.forEach((film) => {
-				if (film.backdrop_path) {
-					film.imageSrc = isLargeRow
-						? `w185/${film.poster_path}`
-						: `${backdropSize}/${film.backdrop_path}`;
-				} else {
-					film.imageSrc = '';
-				}
+				if (isLargeRow && film.poster_path) {
+					film.imageSrc = img_base_url + `w185/${film.poster_path}`;
+				} else if (!isLargeRow && film.backdrop_path) {
+					film.imageSrc =
+						img_base_url + `${backdropSize}/${film.backdrop_path}`;
+				} else film.imageSrc = isLargeRow ? DefaultPoster : DefaultBackdrop;
 			});
 			setMovies([...films]);
 			return request;
@@ -52,11 +52,7 @@ const Row = ({ title, fetchURL, isLargeRow, mobile }) => {
 							<img
 								width='180px'
 								className={`row-poster ${isLargeRow ? 'row-poster-large' : ''}`}
-								src={
-									movie.imageSrc
-										? img_base_url + movie.imageSrc
-										: DefaultBackdrop
-								}
+								src={movie.imageSrc}
 								alt={movie.title || movie.original_name}
 							/>
 							<div
