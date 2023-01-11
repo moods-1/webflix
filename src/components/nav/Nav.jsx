@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import UserNotifications from './Notifications/UserNotifications';
 import { USER_NOTIFICATIONS } from '../../helpers/constants';
-import {Person, Notifications } from '@material-ui/icons';
+import { Person, Notifications } from '@material-ui/icons';
 import { Badge, withStyles, useMediaQuery } from '@material-ui/core';
 import Browse from '../Browse/Browse';
 import Input from './Search/Search';
 import './Nav.scss';
+import ClickOutsideHandler from '../ClickOutsideHandler';
 
 const StyledBadge = withStyles((theme) => ({
 	badge: {
@@ -26,7 +27,8 @@ function Nav() {
 	const [showNotifications, setShowNotifications] = useState(false);
 	const [hideMobileSearch, setHideMobileSearch] = useState(true);
 	const [hideInput, setHideInput] = useState(true);
-	const [notificationsList, setNotificationsList] = useState(USER_NOTIFICATIONS);
+	const [notificationsList, setNotificationsList] =
+		useState(USER_NOTIFICATIONS);
 	const mobile = useMediaQuery('(max-width:640px)');
 
 	useEffect(() => {
@@ -116,19 +118,25 @@ function Nav() {
 				onClick={handleBurger}
 			/>
 			{burgerMenu && (
-				<div id='burger-menu-box' onMouseLeave={handleBurger}>
-					<ul>
-						<li onClick={handleBurgerSearch}>{!hideInput && 'Close'} Search</li>
-						<li onClick={handleNotifications}>Notifications</li>
-						<li onClick={handleBurger}>Logout</li>
-					</ul>
-				</div>
+				<ClickOutsideHandler outsideFunction={handleBurger}>
+					<div id='burger-menu-box'>
+						<ul>
+							<li onClick={handleBurgerSearch}>
+								{!hideInput && 'Close'} Search
+							</li>
+							<li onClick={handleNotifications}>Notifications</li>
+							<li onClick={handleBurger}>Logout</li>
+						</ul>
+					</div>
+				</ClickOutsideHandler>
 			)}
 			{showProfileMenu && (
-				<div id='burger-menu-box' onMouseLeave={handleProfile}>
-					<ul>
-						<li onClick={handleProfile}>Logout</li>
-					</ul>
+				<div id='burger-menu-box'>
+					<ClickOutsideHandler outsideFunction={handleProfile}>
+						<ul>
+							<li onClick={handleProfile}>Logout</li>
+						</ul>
+					</ClickOutsideHandler>
 				</div>
 			)}
 			{showNotifications && notificationsList.length >= 1 && (

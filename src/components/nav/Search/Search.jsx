@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, DeleteForeverOutlined } from '@material-ui/icons';
+import ClickOutsideHandler from '../../ClickOutsideHandler';
 import instance from '../../../helpers/constants';
 import { REQUESTS } from '../../../helpers/constants';
 import MovieModal from '../../Modals/MovieModal/MovieModal';
@@ -26,6 +27,7 @@ function SearchInput({
 			}
 		};
 		fil && getMovie();
+		return ()=> {}
 	}, [fil]);
 
 	const handleInput = (e) => {
@@ -54,8 +56,9 @@ function SearchInput({
 
 	return (
 		<>
+			<ClickOutsideHandler outsideFunction={handleSearchClear}>
 			<div id={mobile ? 'mobile-search' : 'search-container'}>
-				<div className='input-div' onMouseLeave={handleSearchClear}>
+				<div className='input-div'>
 					<div className='input-group'>
 						<input
 							autoComplete='off'
@@ -70,7 +73,6 @@ function SearchInput({
 								<DeleteForeverOutlined
 									onClick={handleSearchClear}
 									fontSize='small'
-									color=''
 									role='button'
 									style={{ color: 'red' }}
 								/>
@@ -98,6 +100,8 @@ function SearchInput({
 					</ul>
 				</div>
 			</div>
+			</ClickOutsideHandler>
+			
 			{Object.keys(currentTitle).length > 0 && (
 				<MovieModal
 					showModal={showModal}
