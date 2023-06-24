@@ -1,18 +1,23 @@
-*{
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 .App {
-  background: rgb(10, 10, 10);
-  width: 100%;
-  min-height: 100vh;
-  padding-bottom: 20px;
-  color: white;
-  overflow-x: hidden;
+	background: rgb(10, 10, 10);
+	width: 100%;
+	min-height: 100vh;
+	padding-bottom: 20px;
+	color: white;
+	overflow-x: hidden;
 }
-#desktop-box{
-  display: none;
-  color: white;
-  background: black;
+.content-box {
+	margin: auto;
+	max-width: 1920px;
+}
+
+#desktop-box {
+	display: none;
+	color: white;
+	background: black;
 }

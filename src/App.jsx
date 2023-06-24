@@ -8,32 +8,46 @@ import './App.css';
 function App() {
 	return (
 		<div className='App'>
-			<div id='desktop-box'>
-				<h2>Desktop app only!</h2>
+			<div className='content-box'>
+				<div id='desktop-box'>
+					<h2>Desktop app only!</h2>
+				</div>
+				<Nav mobile />
+				<Banner mobile />
+				<Row
+					mobile
+					title='NETFLIX Originals'
+					fetchURL={REQUESTS.fetchNetflixOriginals}
+					isLargeRow
+				/>
+				<Row
+					title='Animated Movies'
+					fetchURL={REQUESTS.fetchAnimatedMovies}
+					mobile
+				/>
+				<Row mobile title='Trending Now' fetchURL={REQUESTS.fetchTrending} />
+				<Row mobile title='Top Rated' fetchURL={REQUESTS.fetchTopRated} />
+				<Row
+					mobile
+					title='Action Movies'
+					fetchURL={REQUESTS.fetchActionMovies}
+				/>
+				<Row
+					mobile
+					title='Sci-Fi Movies'
+					fetchURL={REQUESTS.fetchSciFiMovies}
+				/>
+				<Row
+					mobile
+					title='Comedy Movies'
+					fetchURL={REQUESTS.fetchComedyMovies}
+				/>
+				<Row
+					mobile
+					title='Romance Movies'
+					fetchURL={REQUESTS.fetchRomanceMovies}
+				/>
 			</div>
-			<Nav mobile />
-			<Banner mobile />
-			<Row
-				mobile
-				title='NETFLIX Originals'
-				fetchURL={REQUESTS.fetchNetflixOriginals}
-				isLargeRow
-			/>
-			<Row
-				title='Animated Movies'
-				fetchURL={REQUESTS.fetchAnimatedMovies}
-				mobile
-			/>
-			<Row mobile title="Trending Now" fetchURL={REQUESTS.fetchTrending} />
-      <Row mobile title="Top Rated" fetchURL={REQUESTS.fetchTopRated} />
-      <Row mobile title="Action Movies" fetchURL={REQUESTS.fetchActionMovies} />
-      <Row mobile title="Sci-Fi Movies" fetchURL={REQUESTS.fetchSciFiMovies} />
-      <Row mobile title="Comedy Movies" fetchURL={REQUESTS.fetchComedyMovies} />
-      <Row
-        mobile
-        title="Romance Movies"
-        fetchURL={REQUESTS.fetchRomanceMovies}
-      />
 		</div>
 	);
 }
