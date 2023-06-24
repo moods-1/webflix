@@ -17,7 +17,7 @@ const Row = ({ title, fetchURL, isLargeRow, mobile }) => {
 	useEffect(() => {
 		async function fetchData() {
 			const request = await instance.get(fetchURL);
-			const films = request.data.results.slice(0, 9);
+			const films = request.data.results.slice(0, 10);
 			const backdropSize = mobile ? 'w300' : 'w780';
 			films.forEach((film) => {
 				if (isLargeRow && film.poster_path) {
