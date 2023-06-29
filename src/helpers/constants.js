@@ -10,6 +10,8 @@ export default instance;
 
 export const API_KEY = process.env.REACT_APP_API_KEY;
 
+export const MIXPANEL_TOKEN = process.env.REACT_APP_MIXPANEL_TOKEN;
+
 export const REQUESTS = {
 	fetchNetflixOriginals: `/discover/tv?api_key=${API_KEY}&with_networks=213`,
 	fetchAnimatedMovies: `/discover/movie?api_key=${API_KEY}&with_genres=16`,

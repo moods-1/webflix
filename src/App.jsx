@@ -3,9 +3,13 @@ import Row from './components/Row/Row';
 import { REQUESTS } from './helpers/constants';
 import Banner from './components/Banner/Banner';
 import Nav from './components/Nav/Nav';
+import { Mixpanel } from './components/Mixpanel';
 import './App.css';
 
 function App() {
+	Mixpanel.track('Webflix app accessed.', {
+		action: 'Webflix app accessed.',
+	});
 	return (
 		<div className='App'>
 			<div className='content-box'>
