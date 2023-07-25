@@ -1,5 +1,6 @@
 .row {
 	padding-left: 10px;
+	min-height: 150px;
 }
 .category-title {
 	text-align: left;

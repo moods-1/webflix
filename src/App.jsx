@@ -1,56 +1,81 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useMediaQuery } from '@material-ui/core';
+
 import Row from './components/Row/Row';
-import { REQUESTS } from './helpers/constants';
+import { ROWS } from './helpers/constants';
 import Banner from './components/Banner/Banner';
 import Nav from './components/Nav/Nav';
-import { Mixpanel } from './components/Mixpanel';
+// import { Mixpanel } from './components/Mixpanel';
 import './App.css';
 
+const intersectionOptions = {
+	root: null,
+	rootMargin: '-150px 0px 0px 0px',
+	threshold: 0.3,
+};
+
 function App() {
-	Mixpanel.track('Webflix app accessed.', {
-		action: 'Webflix app accessed.',
-	});
+	const [intersectArr, setIntersectArr] = useState([
+		'NETFLIX Originals',
+		'Animated Movies',
+	]);
+	const [grabData, setGrabData] = useState([]);
+	const mobile = useMediaQuery('(max-width: 640px)');
+	const rowsRef = useRef([]);
+	// Mixpanel.track('Webflix app accessed.', {
+	// 	action: 'Webflix app accessed.',
+	// });
+
+	const intersectionCb = (entries) => {
+		const [entry] = entries;
+		let divTitle;
+		if (entry.isIntersecting) {
+			divTitle = entry.target.outerText;
+		}
+		divTitle && setIntersectArr((prevState) => [...prevState, divTitle]);
+	};
+
+	useEffect(() => {
+		const obsever = new IntersectionObserver(
+			intersectionCb,
+			intersectionOptions
+		);
+		rowsRef.current?.forEach((row) => {
+			obsever.observe(row);
+		});
+		return () => {
+			rowsRef.current?.forEach((row) => obsever.unobserve(row));
+		};
+	}, []);
+
+	useEffect(() => {
+		setGrabData([...new Set([...intersectArr])]);
+	}, [intersectArr]);
+
 	return (
 		<div className='App'>
 			<div className='content-box'>
 				<div id='desktop-box'>
 					<h2>Desktop app only!</h2>
 				</div>
-				<Nav mobile />
-				<Banner mobile />
-				<Row
-					mobile
-					title='NETFLIX Originals'
-					fetchURL={REQUESTS.fetchNetflixOriginals}
-					isLargeRow
-				/>
-				<Row
-					title='Animated Movies'
-					fetchURL={REQUESTS.fetchAnimatedMovies}
-					mobile
-				/>
-				<Row mobile title='Trending Now' fetchURL={REQUESTS.fetchTrending} />
-				<Row mobile title='Top Rated' fetchURL={REQUESTS.fetchTopRated} />
-				<Row
-					mobile
-					title='Action Movies'
-					fetchURL={REQUESTS.fetchActionMovies}
-				/>
-				<Row
-					mobile
-					title='Sci-Fi Movies'
-					fetchURL={REQUESTS.fetchSciFiMovies}
-				/>
-				<Row
-					mobile
-					title='Comedy Movies'
-					fetchURL={REQUESTS.fetchComedyMovies}
-				/>
-				<Row
-					mobile
-					title='Romance Movies'
-					fetchURL={REQUESTS.fetchRomanceMovies}
-				/>
+				<Nav mobile={mobile} />
+				<Banner mobile={mobile} />
+				{ROWS.map(({ title, url, isLargeRow }, index) => (
+					<div
+						ref={(el) => {
+							rowsRef.current[index] = el;
+						}}
+						key={title}
+					>
+						<Row
+							title={title}
+							fetchURL={url}
+							mobile={mobile}
+							isLargeRow={isLargeRow}
+							grabData={grabData.includes(title)}
+						/>
+					</div>
+				))}
 			</div>
 		</div>
 	);

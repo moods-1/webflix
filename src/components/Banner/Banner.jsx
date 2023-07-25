@@ -14,7 +14,7 @@ import './Banner.css';
 
 const img_base_url = 'https://image.tmdb.org/t/p/';
 
-function Banner() {
+function Banner({ mobile }) {
 	const [movie, setMovie] = useState(null);
 	const [movies, setMovies] = useState([]);
 	const [showTrailerModal, setShowTrailerModal] = useState(false);
@@ -24,7 +24,6 @@ function Banner() {
 	const [descriptionBody, setDescriptionBody] = useState('');
 	const [showModal, setShowModal] = useState(false);
 	const [showMobileDetailsButton, setShowMobileDetailsButton] = useState(false);
-	const mobile = useMediaQuery('(max-width:640px)');
 	const largeMobile = useMediaQuery('(max-width:1024px)');
 
 	const handleBannerHover = () => {
@@ -73,7 +72,7 @@ function Banner() {
 				} else if (!mobile && film.backdrop_path) {
 					film.imageSrc =
 						img_base_url + `${backdropSize}/${film.backdrop_path}`;
-				} else film.imageSrc = mobile? DefaultPoster:DefaultBackdrop;
+				} else film.imageSrc = mobile ? DefaultPoster : DefaultBackdrop;
 			});
 			setMovies([...films]);
 			return request;

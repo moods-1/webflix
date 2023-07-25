@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserNotifications from './Notifications/UserNotifications';
 import { USER_NOTIFICATIONS } from '../../helpers/constants';
 import { Person, Notifications } from '@material-ui/icons';
-import { Badge, withStyles, useMediaQuery } from '@material-ui/core';
+import { Badge, withStyles } from '@material-ui/core';
 import Browse from '../Browse/Browse';
 import Input from './Search/Search';
 import './Nav.scss';
@@ -20,7 +20,7 @@ const StyledBadge = withStyles((theme) => ({
 	},
 }))(Badge);
 
-function Nav() {
+function Nav({ mobile }) {
 	const [showBrowse, setShowBrowse] = useState(false);
 	const [burgerMenu, setBurgerMenu] = useState(false);
 	const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -29,7 +29,6 @@ function Nav() {
 	const [hideInput, setHideInput] = useState(true);
 	const [notificationsList, setNotificationsList] =
 		useState(USER_NOTIFICATIONS);
-	const mobile = useMediaQuery('(max-width:640px)');
 
 	useEffect(() => {
 		setHideInput(mobile);

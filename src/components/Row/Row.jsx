@@ -9,29 +9,34 @@ import './Row.css';
 
 const img_base_url = 'https://image.tmdb.org/t/p/';
 
-const Row = ({ title, fetchURL, isLargeRow, mobile }) => {
+const Row = ({ title, fetchURL, isLargeRow, mobile, grabData }) => {
 	const [movies, setMovies] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [currentTitle, setCurrentTitle] = useState({});
 
 	useEffect(() => {
-		async function fetchData() {
-			const request = await instance.get(fetchURL);
-			const films = request.data.results.slice(0, 10);
-			const backdropSize = mobile ? 'w300' : 'w780';
-			films.forEach((film) => {
-				if (isLargeRow && film.poster_path) {
-					film.imageSrc = img_base_url + `w185/${film.poster_path}`;
-				} else if (!isLargeRow && film.backdrop_path) {
-					film.imageSrc =
-						img_base_url + `${backdropSize}/${film.backdrop_path}`;
-				} else film.imageSrc = isLargeRow ? DefaultPoster : DefaultBackdrop;
-			});
-			setMovies([...films]);
-			return request;
+		if (grabData) {
+			async function fetchData() {
+				let films = [];
+				const request = await instance.get(fetchURL);
+				if (request.data.results) {
+					films = request.data.results.slice(0, 10);
+					const backdropSize = mobile ? 'w300' : 'w780';
+					films.forEach((film) => {
+						if (isLargeRow && film.poster_path) {
+							film.imageSrc = img_base_url + `w185/${film.poster_path}`;
+						} else if (!isLargeRow && film.backdrop_path) {
+							film.imageSrc =
+								img_base_url + `${backdropSize}/${film.backdrop_path}`;
+						} else film.imageSrc = isLargeRow ? DefaultPoster : DefaultBackdrop;
+					});
+				}
+				setMovies([...films]);
+				return request;
+			}
+			fetchData();
 		}
-		fetchData();
-	}, [fetchURL, isLargeRow, mobile]);
+	}, [fetchURL, isLargeRow, mobile, grabData]);
 
 	const handleClick = (movie) => {
 		setCurrentTitle(movie);

@@ -1,8 +1,8 @@
-import axios from "axios";
+import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: "https://api.themoviedb.org/3"
-,});
+	baseURL: 'https://api.themoviedb.org/3',
+});
 
 // instance.get('/some-page'); =>  https://api.themoviedb.org/3/some-page
 
@@ -60,3 +60,46 @@ export const BROWSE_DATA = {
 	ulCenter: ['Documentaries', 'Dramas', 'Horror', 'Kids & family'],
 	ulRight: ['Music & Musicals', 'Romance', 'Sci-Fi', 'War'],
 };
+
+export const ROWS = [
+	{
+		title: 'NETFLIX Originals',
+		url: REQUESTS.fetchNetflixOriginals,
+		isLargeRow: true,
+	},
+	{
+		title: 'Animated Movies',
+		url: REQUESTS.fetchAnimatedMovies,
+		isLargeRow: false,
+	},
+	{
+		title: 'Trending Now',
+		url: REQUESTS.fetchTrending,
+		isLargeRow: false,
+	},
+	{
+		title: 'Top Rated',
+		url: REQUESTS.fetchTopRated,
+		isLargeRow: false,
+	},
+	{
+		title: 'Action Movies',
+		url: REQUESTS.fetchActionMovies,
+		isLargeRow: false,
+	},
+	{
+		title: 'Sci-Fi Movies',
+		url: REQUESTS.fetchSciFiMovies,
+		isLargeRow: false,
+	},
+	{
+		title: 'Comedy Movies',
+		url: REQUESTS.fetchComedyMovies,
+		isLargeRow: false,
+	},
+	// {
+	// 	title: 'Romance Movies',
+	// 	fetchURL: REQUESTS.fetchRomanceMovies,
+	// 	isLargeRow: false,
+	// },
+];

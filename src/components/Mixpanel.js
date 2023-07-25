@@ -6,7 +6,7 @@ mixpanel.init(MIXPANEL_TOKEN);
 
 let env_check = true; //process.env.NODE_ENV === 'production';
 
-let actions = {
+export const Mixpanel = {
 	identify: (id) => {
 		if (env_check) mixpanel.identify(id);
 	},
@@ -23,5 +23,3 @@ let actions = {
 		if (env_check) mixpanel.people.set(props);
 	},
 };
-
-export let Mixpanel = actions;
