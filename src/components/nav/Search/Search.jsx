@@ -17,6 +17,7 @@ function SearchInput({
 	const [fil, setFil] = useState('');
 	const [showModal, setShowModal] = useState(false);
 	const [currentTitle, setCurrentTitle] = useState({});
+	const showSearchList = movies.length > 0;
 
 	useEffect(() => {
 		const getMovie = async () => {
@@ -27,7 +28,7 @@ function SearchInput({
 			}
 		};
 		fil && getMovie();
-		return ()=> {}
+		return () => {};
 	}, [fil]);
 
 	const handleInput = (e) => {
@@ -57,51 +58,55 @@ function SearchInput({
 	return (
 		<>
 			<ClickOutsideHandler outsideFunction={handleSearchClear}>
-			<div id={mobile ? 'mobile-search' : 'search-container'}>
-				<div className='input-div'>
-					<div className='input-group'>
-						<input
-							autoComplete='off'
-							type='text'
-							className='search-input'
-							ref={inputRef}
-							placeholder='Search content'
-							onChange={handleInput}
-						/>
-						<div className='search-icon'>
-							{inputRef.current?.value ? (
-								<DeleteForeverOutlined
-									onClick={handleSearchClear}
-									fontSize='small'
-									role='button'
-									style={{ color: 'red' }}
-								/>
-							) : (
-								<Search />
-							)}
+				<div id={mobile ? 'mobile-search' : 'search-container'}>
+					<div className='input-div'>
+						<div className='input-group'>
+							<input
+								autoComplete='off'
+								type='text'
+								className='search-input'
+								ref={inputRef}
+								placeholder='Search content'
+								onChange={handleInput}
+							/>
+							<div className='search-icon'>
+								{inputRef.current?.value ? (
+									<DeleteForeverOutlined
+										onClick={handleSearchClear}
+										fontSize='small'
+										role='button'
+										style={{ color: 'red' }}
+									/>
+								) : (
+									<Search />
+								)}
+							</div>
 						</div>
-					</div>
-					<ul className='search-list'>
-						{movies.map(
-							({ original_title, release_date, id }) =>
-								release_date && (
-									<li
-										key={id}
-										onClick={() => {
-											handleSubjectClick(id);
-											handleSearchClear();
-										}}
-									>
-										{original_title}&nbsp;
-										{release_date ? `(${release_date.substring(0, 4)})` : ''}
-									</li>
-								)
+						{showSearchList && (
+							<ul className='search-list'>
+								{movies.map(
+									({ title, original_title, release_date, id }) =>
+										release_date && (
+											<li
+												key={id}
+												onClick={() => {
+													handleSubjectClick(id);
+													handleSearchClear();
+												}}
+											>
+												{title || original_title}&nbsp;
+												{release_date
+													? `(${release_date.substring(0, 4)})`
+													: ''}
+											</li>
+										)
+								)}
+							</ul>
 						)}
-					</ul>
+					</div>
 				</div>
-			</div>
 			</ClickOutsideHandler>
-			
+
 			{Object.keys(currentTitle).length > 0 && (
 				<MovieModal
 					showModal={showModal}
