@@ -5,7 +5,7 @@ import Row from './components/Row/Row';
 import { ROWS } from './helpers/constants';
 import Banner from './components/Banner/Banner';
 import Nav from './components/Nav/Nav';
-// import { Mixpanel } from './components/Mixpanel';
+import { Mixpanel } from './components/Mixpanel';
 import './App.css';
 
 const intersectionOptions = {
@@ -22,10 +22,10 @@ function App() {
 	const [grabData, setGrabData] = useState([]);
 	const mobile = useMediaQuery('(max-width: 640px)');
 	const rowsRef = useRef([]);
-	
-	// Mixpanel.track('Webflix app accessed.', {
-	// 	action: 'Webflix app accessed.',
-	// });
+
+	Mixpanel.track('Webflix app accessed.', {
+		action: 'Webflix app accessed.',
+	});
 
 	const intersectionCb = (entries) => {
 		const [entry] = entries;
