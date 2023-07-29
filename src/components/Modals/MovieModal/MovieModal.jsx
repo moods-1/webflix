@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { makeStyles } from '@material-ui/core';
 import Play from '@material-ui/icons/PlayCircleOutline';
-import { timeFormatter } from '../../../helpers/helperFunctions';
 import movieTrailer from 'movie-trailer';
+
 import TrailerModal from '../TrailerModal/TrailerModal';
+import { searchYoutube } from '../../../helpers/helperFunctions';
 
 const img_base_url = 'https://image.tmdb.org/t/p/original';
 const useStyles = makeStyles({
@@ -21,20 +22,19 @@ const useStyles = makeStyles({
 	},
 	modal: {
 		position: 'relative',
-		width: 480,
+		width: '90%',
+		maxWidth: '900px',
 		minWidth: 280,
-		minHeight: '60vh',
-		padding: 50,
+		minHeight: '50vh',
 		marginTop: 30,
 		background: '#000',
 		borderRadius: 5,
-		boxShadow: '0px 0px 7px red',
+		boxShadow: '0px 0px 3px #ddd',
 		'& p': {
 			fontSize: 14,
 		},
 		'@media (max-width:500px)': {
 			width: '100%',
-			padding: '45px 15px 15px',
 		},
 		'@media (max-height:500px)': {
 			overflowY: 'auto',
@@ -43,12 +43,17 @@ const useStyles = makeStyles({
 	closeBtn: {
 		cursor: 'pointer',
 		position: 'absolute',
+		display: 'grid',
+		placeItems: 'center',
 		top: 15,
 		right: 15,
-		width: 20,
+		width: 30,
+		height: 30,
+		borderRadius: '50%',
 		color: '#FFF',
 		zIndex: 100,
 		fontSize: 16,
+		background: 'rgba(0, 0, 0, 0.5)',
 	},
 	poster: {
 		padding: 10,
@@ -56,24 +61,11 @@ const useStyles = makeStyles({
 		position: 'relative',
 		width: '100%',
 		height: '65%',
-		minHeight: 260,
 		textAlign: 'center',
 		overflowX: 'hidden',
 		'@media (max-height:800px)': {
 			height: '60%',
 			overflowY: 'auto',
-		},
-		'@media (max-height:500px)': {
-			'& img': {
-				height: '100%',
-				width: '50%',
-			},
-		},
-		'@media (max-width:440px)': {
-			'& img': {
-				height: '100%',
-				width: '100%',
-			},
 		},
 	},
 	modalPlay: {
@@ -86,7 +78,17 @@ const useStyles = makeStyles({
 		left: '50%',
 		transform: 'translate(-50%, -50%)',
 		'&:hover': {
-			boxShadow: '0px 0px 8px green',
+			boxShadow: '0px 0px 8px red',
+		},
+	},
+	details: {
+		background: '#111',
+		padding: '20px 30px',
+		fontSize: '14px',
+		borderBottomRightRadius: '5px',
+		borderBottomLeftRadius: '5px',
+		'& .details-title': {
+			fontSize: '22px',
 		},
 	},
 	overviewDetails: {
@@ -99,38 +101,55 @@ const useStyles = makeStyles({
 function MovieModal({ showModal, setShowModal, currentTitle }) {
 	const [showTrailerModal, setShowTrailerModal] = useState(false);
 	const [trailerUrl, setTrailerUrl] = useState('');
+	const [year, setYear] = useState('');
 	const classes = useStyles();
-	const { overview, release_date, poster_path, vote_average } = currentTitle;
+	const {
+		overview,
+		release_date,
+		backdrop_path,
+		title,
+		name,
+		original_title,
+		vote_average,
+	} = currentTitle;
 	const movieRef = useRef();
 
-	const getYear = (movie) => {
+	const getYear = useCallback((movie) => {
 		let releaseAirDate;
 		if (movie.release_date)
 			releaseAirDate = Number(movie.release_date.substring(0, 4));
 		else if (movie.first_air_date) {
 			releaseAirDate = Number(movie.first_air_date.substring(0, 4));
 		}
+		setYear(releaseAirDate);
 		return releaseAirDate;
-	};
+	}, []);
 
 	useEffect(() => {
-		let movie = currentTitle;
-		movieRef.current = poster_path;
-		let date = getYear(movie);
-		if (date) {
-			movieTrailer(
-				movie.name || movie.title || movie?.original_name || '',
-				date
-			)
-				.then((url) => {
-					const urlParams = new URLSearchParams(new URL(url).search);
-					setTrailerUrl(urlParams.get('v'));
-				})
-				.catch((err) => {
-					console.log(err);
-				});
-		}
-	}, [currentTitle, poster_path]);
+		const movie = currentTitle;
+		movieRef.current = backdrop_path;
+		const { name, original_name, title, id } = movie;
+		const getTrailer = async (title) => {
+			const subject = `${title} trailer`;
+			const dt = await searchYoutube(subject);
+			const { status, data } = dt;
+			if (status < 301) {
+				const item = data.items[0].id.videoId;
+				setTrailerUrl(item);
+			} else {
+				const year = getYear(movie);
+				if (year) {
+					movieTrailer(name|| title || original_name, { year, id: true })
+						.then((url) => {				
+							setTrailerUrl(url);
+						})
+						.catch((err) => console.log(err));
+				}
+			}
+		};
+		getTrailer(name || original_name || title);
+		getYear(movie);
+	}, [currentTitle, backdrop_path, getYear]);
 
 	useEffect(() => {
 		window.addEventListener('resize', () => setShowModal(false));
@@ -148,10 +167,6 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 			setTrailerUrl('');
 		}
 	};
-
-	const releaseDate = release_date
-		? timeFormatter(release_date, 'DD-MMM-YYYY')
-		: 'N/A';
 
 	const noPosterTitle = () => {
 		const { original_title, title, release_date } = currentTitle;
@@ -176,13 +191,13 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 					<div className={classes.poster}>
 						<img
 							src={
-								poster_path
-									? img_base_url + poster_path
+								backdrop_path
+									? img_base_url + backdrop_path
 									: '/images/noPoster.jpg'
 							}
 							alt='poster'
 							height='100%'
-							width='80%'
+							width='100%'
 						/>
 						{trailerUrl && (
 							<Play
@@ -191,21 +206,19 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 							/>
 						)}
 					</div>
-					<div style={{ marginTop: 20 }}>
-						{!poster_path && (
+					<div className={classes.details}>
+						{!backdrop_path && (
 							<div>
 								<p>
 									Title: <span>{noPosterTitle()}</span>
 								</p>
 							</div>
 						)}
-						<p className={overview.length > 250 ? classes.overviewDetails : ''}>
-							{overview || noDetailsMessage}
+						<p className='details-title'>
+							{title || name || original_title}&nbsp;({year})
 						</p>
+						<p>{overview || noDetailsMessage}</p>
 						<p>
-							<span>Release date: </span>
-							{releaseDate}
-							<br />
 							<span>Rating: </span>
 							{vote_average} / 10
 						</p>

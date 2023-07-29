@@ -1,13 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
 import { useMediaQuery, Button } from '@material-ui/core';
-import movieTrailer from 'movie-trailer';
 import Play from '@material-ui/icons/PlayCircleOutline';
+import { useSelector, useDispatch } from 'react-redux';
+import movieTrailer from 'movie-trailer';
+
+import { storeBannerMedia } from '../../redux/mediaSlice';
 import instance from '../../helpers/constants';
 import { REQUESTS } from '../../helpers/constants';
 import TrailerModal from '../Modals/TrailerModal/TrailerModal';
 import MovieModal from '../Modals/MovieModal/MovieModal';
-import { timeFormatter, textTruncater } from '../../helpers/helperFunctions';
+import {
+	timeFormatter,
+	textTruncater,
+	searchYoutube,
+} from '../../helpers/helperFunctions';
 import DefaultBackdrop from '../../images/default-backdrop.jpg';
 import DefaultPoster from '../../images/default-poster.jpg';
 import './Banner.css';
@@ -18,13 +25,15 @@ function Banner({ mobile }) {
 	const [movie, setMovie] = useState(null);
 	const [movies, setMovies] = useState([]);
 	const [showTrailerModal, setShowTrailerModal] = useState(false);
-	const [trailerUrl, setTrailerUrl] = useState('');
+	const [trailerMap, setTrailerMap] = useState({});
 	const [selectedId, setSelectedId] = useState(0);
 	const [autoTimer, setAutoTimer] = useState(true);
 	const [descriptionBody, setDescriptionBody] = useState('');
 	const [showModal, setShowModal] = useState(false);
 	const [showMobileDetailsButton, setShowMobileDetailsButton] = useState(false);
 	const largeMobile = useMediaQuery('(max-width:1024px)');
+	const storedMovies = useSelector((state) => state.media.bannerMedia);
+	const dispatch = useDispatch();
 
 	const handleBannerHover = () => {
 		setAutoTimer(false);
@@ -35,70 +44,6 @@ function Banner({ mobile }) {
 		setAutoTimer(true);
 		setShowMobileDetailsButton(false);
 	};
-
-	const getYear = (movie) => {
-		let releaseAirDate;
-		if (movie.release_date)
-			releaseAirDate = Number(movie?.release_date?.substr(0, 4));
-		else releaseAirDate = Number(movie?.first_air_date?.substr(0, 4));
-		return releaseAirDate;
-	};
-
-	useEffect(() => {
-		if (movie) {
-			let date = getYear(movie);
-			if (date) {
-				movieTrailer(
-					movie?.name || movie?.original_name || movie?.title || '',
-					date
-				)
-					.then((url) => {
-						const urlParams = new URLSearchParams(new URL(url).search);
-						setTrailerUrl(urlParams.get('v'));
-					})
-					.catch((err) => console.log(err));
-			}
-		}
-	}, [movie]);
-
-	useEffect(() => {
-		async function fetchData() {
-			const request = await instance.get(REQUESTS.fetchSciFiMovies);
-			const films = request.data.results.slice(0, 6);
-			const backdropSize = mobile ? 'w300' : 'w780';
-			films.forEach((film) => {
-				if (mobile && film.poster_path) {
-					film.imageSrc = img_base_url + `w342/${film.poster_path}`;
-				} else if (!mobile && film.backdrop_path) {
-					film.imageSrc =
-						img_base_url + `${backdropSize}/${film.backdrop_path}`;
-				} else film.imageSrc = mobile ? DefaultPoster : DefaultBackdrop;
-			});
-			setMovies([...films]);
-			return request;
-		}
-		fetchData();
-	}, [mobile]);
-
-	useEffect(() => {
-		if (autoTimer) {
-			let bannerTimer = setInterval(() => {
-				if (selectedId === movies.length - 1) {
-					setSelectedId(0);
-				} else {
-					setSelectedId(selectedId + 1);
-				}
-			}, 4000);
-			return () => clearInterval(bannerTimer);
-		}
-	}, [movies, selectedId, autoTimer]);
-
-	useEffect(() => {
-		if (movies.length) {
-			setMovie(movies[selectedId]);
-			setDescriptionBody(textTruncater(movies[selectedId].overview, 150));
-		}
-	}, [movies, selectedId]);
 
 	const handleDescription = (chop) => {
 		if (chop) {
@@ -121,6 +66,90 @@ function Banner({ mobile }) {
 		}
 	};
 
+	const getYear = useCallback((movie) => {
+		let releaseAirDate;
+		if (movie.release_date)
+			releaseAirDate = Number(movie?.release_date?.substr(0, 4));
+		else releaseAirDate = Number(movie?.first_air_date?.substr(0, 4));
+		return releaseAirDate;
+	}, []);
+
+	useEffect(() => {
+		if (movie) {
+			const { name, original_name, title, id } = movie;
+			if (!trailerMap[id]) {
+				const getTrailer = async (title) => {
+					const subject = `${title} trailer`;
+					const dt = await searchYoutube(subject);
+					const { status, data } = dt;
+					if (status < 301) {
+						const item = data.items[0].id.videoId;
+						setTrailerMap((prev) => ({
+							...prev,
+							[id]: item,
+						}));
+					} else {
+						const year = getYear(movie);
+						if (year) {
+							movieTrailer(name|| title || original_name, { year, id: true })
+								.then((url) => {
+									setTrailerMap((prev) => ({
+										...prev,
+										[id]: url,
+									}));
+								})
+								.catch((err) => console.log(err));
+						}
+					}
+				};
+				getTrailer(name || original_name || title);
+			}
+		}
+	}, [movie, trailerMap]);
+
+	useEffect(() => {
+		if (storedMovies.length) {
+			setMovies([...storedMovies]);
+		} else {
+			async function fetchData() {
+				const request = await instance.get(REQUESTS.fetchSciFiMovies);
+				const films = request.data.results.slice(0, 6);
+				films.forEach((film) => {
+					film.mobileImg = film.poster_path
+						? img_base_url + `w342/${film.poster_path}`
+						: DefaultPoster;
+					film.desktopImg = film.backdrop_path
+						? img_base_url + `w780/${film.backdrop_path}`
+						: DefaultBackdrop;
+				});
+				dispatch(storeBannerMedia([...films]));
+				setMovies([...films]);
+				return request;
+			}
+			fetchData();
+		}
+	}, []);
+
+	useEffect(() => {
+		if (autoTimer) {
+			let bannerTimer = setInterval(() => {
+				if (selectedId === movies.length - 1) {
+					setSelectedId(0);
+				} else {
+					setSelectedId((prev) => prev + 1);
+				}
+			}, 4000);
+			return () => clearInterval(bannerTimer);
+		}
+	}, [movies, selectedId, autoTimer]);
+
+	useEffect(() => {
+		if (movies.length) {
+			setMovie(movies[selectedId]);
+			setDescriptionBody(textTruncater(movies[selectedId].overview, 150));
+		}
+	}, [movies, selectedId]);
+
 	return (
 		<div className='banner-container'>
 			<header
@@ -135,7 +164,9 @@ function Banner({ mobile }) {
 							style={{
 								width: largeMobile ? '100%' : '50%',
 								backgroundSize: `${mobile ? 'contain' : 'cover'}`,
-								backgroundImage: `url(${movie.imageSrc})`,
+								backgroundImage: `url(${
+									mobile ? movie.mobileImg : movie.desktopImg
+								})`,
 								backgroundRepeat: 'no-repeat',
 								backgroundPosition: 'top, center',
 							}}
@@ -148,7 +179,7 @@ function Banner({ mobile }) {
 										setAutoTimer(true);
 										setShowTrailerModal(false);
 									}}
-									trailerUrl={trailerUrl}
+									trailerUrl={trailerMap[movie.id]}
 								/>
 							)}
 							<div className='banner-contents'>
@@ -160,7 +191,7 @@ function Banner({ mobile }) {
 								>
 									{descriptionBody}
 								</div>
-								{trailerUrl && (
+								{movie.id in trailerMap && (
 									<Play
 										className='banner-button'
 										fontSize='large'

@@ -1,20 +1,23 @@
 .row {
 	padding-left: 10px;
-	min-height: 150px;
+	min-height: 200px;
+	overflow-y: visible;
 }
 .category-title {
 	text-align: left;
 	padding-left: 35px;
 }
 .row-posters {
+	position: relative;
 	display: flex;
+	min-height: 220px;
 	gap: 0px 10px;
 	padding: 10px 10px 10px 0px;
-	overflow-y: hidden;
+	overflow-y: visible;
 	overflow-x: scroll;
 	/* For no scrollbar in firefox */
 	/* -ms-overflow-style: none; */
-	scroll-behavior: auto;
+	/* scroll-behavior: auto; */
 	scrollbar-width: none;
 }
 /* Hide the scrollbar but keep the functionality. */
@@ -36,26 +39,92 @@
 }
 .poster-box {
 	position: relative;
-	width: 180px;
+	flex-shrink: 0;
+	width: 340px;
+	border-radius: 10px;
+	overflow: hidden;
+	transition: all 400ms;
 }
-.poster-box:hover {
+@media (max-width: 400px) {
+	.poster-box {
+		width: 280px;
+	}
+}
+/* .poster-box:hover {
 	transition: all 600ms ease;
 	transform: translateY(-3px);
 	box-shadow: 0px 0px 5px red;
+} */
+.poster-box:hover {
+	transform: scale(1.02);
 }
+
+.poster-box:hover .poster-more {
+	opacity: 1;
+}
+
 .poster-box:hover .info-box {
 	display: block;
 }
-.row-poster {
+
+.poster-top {
+	position: relative;
+	width: 100%;
+	height: 200px;
+	background-position: center center;
+	background-size: cover;
+}
+
+.row-image {
 	position: relative;
 	cursor: pointer;
-	/*object-fit: contain; /* maintains aspect ratio */
+	object-fit: contain; /* maintains aspect ratio */
 	transition: transform 450ms;
-  width: 180px;
+	width: 100%;
+}
+.poster-title {
+	font-size: 18px;
+	padding: 0px;
+	margin: 0px;
+	text-shadow: 0px 0px 5px #000;
+}
+
+.poster-bottom {
+	position: absolute;
+	bottom: 0px;
+	width: 100%;
+	padding: 5px 10px;
+	font-size: 14px;
+	background: rgba(0, 0, 0, 0.4);
+	min-height: 20px;
+}
+
+.poster-media-button {
+	cursor: pointer;
+	transform: scale(1.3);
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 50%;
+	transition: all 0.2s;
+	margin: 10px 0px;
+}
+.poster-more {
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	display: grid;
+	place-items: center;
+	border-radius: 50%;
+	background-color: #000;
+	top: 10px;
+	right: 10px;
+	color: #fff;
+	opacity: 0;
+	transition: opacity 500ms;
 }
 .row-poster-large {
 	position: relative;
-  width: 180px;
+	width: 180px;
 }
 .info-box {
 	display: none;

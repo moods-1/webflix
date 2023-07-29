@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import instance from '../../helpers/constants';
-import { Button } from '@material-ui/core';
+import { MoreVert } from '@material-ui/icons';
 import BeatLoader from 'react-spinners/BeatLoader';
 import MovieModal from '../Modals/MovieModal/MovieModal';
 import DefaultBackdrop from '../../images/default-backdrop.jpg';
-import DefaultPoster from '../../images/default-poster.jpg';
 import './Row.css';
 
 const img_base_url = 'https://image.tmdb.org/t/p/';
 
-const Row = ({ title, fetchURL, isLargeRow, mobile, grabData }) => {
+const Row = ({ title, fetchURL, mobile, grabData }) => {
 	const [movies, setMovies] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [currentTitle, setCurrentTitle] = useState({});
-
+	
 	useEffect(() => {
 		if (grabData) {
 			async function fetchData() {
@@ -21,14 +20,12 @@ const Row = ({ title, fetchURL, isLargeRow, mobile, grabData }) => {
 				const request = await instance.get(fetchURL);
 				if (request.data.results) {
 					films = request.data.results.slice(0, 10);
-					const backdropSize = mobile ? 'w300' : 'w780';
+					const backdropSize = 'w780';
 					films.forEach((film) => {
-						if (isLargeRow && film.poster_path) {
-							film.imageSrc = img_base_url + `w185/${film.poster_path}`;
-						} else if (!isLargeRow && film.backdrop_path) {
+						if (film.backdrop_path) {
 							film.imageSrc =
 								img_base_url + `${backdropSize}/${film.backdrop_path}`;
-						} else film.imageSrc = isLargeRow ? DefaultPoster : DefaultBackdrop;
+						} else film.imageSrc = DefaultBackdrop;
 					});
 				}
 				setMovies([...films]);
@@ -36,7 +33,7 @@ const Row = ({ title, fetchURL, isLargeRow, mobile, grabData }) => {
 			}
 			fetchData();
 		}
-	}, [fetchURL, isLargeRow, mobile, grabData]);
+	}, [fetchURL, mobile, grabData]);
 
 	const handleClick = (movie) => {
 		setCurrentTitle(movie);
@@ -52,40 +49,24 @@ const Row = ({ title, fetchURL, isLargeRow, mobile, grabData }) => {
 			<div className='row-posters'>
 				{movies.length < 7 && <BeatLoader color={'red'} />}
 				{movies.map((movie) => {
+					const { title, name, original_title, id, imageSrc } = movie;
 					return (
-						<div className='poster-box' key={movie.id}>
-							<img
-								width='180px'
-								className={`row-poster ${isLargeRow ? 'row-poster-large' : ''}`}
-								src={movie.imageSrc}
-								alt={movie.title || movie.original_name}
-							/>
+						<div className='poster-box' key={id}>
 							<div
-								className={`info-box ${!isLargeRow ? 'small-info-box' : ''}`}
+								className='poster-top'
+								style={{ backgroundImage: `url(${imageSrc})` }}
 							>
-								{!isLargeRow && (
-									<p>
+								<div className='poster-more'>
+									<MoreVert onClick={() => handleClick(movie)} />
+								</div>
+								<div className='poster-bottom'>
+									<p className='poster-title'>
 										{truncate(
-											movie.name || movie.title || movie?.original_name || '',
+											title || name || original_title || '',
 											35
 										)}
 									</p>
-								)}
-								<Button
-									variant='contained'
-									onClick={() => handleClick(movie)}
-									style={{
-										position: 'absolute',
-										top: `${isLargeRow ? '50%' : '70%'}`,
-										left: '50%',
-										transform: 'translate(-50%,-50%)',
-										color: '#FFF',
-										background: 'rgba(0,0,0,0.7)',
-										fontSize: 10,
-									}}
-								>
-									Details
-								</Button>
+								</div>
 							</div>
 						</div>
 					);
