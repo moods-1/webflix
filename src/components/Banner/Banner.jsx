@@ -121,7 +121,7 @@ function Banner({ mobile }) {
 						? img_base_url + `w342/${film.poster_path}`
 						: DefaultPoster;
 					film.desktopImg = film.backdrop_path
-						? img_base_url + `w780/${film.backdrop_path}`
+						? img_base_url + `w1280/${film.backdrop_path}`
 						: DefaultBackdrop;
 				});
 				dispatch(storeBannerMedia([...films]));
@@ -164,7 +164,7 @@ function Banner({ mobile }) {
 						<div
 							className='banner-large-image-box'
 							style={{
-								width: largeMobile ? '100%' : '50%',
+								width: largeMobile ? '100%' : '65%',
 								backgroundSize: `${mobile ? 'contain' : 'cover'}`,
 								backgroundImage: `url(${
 									mobile ? movie.mobileImg : movie.desktopImg
