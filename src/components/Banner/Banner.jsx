@@ -18,6 +18,7 @@ import {
 import DefaultBackdrop from '../../images/default-backdrop.jpg';
 import DefaultPoster from '../../images/default-poster.jpg';
 import './Banner.css';
+import Genres from '../Modals/MovieModal/Genres';
 
 const img_base_url = 'https://image.tmdb.org/t/p/';
 
@@ -52,6 +53,7 @@ function Banner({ mobile }) {
 			setDescriptionBody(
 				<>
 					<p>{movie.overview}</p>
+					<Genres genres={movie.genre_ids} color='#fff' background='#f00' />
 					<p className='mb-1'>
 						Release date:{' '}
 						{movie.release_date
@@ -91,7 +93,7 @@ function Banner({ mobile }) {
 					} else {
 						const year = getYear(movie);
 						if (year) {
-							movieTrailer(name|| title || original_name, { year, id: true })
+							movieTrailer(name || title || original_name, { year, id: true })
 								.then((url) => {
 									setTrailerMap((prev) => ({
 										...prev,
