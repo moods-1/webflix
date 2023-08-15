@@ -13,13 +13,15 @@ const Genres = ({ genres, color, background }) => {
 
 	useEffect(() => {
 		const arr = [];
-		genres.forEach((g) => {
-			if (g in GENRES) {
-				arr.push(GENRES[g]);
-			}
-		});
-		setGenreArr([...arr]);
-	}, []);
+		if (genres) {
+			genres.forEach((g) => {
+				if (g in GENRES) {
+					arr.push(GENRES[g]);
+				}
+			});
+			setGenreArr([...arr]);
+		}
+	}, [genres]);
 
 	return (
 		<div className={classes.genresMain}>

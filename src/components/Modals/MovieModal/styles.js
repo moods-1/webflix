@@ -6,6 +6,7 @@ export default makeStyles({
 		padding: '20px',
 		'& .modal-content': {
 			backgroundColor: 'transparent',
+			width: 'auto',
 		},
 	},
 	modalBody: {

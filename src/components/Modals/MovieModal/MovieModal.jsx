@@ -9,33 +9,34 @@ import useStyles from './styles';
 import Genres from './Genres';
 // import { updateVideoTrailer } from '../../../api/video';
 
-// const img_base_url = 'https://image.tmdb.org/t/p/original';
+const img_base_url = 'https://image.tmdb.org/t/p/original';
 
-function MovieModal({ showModal, setShowModal, currentTitle }) {
+function MovieModal({ showModal, setShowModal, currentTitle, raw }) {
 	const [showTrailerModal, setShowTrailerModal] = useState(false);
+	const [movie, setMovie] = useState({});
+	const [movieImage, setMovieImage] = useState('');
 	const [trailerUrl, setTrailerUrl] = useState('');
 	const [year, setYear] = useState('');
 	const classes = useStyles();
 	const {
 		overview,
-		// releaseDate,
 		backdropPath,
+		posterPath,
 		title,
 		name,
 		originalTitle,
 		voteAverage,
 		genreIds,
 		imageSrc,
-		// id,
 		trailerId,
-	} = currentTitle;
+	} = movie;
 	const movieRef = useRef();
 
 	const getYear = useCallback((movie) => {
 		let releaseAirDate;
-		if (movie.releaseDate)
+		if (movie?.releaseDate)
 			releaseAirDate = Number(movie.releaseDate.substring(0, 4));
-		else if (movie.firstAirDate) {
+		else if (movie?.firstAirDate) {
 			releaseAirDate = Number(movie.firstAirDate.substring(0, 4));
 		}
 		setYear(releaseAirDate);
@@ -43,10 +44,25 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 	}, []);
 
 	useEffect(() => {
+		if (raw) {
+			let editedMovie = { ...currentTitle };
+			editedMovie.genreIds = editedMovie.genre_ids;
+			editedMovie.backdropPath = editedMovie.backdrop_path;
+			editedMovie.originalTitle = editedMovie.original_title;
+			editedMovie.voteAverage = editedMovie.vote_average;
+			editedMovie.firstAirDate = editedMovie.first_air_date;
+			editedMovie.releaseDate = editedMovie.release_date;
+			editedMovie.posterPath = editedMovie.poster_path;
+			setMovie({ ...editedMovie });
+		} else {
+			setMovie(currentTitle);
+		}
+	}, [raw, currentTitle]);
+
+	useEffect(() => {
 		if (trailerId) {
 			setTrailerUrl(trailerId);
 		} else {
-			const movie = currentTitle;
 			movieRef.current = backdropPath;
 			const { name, originalName, title } = movie;
 			const getTrailer = async (title) => {
@@ -70,7 +86,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 			getTrailer(name || originalName || title);
 			getYear(movie);
 		}
-	}, [currentTitle, backdropPath, getYear]);
+	}, [movie, backdropPath, getYear]);
 
 	// Fetch trailer id and update the database
 	// useEffect(() => {
@@ -92,19 +108,26 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 
 	const handleClose = () => {
 		setShowModal(false);
-		if (!movieRef.current?.value === currentTitle.poster_path) {
+		if (!movieRef.current?.value === posterPath) {
 			setTrailerUrl('');
 		}
 	};
 
 	const noPosterTitle = () => {
-		const { originalTitle, title, releaseDate: release } = currentTitle;
+		const { originalTitle, title, releaseDate: release } = movie;
 		let movieTitle = originalTitle ? originalTitle : title;
-		let releaseDate = release.substring(0, 4);
+		let releaseDate = release?.substring(0, 4);
 		return `${movieTitle} (${releaseDate})`;
 	};
 
 	const noDetailsMessage = 'Sorry, there is no description for this title.';
+
+	useEffect(() => {
+		if (Object.keys(movie).length) {
+			const movImg = imageSrc ? imageSrc : `${img_base_url}${backdropPath}`;
+			setMovieImage(movImg);
+		}
+	}, [movie]);
 
 	return (
 		<>
@@ -121,7 +144,7 @@ function MovieModal({ showModal, setShowModal, currentTitle }) {
 					</p>
 					<div className={classes.poster}>
 						<img
-							src={imageSrc || '/images/noPoster.jpg'}
+							src={movieImage || '/images/noPoster'}
 							alt='poster'
 							height='100%'
 							width='100%'

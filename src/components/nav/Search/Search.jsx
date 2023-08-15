@@ -112,6 +112,7 @@ function SearchInput({
 					showModal={showModal}
 					setShowModal={setShowModal}
 					currentTitle={currentTitle}
+					raw
 				/>
 			)}
 		</>
