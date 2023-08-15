@@ -1,6 +1,16 @@
 import axios from 'axios';
 const YOUTUBE_API_KEY = process.env.REACT_APP_YOUTUBE_API_KEY;
 
+// export const baseUrl = 'http://localhost:8050/api';
+export const baseUrl = 'https://webflix-server.vercel.app/api';
+
+export const ROUTES = {
+	VIDEOS: {
+		GET_BY_CATEGORY_ID: '/videos',
+		UPDATE_VIDEO_TRAILER: '/videos/update-video',
+	},
+};
+
 const instance = axios.create({
 	baseURL: 'https://api.themoviedb.org/3',
 });
@@ -67,12 +77,12 @@ export const BROWSE_DATA = {
 export const ROWS = [
 	{
 		title: 'NETFLIX Originals',
-		url: REQUESTS.fetchNetflixOriginals,
+		categoryId: 99999,
 		isLargeRow: true,
 	},
 	{
 		title: 'Animated Movies',
-		url: REQUESTS.fetchAnimatedMovies,
+		categoryId: 16,
 		isLargeRow: false,
 	},
 	// {
@@ -87,7 +97,7 @@ export const ROWS = [
 	// },
 	{
 		title: 'Action Movies',
-		url: REQUESTS.fetchActionMovies,
+		categoryId: 28,
 		isLargeRow: false,
 	},
 	// {
@@ -97,7 +107,7 @@ export const ROWS = [
 	// },
 	{
 		title: 'Comedy Movies',
-		url: REQUESTS.fetchComedyMovies,
+		categoryId: 35,
 		isLargeRow: false,
 	},
 	// {
@@ -133,5 +143,13 @@ export const GENRES = {
 	10766: 'Soap',
 	10767: 'Talk',
 	10768: 'War & Politics',
-	10770: 'TV Movie'
-}
+	10770: 'TV Movie',
+};
+
+export const CATEGORY_IDS = {
+	ACTION: 28,
+	ANIMATION: 16,
+	BANNER: 99998,
+	COMEDY: 35,
+	NETFLIX_ORIGINALS: 99999,
+};

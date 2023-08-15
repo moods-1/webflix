@@ -23,7 +23,7 @@ code {
     monospace;
 }
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 8px;
   border-radius: 15px;
   cursor: pointer;
 }

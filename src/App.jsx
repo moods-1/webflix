@@ -23,9 +23,9 @@ function App() {
 	const mobile = useMediaQuery('(max-width: 640px)');
 	const rowsRef = useRef([]);
 
-	Mixpanel.track('Webflix app accessed.', {
-		action: 'Webflix app accessed.',
-	});
+	// Mixpanel.track('Webflix app accessed.', {
+	// 	action: 'Webflix app accessed.',
+	// });
 
 	const intersectionCb = (entries) => {
 		const [entry] = entries;
@@ -61,7 +61,7 @@ function App() {
 				</div>
 				<Nav mobile={mobile} />
 				<Banner mobile={mobile} />
-				{ROWS.map(({ title, url, isLargeRow }, index) => (
+				{ROWS.map(({ title, categoryId, isLargeRow }, index) => (
 					<div
 						ref={(el) => {
 							rowsRef.current[index] = el;
@@ -70,7 +70,7 @@ function App() {
 					>
 						<Row
 							title={title}
-							fetchURL={url}
+							categoryId={categoryId}
 							mobile={mobile}
 							isLargeRow={isLargeRow}
 							grabData={grabData.includes(title)}

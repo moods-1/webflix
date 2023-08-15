@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import instance from '../../helpers/constants';
 import { MoreVert } from '@material-ui/icons';
 import BeatLoader from 'react-spinners/BeatLoader';
+
+import { getVideosByCategoryId } from '../../api/video';
 import MovieModal from '../Modals/MovieModal/MovieModal';
-import DefaultBackdrop from '../../images/default-backdrop.jpg';
 import './Row.css';
 
-const img_base_url = 'https://image.tmdb.org/t/p/';
-
-const Row = ({ title, fetchURL, mobile, grabData }) => {
+const Row = ({ title, categoryId, mobile, grabData }) => {
 	const [movies, setMovies] = useState([]);
 	const [showModal, setShowModal] = useState(false);
 	const [currentTitle, setCurrentTitle] = useState({});
@@ -16,24 +14,17 @@ const Row = ({ title, fetchURL, mobile, grabData }) => {
 	useEffect(() => {
 		if (grabData) {
 			async function fetchData() {
-				let films = [];
-				const request = await instance.get(fetchURL);
-				if (request.data.results) {
-					films = request.data.results.slice(0, 10);
-					const backdropSize = 'w780';
-					films.forEach((film) => {
-						if (film.backdrop_path) {
-							film.imageSrc =
-								img_base_url + `${backdropSize}/${film.backdrop_path}`;
-						} else film.imageSrc = DefaultBackdrop;
-					});
+				
+				const request = await getVideosByCategoryId(categoryId);
+				const { status, response } = request;
+				if (status < 400) {
+					setMovies([...response]);
 				}
-				setMovies([...films]);
 				return request;
 			}
 			fetchData();
 		}
-	}, [fetchURL, mobile, grabData]);
+	}, [mobile, grabData]);
 
 	const handleClick = (movie) => {
 		setCurrentTitle(movie);

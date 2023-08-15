@@ -3,24 +3,15 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import { useMediaQuery, Button } from '@material-ui/core';
 import Play from '@material-ui/icons/PlayCircleOutline';
 import { useSelector, useDispatch } from 'react-redux';
-import movieTrailer from 'movie-trailer';
 
 import { storeBannerMedia } from '../../redux/mediaSlice';
-import instance from '../../helpers/constants';
-import { REQUESTS } from '../../helpers/constants';
+import { CATEGORY_IDS } from '../../helpers/constants';
 import TrailerModal from '../Modals/TrailerModal/TrailerModal';
 import MovieModal from '../Modals/MovieModal/MovieModal';
-import {
-	timeFormatter,
-	textTruncater,
-	searchYoutube,
-} from '../../helpers/helperFunctions';
-import DefaultBackdrop from '../../images/default-backdrop.jpg';
-import DefaultPoster from '../../images/default-poster.jpg';
+import { timeFormatter, textTruncater } from '../../helpers/helperFunctions';
 import './Banner.css';
 import Genres from '../Modals/MovieModal/Genres';
-
-const img_base_url = 'https://image.tmdb.org/t/p/';
+import { getVideosByCategoryId } from '../../api/video';
 
 function Banner({ mobile }) {
 	const [movie, setMovie] = useState(null);
@@ -35,6 +26,7 @@ function Banner({ mobile }) {
 	const largeMobile = useMediaQuery('(max-width:1024px)');
 	const storedMovies = useSelector((state) => state.media.bannerMedia);
 	const dispatch = useDispatch();
+	const categoryId = CATEGORY_IDS.BANNER;
 
 	const handleBannerHover = () => {
 		setAutoTimer(false);
@@ -53,15 +45,15 @@ function Banner({ mobile }) {
 			setDescriptionBody(
 				<>
 					<p>{movie.overview}</p>
-					<Genres genres={movie.genre_ids} color='#fff' background='#f00' />
+					<Genres genres={movie.genreIds} color='#fff' background='#f00' />
 					<p className='mb-1'>
 						Release date:{' '}
-						{movie.release_date
-							? `${timeFormatter(movie.release_date, 'DD-MMM-YYYY')}`
+						{movie.releaseDate
+							? `${timeFormatter(movie.releaseDate, 'DD-MMM-YYYY')}`
 							: 'N/A'}
 					</p>
 					<p className='mb-0'>
-						Rating: {movie.vote_average ? `${movie.vote_average}/10` : 'N/A'}
+						Rating: {movie.voteAverage ? `${movie.voteAverage}/10` : 'N/A'}
 					</p>
 				</>
 			);
@@ -70,62 +62,36 @@ function Banner({ mobile }) {
 
 	const getYear = useCallback((movie) => {
 		let releaseAirDate;
-		if (movie.release_date)
-			releaseAirDate = Number(movie?.release_date?.substr(0, 4));
-		else releaseAirDate = Number(movie?.first_air_date?.substr(0, 4));
+		if (movie.releaseDate)
+			releaseAirDate = Number(movie?.releaseDate?.substr(0, 4));
+		else releaseAirDate = Number(movie?.firstAirDate?.substr(0, 4));
 		return releaseAirDate;
 	}, []);
 
 	useEffect(() => {
-		if (movie) {
-			const { name, original_name, title, id } = movie;
-			if (!trailerMap[id]) {
-				const getTrailer = async (title) => {
-					const subject = `${title} trailer`;
-					const dt = await searchYoutube(subject);
-					const { status, data } = dt;
-					if (status < 301) {
-						const item = data.items[0].id.videoId;
-						setTrailerMap((prev) => ({
-							...prev,
-							[id]: item,
-						}));
-					} else {
-						const year = getYear(movie);
-						if (year) {
-							movieTrailer(name || title || original_name, { year, id: true })
-								.then((url) => {
-									setTrailerMap((prev) => ({
-										...prev,
-										[id]: url,
-									}));
-								})
-								.catch((err) => console.log(err));
-						}
-					}
-				};
-				getTrailer(name || original_name || title);
-			}
-		}
-	}, [movie, trailerMap]);
+		const setTrailers = (media) => {
+			const localMap = {};
+			media.forEach((m) => {
+				const { id, trailerId } = m;
+				if (trailerId) {
+					localMap[id] = trailerId;
+				}
+			});
+			setTrailerMap({ ...localMap });
+		};
 
-	useEffect(() => {
 		if (storedMovies.length) {
+			setTrailers([...storedMovies]);
 			setMovies([...storedMovies]);
 		} else {
 			async function fetchData() {
-				const request = await instance.get(REQUESTS.fetchSciFiMovies);
-				const films = request.data.results.slice(0, 6);
-				films.forEach((film) => {
-					film.mobileImg = film.poster_path
-						? img_base_url + `w342/${film.poster_path}`
-						: DefaultPoster;
-					film.desktopImg = film.backdrop_path
-						? img_base_url + `w1280/${film.backdrop_path}`
-						: DefaultBackdrop;
-				});
-				dispatch(storeBannerMedia([...films]));
-				setMovies([...films]);
+				const request = await getVideosByCategoryId(categoryId);
+				const { status, response } = request;
+				if (status < 400) {
+					dispatch(storeBannerMedia([...response]));
+					setTrailers([...response]);
+					setMovies([...response]);
+				}
 				return request;
 			}
 			fetchData();
