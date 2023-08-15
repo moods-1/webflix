@@ -23,9 +23,9 @@ function App() {
 	const mobile = useMediaQuery('(max-width: 640px)');
 	const rowsRef = useRef([]);
 
-	// Mixpanel.track('Webflix app accessed.', {
-	// 	action: 'Webflix app accessed.',
-	// });
+	Mixpanel.track('Webflix app accessed.', {
+		action: 'Webflix app accessed.',
+	});
 
 	const intersectionCb = (entries) => {
 		const [entry] = entries;
