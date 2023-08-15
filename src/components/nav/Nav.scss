@@ -46,9 +46,12 @@
 	justify-content: space-between;
 	width: 230px;
 }
-#logo-browse-box h4 {
+#logo-browse-box .nav-browse {
 	color: red;
 	cursor: pointer;
+	padding: 0;
+	margin: 0;
+	font-weight: 600;
 }
 .nav-logo {
 	cursor: pointer;

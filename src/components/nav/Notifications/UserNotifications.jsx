@@ -1,6 +1,7 @@
 import React from 'react';
+import { DeleteForeverOutlined } from '@mui/icons-material';
+
 import './UserNotifications.css';
-import { DeleteForeverOutlined } from '@material-ui/icons';
 import ClickOutsideHandler from '../../ClickOutsideHandler';
 
 function Notifications({

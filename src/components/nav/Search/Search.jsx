@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, DeleteForeverOutlined } from '@material-ui/icons';
+import { DeleteForeverOutlined, Search } from '@mui/icons-material';
 import ClickOutsideHandler from '../../ClickOutsideHandler';
 import instance from '../../../helpers/constants';
 import { REQUESTS } from '../../../helpers/constants';

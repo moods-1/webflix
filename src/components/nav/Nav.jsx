@@ -1,24 +1,28 @@
 import React, { useState, useEffect } from 'react';
+import { Notifications, Person } from '@mui/icons-material';
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+
 import UserNotifications from './Notifications/UserNotifications';
 import { USER_NOTIFICATIONS } from '../../helpers/constants';
-import { Person, Notifications } from '@material-ui/icons';
-import { Badge, withStyles } from '@material-ui/core';
 import Browse from '../Browse/Browse';
 import Input from './Search/Search';
 import './Nav.scss';
 import ClickOutsideHandler from '../ClickOutsideHandler';
 
-const StyledBadge = withStyles((theme) => ({
-	badge: {
-		fontSize: 12,
-		top: 8,
+const StyledBadge = styled(Badge)((theme) => ({
+	'& .MuiBadge-badge': {
+		fontSize: 11,
+		top: 9,
 		right: 0,
-		width: 0,
-		height: 'auto',
+		minHeight: '10px !important',
+		height: 18,
+		minWidth: '10px !important',
+		width: 18,
 		background: 'red',
-		padding: '1px 0px 1px',
+		padding: '1px 0px 2px',
 	},
-}))(Badge);
+}));
 
 function Nav({ mobile }) {
 	const [showBrowse, setShowBrowse] = useState(false);
@@ -79,7 +83,7 @@ function Nav({ mobile }) {
 					src='/images/webflix.png'
 					alt='webflix-logo'
 				/>
-				<h4 onClick={handleBrowse}>Browse</h4>
+				<p className='nav-browse' onClick={handleBrowse}>Browse</p>
 				{showBrowse && (
 					<Browse setShowBrowse={setShowBrowse} setBurgerMenu={setBurgerMenu} />
 				)}

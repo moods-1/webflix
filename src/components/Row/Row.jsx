@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MoreVert } from '@material-ui/icons';
+import { MoreVert } from '@mui/icons-material';
 import BeatLoader from 'react-spinners/BeatLoader';
 
 import { getVideosByCategoryId } from '../../api/video';

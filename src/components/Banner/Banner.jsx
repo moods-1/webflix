@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
-import { useMediaQuery, Button } from '@material-ui/core';
-import Play from '@material-ui/icons/PlayCircleOutline';
+import { useMediaQuery, Button } from '@mui/material';
+import Play from '@mui/icons-material/PlayCircleOutline';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { storeBannerMedia } from '../../redux/mediaSlice';

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import Play from '@material-ui/icons/PlayCircleOutline';
+import Play from '@mui/icons-material/PlayCircleOutline';
 import movieTrailer from 'movie-trailer';
 import { Modal, ModalBody } from 'reactstrap';
 

@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { useMediaQuery } from '@material-ui/core';
+import { useMediaQuery } from '@mui/material';
 
 import Row from './components/Row/Row';
 import { ROWS } from './helpers/constants';
@@ -23,9 +23,9 @@ function App() {
 	const mobile = useMediaQuery('(max-width: 640px)');
 	const rowsRef = useRef([]);
 
-	Mixpanel.track('Webflix app accessed.', {
-		action: 'Webflix app accessed.',
-	});
+	// Mixpanel.track('Webflix app accessed.', {
+	// 	action: 'Webflix app accessed.',
+	// });
 
 	const intersectionCb = (entries) => {
 		const [entry] = entries;
