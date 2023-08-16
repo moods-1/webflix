@@ -42,7 +42,7 @@ function MovieModal({ showModal, setShowModal, currentTitle, raw }) {
 		setYear(releaseAirDate);
 		return releaseAirDate;
 	}, []);
-
+	
 	useEffect(() => {
 		if (raw) {
 			let editedMovie = { ...currentTitle };
@@ -60,6 +60,8 @@ function MovieModal({ showModal, setShowModal, currentTitle, raw }) {
 	}, [raw, currentTitle]);
 
 	useEffect(() => {
+		let localYear = getYear(movie);
+		setYear(localYear);
 		if (trailerId) {
 			setTrailerUrl(trailerId);
 		} else {
@@ -73,8 +75,7 @@ function MovieModal({ showModal, setShowModal, currentTitle, raw }) {
 					const item = data.items[0].id.videoId;
 					setTrailerUrl(item);
 				} else {
-					const year = getYear(movie);
-					if (year) {
+					if (localYear) {
 						movieTrailer(name || title || originalName, { year, id: true })
 							.then((url) => {
 								setTrailerUrl(url);
@@ -84,7 +85,6 @@ function MovieModal({ showModal, setShowModal, currentTitle, raw }) {
 				}
 			};
 			getTrailer(name || originalName || title);
-			getYear(movie);
 		}
 	}, [movie, backdropPath, getYear]);
 
@@ -128,7 +128,7 @@ function MovieModal({ showModal, setShowModal, currentTitle, raw }) {
 			setMovieImage(movImg);
 		}
 	}, [movie]);
-
+	
 	return (
 		<>
 			<Modal
