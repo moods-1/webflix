@@ -36,15 +36,6 @@ function Nav({ mobile }) {
 		setHideMobileSearch(!hideMobileSearch);
 	};
 
-	const handleNotifications = () => {
-		setShowNotifications((prev) => !prev);
-		setShowBrowse(false);
-		setShowProfileMenu(false);
-		setBurgerMenu(false);
-		setHideInput(mobile);
-	};
-	console.log({ showNotifications });
-
 	return (
 		<div className='nav'>
 			<div className='logo-browse-box'>
