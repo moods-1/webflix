@@ -23,9 +23,9 @@ function App() {
 	const mobile = useMediaQuery('(max-width: 640px)');
 	const rowsRef = useRef([]);
 
-	Mixpanel.track('Webflix app accessed.', {
-		action: 'Webflix app accessed.',
-	});
+	// Mixpanel.track('Webflix app accessed.', {
+	// 	action: 'Webflix app accessed.',
+	// });
 
 	const intersectionCb = (entries) => {
 		const [entry] = entries;
@@ -56,7 +56,7 @@ function App() {
 	return (
 		<div className='App'>
 			<div className='content-box'>
-				<div id='desktop-box'>
+				<div className='desktop-box'>
 					<h2>Desktop app only!</h2>
 				</div>
 				<Nav mobile={mobile} />

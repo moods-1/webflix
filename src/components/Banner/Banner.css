@@ -98,7 +98,7 @@
 	margin-left: 10px;
 	margin-top: 10px;
 }
-#banner-button-list {
+.banner-button-list {
 	margin-left: 2rem;
 	border-radius: 5px;
 }
@@ -163,7 +163,7 @@
 	}
 	.banner-title,
 	.banner-description,
-	#banner-button-list {
+	.banner-button-list {
 		display: none;
 	}
 	.banner-container p {

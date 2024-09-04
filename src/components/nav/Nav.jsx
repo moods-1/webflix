@@ -77,7 +77,7 @@ function Nav({ mobile }) {
 
 	return (
 		<div className='nav'>
-			<div id='logo-browse-box'>
+			<div className='logo-browse-box'>
 				<img
 					className='nav-logo'
 					src='/images/webflix.png'
@@ -88,7 +88,7 @@ function Nav({ mobile }) {
 					<Browse setShowBrowse={setShowBrowse} setBurgerMenu={setBurgerMenu} />
 				)}
 			</div>
-			<div id='nav-right-box'>
+			<div className='nav-right-box'>
 				{!hideInput && (
 					<Input
 						setShowNotifications={setShowNotifications}
@@ -100,7 +100,7 @@ function Nav({ mobile }) {
 					/>
 				)}
 
-				<div id='user-box'>
+				<div className='user-box'>
 					<StyledBadge badgeContent={notificationsList.length} max={99}>
 						<Notifications className='bell' onClick={handleNotifications} />
 					</StyledBadge>
@@ -117,12 +117,12 @@ function Nav({ mobile }) {
 			<img
 				src='/images/redBurger.png'
 				alt='burger'
-				id='burger'
+				className='burger'
 				onClick={handleBurger}
 			/>
 			{burgerMenu && (
 				<ClickOutsideHandler outsideFunction={handleBurger}>
-					<div id='burger-menu-box'>
+					<div className='burger-menu-box'>
 						<ul>
 							<li onClick={handleBurgerSearch}>
 								{!hideInput && 'Close'} Search
@@ -134,7 +134,7 @@ function Nav({ mobile }) {
 				</ClickOutsideHandler>
 			)}
 			{showProfileMenu && (
-				<div id='burger-menu-box'>
+				<div className='burger-menu-box'>
 					<ClickOutsideHandler outsideFunction={handleProfile}>
 						<ul>
 							<li onClick={handleProfile}>Logout</li>

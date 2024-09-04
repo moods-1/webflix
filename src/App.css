@@ -16,7 +16,7 @@
 	max-width: 1920px;
 }
 
-#desktop-box {
+.desktop-box {
 	display: none;
 	color: white;
 	background: black;

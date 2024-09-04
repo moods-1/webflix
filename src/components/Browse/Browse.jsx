@@ -5,9 +5,9 @@ import ClickOutsideHandler from '../ClickOutsideHandler';
 function Browse({ setShowBrowse }) {
 	return (
 		<ClickOutsideHandler outsideFunction={() => setShowBrowse(false)}>
-			<div id='browse-menu'>
-				<div id='browse-left-box'>
-					<ul id='browse-ul-main'>
+			<div className='browse-menu'>
+				<div className='browse-left-box'>
+					<ul className='browse-ul-main'>
 						{BROWSE_DATA.ulMain.map((link) => (
 							<li key={link} onClick={() => setShowBrowse(false)}>
 								{link}
@@ -15,22 +15,22 @@ function Browse({ setShowBrowse }) {
 						))}
 					</ul>
 				</div>
-				<div id='browse-right-box'>
-					<ul id='browse-ul-left'>
+				<div className='browse-right-box'>
+					<ul className='browse-ul-left'>
 						{BROWSE_DATA.ulLeft.map((link) => (
 							<li key={link} onClick={() => setShowBrowse(false)}>
 								{link}
 							</li>
 						))}
 					</ul>
-					<ul id='browse-ul-center'>
+					<ul className='browse-ul-center'>
 						{BROWSE_DATA.ulCenter.map((link) => (
 							<li key={link} onClick={() => setShowBrowse(false)}>
 								{link}
 							</li>
 						))}
 					</ul>
-					<ul id='browse-ul-right'>
+					<ul className='browse-ul-right'>
 						{BROWSE_DATA.ulRight.map((link) => (
 							<li key={link} onClick={() => setShowBrowse(false)}>
 								{link}
