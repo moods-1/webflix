@@ -83,10 +83,15 @@ function Nav({ mobile }) {
 					src='/images/webflix.png'
 					alt='webflix-logo'
 				/>
-				<p className='nav-browse' onClick={handleBrowse}>Browse</p>
-				{showBrowse && (
-					<Browse setShowBrowse={setShowBrowse} setBurgerMenu={setBurgerMenu} />
-				)}
+				<div className='nav-browse'>
+					<span onClick={handleBrowse}>Browse</span>
+					{showBrowse && (
+						<Browse
+							setShowBrowse={setShowBrowse}
+							setBurgerMenu={setBurgerMenu}
+						/>
+					)}
+				</div>
 			</div>
 			<div className='nav-right-box'>
 				{!hideInput && (
@@ -99,7 +104,6 @@ function Nav({ mobile }) {
 						setHideInput={setHideInput}
 					/>
 				)}
-
 				<div className='user-box'>
 					<StyledBadge badgeContent={notificationsList.length} max={99}>
 						<Notifications className='bell' onClick={handleNotifications} />

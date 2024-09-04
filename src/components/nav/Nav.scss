@@ -46,12 +46,16 @@
 	justify-content: space-between;
 	width: 230px;
 }
-.logo-browse-box .nav-browse {
-	color: red;
+.nav-browse {
+	position: relative;
+	color: #fff;
 	cursor: pointer;
 	padding: 0;
 	margin: 0;
 	font-weight: 600;
+}
+.nav-browse span {
+	color: #f00;
 }
 .nav-logo {
 	cursor: pointer;
@@ -65,7 +69,7 @@
 	max-width: 600px;
 	height: auto;
 	top: 35px;
-	left: 155px;
+	left: 0;
 	border: none;
 	background: rgba(0, 0, 0, 0.85);
 	padding: 10px;
