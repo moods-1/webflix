@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import Browse from '../Browse/Browse';
 import Input from './Search/Search';
 import './Nav.scss';
-import ClickOutsideHandler from '../ClickOutsideHandler';
 import UserNotifications from './Notifications/UserNotifications';
 import Profile from './Profile/Profile';
+import BurgerMenu from './BurgerMenu/BurgerMenu';
 
 function Nav({ mobile }) {
 	const [showBrowse, setShowBrowse] = useState(false);
@@ -68,24 +68,12 @@ function Nav({ mobile }) {
 					/>
 				</div>
 			</div>
-			<img
-				src='/images/redBurger.png'
-				alt='burger'
-				className='burger'
-				onClick={handleBurger}
+			<BurgerMenu
+				showMenu={burgerMenu}
+				setShowMenu={setBurgerMenu}
+				hideInput={hideInput}
+				handleBurgerSearch={handleBurgerSearch}
 			/>
-			{burgerMenu && (
-				<ClickOutsideHandler outsideFunction={handleBurger}>
-					<div className='burger-menu-box'>
-						<ul>
-							<li onClick={handleBurgerSearch}>
-								{!hideInput && 'Close'} Search
-							</li>
-							<li onClick={handleBurger}>Logout</li>
-						</ul>
-					</div>
-				</ClickOutsideHandler>
-			)}
 		</div>
 	);
 }
