@@ -150,15 +150,13 @@ function Banner({ mobile }) {
 									trailerUrl={trailerMap[movie.id]}
 								/>
 							)}
-							<div className='banner-contents'>
+							<div
+								className='banner-contents'
+								onMouseOver={() => handleDescription(false)}
+								onMouseLeave={(e) => handleDescription(true)}
+							>
 								<h1 className='banner-title'>{movie.title}</h1>
-								<div
-									className='banner-description'
-									onMouseOver={() => handleDescription(false)}
-									onMouseLeave={(e) => handleDescription(true)}
-								>
-									{descriptionBody}
-								</div>
+								<div className='banner-description'>{descriptionBody}</div>
 								{movie.id in trailerMap && (
 									<Play
 										className='banner-button'
