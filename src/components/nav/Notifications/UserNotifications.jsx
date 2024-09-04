@@ -1,39 +1,51 @@
-import React from 'react';
-import { DeleteForeverOutlined } from '@mui/icons-material';
+import React, { useState } from 'react';
+import Badge from '@mui/material/Badge';
+import { styled } from '@mui/material/styles';
+import { Notifications } from '@mui/icons-material';
 
-import './UserNotifications.css';
+import NotificationsContent from './NotificationsContent';
+import { USER_NOTIFICATIONS } from '../../../helpers/constants';
 import ClickOutsideHandler from '../../ClickOutsideHandler';
 
-function Notifications({
-	notifications,
-	setNotifications,
-	setShowNotifications,
-}) {
+const StyledBadge = styled(Badge)((theme) => ({
+	'& .MuiBadge-badge': {
+		fontSize: 11,
+		top: 9,
+		right: 0,
+		minHeight: '10px !important',
+		height: 18,
+		minWidth: '10px !important',
+		width: 18,
+		background: 'red',
+		padding: '1px 0px 2px',
+	},
+}));
+
+export default function UserNotifications({ showMenu, setShowMenu }) {
+	const [notificationsList, setNotificationsList] =
+		useState(USER_NOTIFICATIONS);
+
 	const handleNotification = (id) => {
-		setNotifications((prevState) => prevState.filter((note) => note.id !== id));
+		setNotificationsList((prevState) =>
+			prevState.filter((note) => note.id !== id)
+		);
+	};
+
+	const handleNotifications = () => {
+		setShowMenu((prev) => !prev);
 	};
 
 	return (
-		<div className='notifications'>
-			<ClickOutsideHandler outsideFunction={() => setShowNotifications(false)}>
-				{notifications.map(({ id, message }, index) => (
-					<div className='notification' key={index}>
-						<DeleteForeverOutlined
-							className='delete-icon'
-							fontSize='small'
-							color='error'
-							onClick={() => handleNotification(id)}
-						/>
-
-						<div className='note-box'>
-							<div>{index + 1}</div>
-							<div className='note'>{message}</div>
-						</div>
-					</div>
-				))}
-			</ClickOutsideHandler>
-		</div>
+		<ClickOutsideHandler outsideFunction={() => setShowMenu(false)}>
+			<StyledBadge badgeContent={notificationsList.length} max={99}>
+				<Notifications className='bell' onClick={handleNotifications} />
+			</StyledBadge>
+			{showMenu && notificationsList.length >= 1 && (
+				<NotificationsContent
+					notifications={notificationsList}
+					handleNotification={handleNotification}
+				/>
+			)}
+		</ClickOutsideHandler>
 	);
 }
-
-export default Notifications;

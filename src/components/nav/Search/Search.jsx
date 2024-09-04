@@ -58,7 +58,7 @@ function SearchInput({
 	return (
 		<>
 			<ClickOutsideHandler outsideFunction={handleSearchClear}>
-				<div id={mobile ? 'mobile-search' : 'search-container'}>
+				<div className={mobile ? 'mobile-search' : 'search-container'}>
 					<div className='input-div'>
 						<div className='input-group'>
 							<input

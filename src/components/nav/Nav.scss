@@ -52,10 +52,11 @@
 	cursor: pointer;
 	padding: 0;
 	margin: 0;
-	font-weight: 600;
+	font-weight: 400;
 }
 .nav-browse span {
 	color: #f00;
+	font-weight: 600;
 }
 .nav-logo {
 	cursor: pointer;
@@ -66,6 +67,7 @@
 .browse-menu {
 	position: absolute;
 	display: flex;
+	z-index: 10;
 	max-width: 600px;
 	height: auto;
 	top: 35px;
@@ -81,15 +83,12 @@
 	}
 }
 .browse-left-box {
-	height: 100%;
 	width: 120px;
-	margin-right: 10px;
+	margin-right: 30px;
 }
 .browse-right-box {
 	display: flex;
 	border-left: gray solid 1px;
-	font-weight: 400;
-	padding-left: 10px;
 }
 ul {
 	list-style: none;
@@ -108,7 +107,7 @@ ul {
 }
 
 .browse-menu ul {
-	width: 135px;
+	min-width: 135px;
 }
 .browse-menu li {
 	margin-bottom: 7px;
@@ -219,11 +218,11 @@ li:hover {
 	transform: translateX(-50%);
 	top: 60px;
 	width: 100%;
+	animation: grow 500ms ease 0ms;
 	.input-div {
 		width: 100%;
 		input {
 			margin: auto;
-			animation: grow 500ms ease 0ms;
 			width: 100%;
 		}
 	}
@@ -273,7 +272,6 @@ li:hover {
 @media (max-width: 767px) {
 	.browse-menu {
 		top: 35px;
-		width: 460px;
 		height: auto;
 	}
 	.browse-right-box {
@@ -288,8 +286,9 @@ li:hover {
 	.browse-menu {
 		width: 100vw;
 		height: 680px;
-		left: 0;
+		left: -180px;
 		overflow-y: auto;
+		flex-wrap: wrap;
 	}
 	.user-box {
 		width: 70px;
@@ -305,18 +304,24 @@ li:hover {
 		display: block;
 	}
 	.browse-left-box {
-		width: 170px;
+		width: 200px;
+		// border-bottom: 2px solid #fff;
+		margin-bottom: 20px;
 	}
 	.browse-left-box ul {
 		width: 100%;
 		padding-left: 15px;
+		margin-bottom: 0;
+	}
+	.browse-left-box ul li:last-child {
+		margin-bottom: -15px;
 	}
 	.browse-right-box {
 		display: block;
-		height: 100%;
 		width: 200px;
 		padding-left: 0;
 		margin: 0;
+		// border: none;
 	}
 	.browse-right-box ul {
 		width: 100%;
@@ -337,6 +342,14 @@ li:hover {
 		height: 50px;
 		text-align: center;
 		font-size: 16px;
+	}
+}
+@media (max-width: 450px) {
+	.browse-right-box {
+		border: none;
+	}
+	.browse-left-box {
+		border-bottom: 2px solid #fff;
 	}
 }
 .input-div {

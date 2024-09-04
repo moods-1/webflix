@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 function ClickOutsideHandler(props) {
-	const { outsideFunction } = props;
+	const { outsideFunction, id } = props;
 	const wrapperRef = useRef();
 
 	useEffect(() => {
@@ -15,7 +15,7 @@ function ClickOutsideHandler(props) {
 			document.removeEventListener('click', handleClickOutside, true);
 	}, [outsideFunction]);
 	return (
-		<div style={{ display: 'relative' }} ref={wrapperRef}>
+		<div id={id} style={{ display: 'relative' }} ref={wrapperRef}>
 			{props.children}
 		</div>
 	);

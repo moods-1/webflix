@@ -1,28 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Notifications, Person } from '@mui/icons-material';
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
 
-import UserNotifications from './Notifications/UserNotifications';
-import { USER_NOTIFICATIONS } from '../../helpers/constants';
 import Browse from '../Browse/Browse';
 import Input from './Search/Search';
 import './Nav.scss';
 import ClickOutsideHandler from '../ClickOutsideHandler';
-
-const StyledBadge = styled(Badge)((theme) => ({
-	'& .MuiBadge-badge': {
-		fontSize: 11,
-		top: 9,
-		right: 0,
-		minHeight: '10px !important',
-		height: 18,
-		minWidth: '10px !important',
-		width: 18,
-		background: 'red',
-		padding: '1px 0px 2px',
-	},
-}));
+import UserNotifications from './Notifications/UserNotifications';
+import Profile from './Profile/Profile';
 
 function Nav({ mobile }) {
 	const [showBrowse, setShowBrowse] = useState(false);
@@ -31,8 +14,6 @@ function Nav({ mobile }) {
 	const [showNotifications, setShowNotifications] = useState(false);
 	const [hideMobileSearch, setHideMobileSearch] = useState(true);
 	const [hideInput, setHideInput] = useState(true);
-	const [notificationsList, setNotificationsList] =
-		useState(USER_NOTIFICATIONS);
 
 	useEffect(() => {
 		setHideInput(mobile);
@@ -43,37 +24,26 @@ function Nav({ mobile }) {
 	}, [mobile]);
 
 	const handleBurger = () => {
-		setBurgerMenu(!burgerMenu);
+		setBurgerMenu((prev) => !prev);
 		setShowBrowse(false);
 		setShowNotifications(false);
 	};
 
 	const handleBurgerSearch = () => {
-		setHideInput(!hideInput);
-		setBurgerMenu(!burgerMenu);
+		setHideInput((prev) => !prev);
+		setBurgerMenu((prev) => !prev);
 		setShowBrowse(false);
 		setHideMobileSearch(!hideMobileSearch);
 	};
 
-	const handleProfile = () => {
-		setShowProfileMenu(!showProfileMenu);
-		setShowBrowse(false);
-		setShowNotifications(false);
-	};
-
 	const handleNotifications = () => {
-		setShowNotifications(!showNotifications);
+		setShowNotifications((prev) => !prev);
 		setShowBrowse(false);
 		setShowProfileMenu(false);
 		setBurgerMenu(false);
 		setHideInput(mobile);
 	};
-
-	const handleBrowse = () => {
-		setShowBrowse(!showBrowse);
-		setBurgerMenu(false);
-		setHideMobileSearch(true);
-	};
+	console.log({ showNotifications });
 
 	return (
 		<div className='nav'>
@@ -83,15 +53,7 @@ function Nav({ mobile }) {
 					src='/images/webflix.png'
 					alt='webflix-logo'
 				/>
-				<div className='nav-browse'>
-					<span onClick={handleBrowse}>Browse</span>
-					{showBrowse && (
-						<Browse
-							setShowBrowse={setShowBrowse}
-							setBurgerMenu={setBurgerMenu}
-						/>
-					)}
-				</div>
+				<Browse showMenu={showBrowse} setShowMenu={setShowBrowse} />
 			</div>
 			<div className='nav-right-box'>
 				{!hideInput && (
@@ -105,16 +67,13 @@ function Nav({ mobile }) {
 					/>
 				)}
 				<div className='user-box'>
-					<StyledBadge badgeContent={notificationsList.length} max={99}>
-						<Notifications className='bell' onClick={handleNotifications} />
-					</StyledBadge>
-					<Person
-						onClick={handleProfile}
-						style={{
-							fontSize: 30,
-							color: 'red',
-							cursor: 'pointer',
-						}}
+					<UserNotifications
+						showMenu={showNotifications}
+						setShowMenu={setShowNotifications}
+					/>
+					<Profile
+						showMenu={showProfileMenu}
+						setShowMenu={setShowProfileMenu}
 					/>
 				</div>
 			</div>
@@ -131,27 +90,10 @@ function Nav({ mobile }) {
 							<li onClick={handleBurgerSearch}>
 								{!hideInput && 'Close'} Search
 							</li>
-							<li onClick={handleNotifications}>Notifications</li>
 							<li onClick={handleBurger}>Logout</li>
 						</ul>
 					</div>
 				</ClickOutsideHandler>
-			)}
-			{showProfileMenu && (
-				<div className='burger-menu-box'>
-					<ClickOutsideHandler outsideFunction={handleProfile}>
-						<ul>
-							<li onClick={handleProfile}>Logout</li>
-						</ul>
-					</ClickOutsideHandler>
-				</div>
-			)}
-			{showNotifications && notificationsList.length >= 1 && (
-				<UserNotifications
-					notifications={notificationsList}
-					setNotifications={setNotificationsList}
-					setShowNotifications={setShowNotifications}
-				/>
 			)}
 		</div>
 	);

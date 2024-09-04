@@ -1,45 +1,19 @@
-import React from 'react';
-import { BROWSE_DATA } from '../../helpers/constants';
+import React, { useState } from 'react';
+import BrowseContent from './BrowseContent';
+
 import ClickOutsideHandler from '../ClickOutsideHandler';
 
-function Browse({ setShowBrowse }) {
+export default function Browse({ showMenu, setShowMenu }) {
+	const handleBrowse = () => {
+		setShowMenu((prev) => !prev);
+	};
+
 	return (
-		<ClickOutsideHandler outsideFunction={() => setShowBrowse(false)}>
-			<div className='browse-menu'>
-				<div className='browse-left-box'>
-					<ul className='browse-ul-main'>
-						{BROWSE_DATA.ulMain.map((link) => (
-							<li key={link} onClick={() => setShowBrowse(false)}>
-								{link}
-							</li>
-						))}
-					</ul>
-				</div>
-				<div className='browse-right-box'>
-					<ul className='browse-ul-left'>
-						{BROWSE_DATA.ulLeft.map((link) => (
-							<li key={link} onClick={() => setShowBrowse(false)}>
-								{link}
-							</li>
-						))}
-					</ul>
-					<ul className='browse-ul-center'>
-						{BROWSE_DATA.ulCenter.map((link) => (
-							<li key={link} onClick={() => setShowBrowse(false)}>
-								{link}
-							</li>
-						))}
-					</ul>
-					<ul className='browse-ul-right'>
-						{BROWSE_DATA.ulRight.map((link) => (
-							<li key={link} onClick={() => setShowBrowse(false)}>
-								{link}
-							</li>
-						))}
-					</ul>
-				</div>
+		<ClickOutsideHandler outsideFunction={() => setShowMenu(false)} id='browse'>
+			<div className='nav-browse'>
+				<span onClick={handleBrowse}>Browse</span>
+				{showMenu && <BrowseContent handleBrowse={handleBrowse} />}
 			</div>
 		</ClickOutsideHandler>
 	);
 }
-export default Browse;
