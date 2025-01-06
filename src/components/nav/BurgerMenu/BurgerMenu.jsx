@@ -13,7 +13,7 @@ export default function BurgerMenu({
     };
     
 	return (
-		<div>
+		<div className='burger-div'>
 			<ClickOutsideHandler outsideFunction={() => setShowMenu(false)}>
 				<img
 					src='/images/redBurger.png'
